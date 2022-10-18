@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
 import { Comment, User } from './entities';
 
-export const connectPostgreDb = () => {
+const connectPostgreDb = () => {
   const AppDataSource = new DataSource({
     name: 'dedault',
     type: 'postgres',
@@ -22,3 +22,5 @@ export const connectPostgreDb = () => {
       console.error('Error during Data Source initialization', err);
     });
 };
+
+export default connectPostgreDb;

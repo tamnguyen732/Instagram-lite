@@ -18,20 +18,4 @@ export class User extends BaseEntity {
 
   @Column()
   password!: string;
-
-  @Field()
-  @Column()
-  account!: string;
-
-  @Field()
-  @Column()
-  avatar!: string;
-
-  @Field()
-  @Column()
-  following!: string;
-
-  @Field()
-  @Column()
-  followers!: string;
 }

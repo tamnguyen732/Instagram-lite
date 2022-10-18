@@ -3,12 +3,11 @@ import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-co
 import 'reflect-metadata';
 import { buildSchema } from 'type-graphql';
 import Cors from 'micro-cors';
-
 // types
 import { Context } from '~/server/types/Context';
-import { LoginResolver } from '~/server/resolvers/auth/login';
-import { AppDataSource, connectPostgreDb } from '~/server/connectPostgreDb';
+import connectPostgreDb from '~/server/connectPostgreDb';
 import connectMongoDb from '~/server/connectMongoDb';
+import Register from '~/server/resolvers/auth/register';
 
 const cors = Cors({
   origin: 'http://localhost:3000/',
@@ -19,7 +18,7 @@ connectPostgreDb();
 connectMongoDb();
 const server = new ApolloServer({
   schema: await buildSchema({
-    resolvers: [LoginResolver],
+    resolvers: [Register],
   }),
   context: ({ req, res }): Context => ({ req, res }),
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
