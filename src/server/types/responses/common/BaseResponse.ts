@@ -1,7 +1,7 @@
-import { Field, InterfaceType } from 'type-graphql';
+import { Field, ObjectType } from 'type-graphql';
 
-@InterfaceType()
-export abstract class BaseResponse {
+@ObjectType()
+export class BaseResponse {
   @Field()
   code!: number;
   @Field()

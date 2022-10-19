@@ -1,12 +1,11 @@
 import { Field, ObjectType } from 'type-graphql';
-import { User } from '~/server/entities';
 import { BaseResponse } from './BaseResponse';
+import { FieldError } from './FieldError';
 
-ObjectType({ implements: BaseResponse });
-export class UserMutationResponse implements BaseResponse {
-  code!: number;
-  success!: boolean;
-  message?: string;
-  @Field()
-  user?: User;
+@ObjectType()
+export class MutationResponse extends BaseResponse {
+  @Field((_type) => [FieldError], { nullable: true })
+  errors?: FieldError[];
+  @Field({ nullable: true })
+  accessToken?: string;
 }

@@ -7,7 +7,7 @@ import Cors from 'micro-cors';
 import { Context } from '~/server/types/Context';
 import connectPostgreDb from '~/server/connectPostgreDb';
 import connectMongoDb from '~/server/connectMongoDb';
-import Register from '~/server/resolvers/auth/register';
+import { Login, Register } from '~/server/resolvers/auth';
 
 const cors = Cors({
   origin: 'http://localhost:3000/',
@@ -18,7 +18,7 @@ connectPostgreDb();
 connectMongoDb();
 const server = new ApolloServer({
   schema: await buildSchema({
-    resolvers: [Register],
+    resolvers: [Register, Login],
   }),
   context: ({ req, res }): Context => ({ req, res }),
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
@@ -30,6 +30,7 @@ export default cors(async (req: any, res: any) => {
   await startServer;
 
   await server.createHandler({ path: '/api/graphql' })(req, res);
+  await server.createHandler({ path: '/refresh_token' })(req, res);
 });
 
 export const config = {
