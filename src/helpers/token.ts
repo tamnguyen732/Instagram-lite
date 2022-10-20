@@ -1,9 +1,9 @@
 import { Secret, sign } from 'jsonwebtoken';
 import { NextApiResponse } from 'next';
-
-import { Cookies } from 'next/dist/server/web/spec-extension/cookies';
-import { EXPIRES } from '~/constants/token';
+import { COOKIE_NAMES, EXPIRES } from '~/constants/token';
 import { User } from '~/server/entities';
+
+import { setCookie } from './cookie';
 
 export const generateToken = (type: string, user: User) => {
   return sign(
@@ -19,13 +19,30 @@ export const generateToken = (type: string, user: User) => {
   );
 };
 
-export const setRefreshToken = (res: NextApiResponse, user: User) => {
-  const cookie = new Cookies();
+export const sendAccessToken = (res: NextApiResponse, user: User) => {
+  const accessToken = generateToken('accessToken', user);
 
-  cookie.set(process.env.REFRESH_TOKEN_COOKIE_NAME as string, generateToken('refreshToken', user), {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'lax',
-    path: '/refresh_token',
-  });
+  const token = {
+    key: COOKIE_NAMES.ACCESS_TOKEN,
+    value: accessToken,
+  };
+  setCookie(res, token);
+};
+
+export const sendTokens = (res: NextApiResponse, user: User) => {
+  const accessToken = generateToken('accessToken', user);
+  const refreshToken = generateToken('refreshToken', user);
+
+  const tokens = [
+    {
+      key: COOKIE_NAMES.ACCESS_TOKEN,
+      value: accessToken,
+    },
+    {
+      key: COOKIE_NAMES.REFRESH_TOKEN,
+      value: refreshToken,
+    },
+  ];
+
+  setCookie(res, tokens);
 };

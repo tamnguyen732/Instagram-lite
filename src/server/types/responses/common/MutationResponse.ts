@@ -6,6 +6,4 @@ import { FieldError } from './FieldError';
 export class MutationResponse extends BaseResponse {
   @Field((_type) => [FieldError], { nullable: true })
   errors?: FieldError[];
-  @Field({ nullable: true })
-  accessToken?: string;
 }

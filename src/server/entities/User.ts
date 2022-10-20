@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Post } from './Post';
 
 @ObjectType()
 @Entity()
@@ -18,4 +19,19 @@ export class User extends BaseEntity {
 
   @Column()
   password!: string;
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  avatar?: string;
+
+  @Field(() => [User], { nullable: true })
+  @Column('jsonb', { array: true, nullable: true })
+  followers!: User[];
+
+  @Field(() => [User], { nullable: true })
+  @Column('jsonb', { array: true, nullable: true })
+  following?: User[];
+
+  @Field(() => [Post], { nullable: true })
+  @OneToMany(() => Post, (post) => post.user)
+  posts!: Post[];
 }

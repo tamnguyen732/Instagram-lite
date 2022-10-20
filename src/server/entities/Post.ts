@@ -4,9 +4,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { User } from './User';
 
 @ObjectType()
 @Entity()
@@ -15,17 +18,17 @@ export class Post extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Field()
-  @Column()
-  caption!: number;
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  caption!: string;
 
-  @Field()
-  @Column()
+  @Field((_type) => ID, { nullable: true })
+  @Column({ nullable: true })
+  userId!: number;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   photo!: string;
-
-  @Field()
-  @Column({ default: 0 })
-  reactions!: number;
 
   @Field()
   @CreateDateColumn({ type: 'timestamptz' })
@@ -34,4 +37,8 @@ export class Post extends BaseEntity {
   @Field()
   @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt!: Date;
+
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.posts)
+  user?: User;
 }

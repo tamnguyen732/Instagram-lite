@@ -10,7 +10,7 @@ const connectMongoDb = () => {
   mongoose.connect(process.env.MONGODB_URI, {}, (err) => {
     if (err) throw new Error('Server got an error');
 
-    console.log('Connected to DB');
+    console.log('Connected to MongoDB');
   });
 };
 
