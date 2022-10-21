@@ -1,22 +1,51 @@
-import { ClassType, Ctx, Query, Resolver, UseMiddleware } from 'type-graphql';
-import { Post, User } from '~/server/entities';
+import { Arg, ClassType, Ctx, Int, Query, Resolver, UseMiddleware } from 'type-graphql';
+import { paginate } from '~/helpers/paginate';
 import { verifyAuth } from '~/server/middlewares';
 import * as types from '~/server/types';
-
+import { PaginatedPostsResponse } from '~/server/types/responses/post';
+import status from 'http-status';
 const getPosts = (Base: ClassType) => {
   @Resolver()
   class getPosts extends Base {
     @UseMiddleware(verifyAuth)
-    @Query(() => [User])
-    async getYourPosts(@Ctx() { req }: types.MyContext): Promise<User[] | null> {
-      if (!req.userId) {
-        return null;
-      }
-      const user = await User.find({ where: { id: parseInt(req.userId) }, relations: ['posts'] });
-      if (!user) {
-        return null;
-      }
-      return user;
+    @Query(() => PaginatedPostsResponse)
+    async getYourPosts(
+      @Arg('limit', (_type) => Int) limitPerPage: number,
+      @Arg('page', (_type) => Number) page: number,
+      @Ctx() { req }: types.MyContext
+    ): Promise<PaginatedPostsResponse> {
+      const userId = parseInt(req.userId);
+
+      const { totalCount, lastPage, posts } = await paginate({ limitPerPage, page, userId });
+
+      return {
+        code: status.OK,
+        success: true,
+        totalCount: totalCount,
+        page,
+        lastPage,
+        paginatedPosts: posts,
+        hasMore: lastPage > page
+      };
+    }
+
+    @UseMiddleware(verifyAuth)
+    @Query(() => PaginatedPostsResponse)
+    async getAllPosts(
+      @Arg('limit', (_type) => Int) limitPerPage: number,
+      @Arg('page', (_type) => Number) page: number
+    ): Promise<PaginatedPostsResponse> {
+      const { totalCount, lastPage, posts } = await paginate({ limitPerPage, page });
+
+      return {
+        code: status.OK,
+        success: true,
+        totalCount: totalCount,
+        page,
+        lastPage,
+        paginatedPosts: posts,
+        hasMore: lastPage > page
+      };
     }
   }
   return getPosts;

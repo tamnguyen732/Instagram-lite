@@ -1,6 +1,6 @@
 import { Secret, sign } from 'jsonwebtoken';
 import { NextApiResponse } from 'next';
-import { COOKIE_NAMES, EXPIRES } from '~/constants/token';
+import { COOKIE_NAMES, EXPIRES } from '~/constants';
 import { User } from '~/server/entities';
 
 import { setCookie } from './cookie';
@@ -8,14 +8,14 @@ import { setCookie } from './cookie';
 export const generateToken = (type: string, user: User) => {
   return sign(
     {
-      userId: user.id,
+      userId: user.id
     },
     type === 'accessToken'
       ? (process.env.ACCESS_TOKEN_SECRET as Secret)
       : (process.env.REFRESH_TOKEN_SECRET as Secret),
     {
-      expiresIn: type === 'accessToken' ? EXPIRES.ACCESS_TOKEN : EXPIRES.REFRESH_TOKEN,
-    },
+      expiresIn: type === 'accessToken' ? EXPIRES.ACCESS_TOKEN : EXPIRES.REFRESH_TOKEN
+    }
   );
 };
 
@@ -24,7 +24,7 @@ export const sendAccessToken = (res: NextApiResponse, user: User) => {
 
   const token = {
     key: COOKIE_NAMES.ACCESS_TOKEN,
-    value: accessToken,
+    value: accessToken
   };
   setCookie(res, token);
 };
@@ -36,12 +36,12 @@ export const sendTokens = (res: NextApiResponse, user: User) => {
   const tokens = [
     {
       key: COOKIE_NAMES.ACCESS_TOKEN,
-      value: accessToken,
+      value: accessToken
     },
     {
       key: COOKIE_NAMES.REFRESH_TOKEN,
-      value: refreshToken,
-    },
+      value: refreshToken
+    }
   ];
 
   setCookie(res, tokens);

@@ -1,11 +1,9 @@
 import { Field, InputType } from 'type-graphql';
 
 @InputType()
-export class createPostInput {
+export class DeletePostInput {
   @Field()
-  caption!: string;
-  @Field()
-  photo!: string;
+  postId!: number;
   @Field()
   userId!: number;
 }

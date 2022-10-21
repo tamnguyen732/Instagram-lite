@@ -5,6 +5,7 @@ import { RegisterInput } from '~/server/types/inputs';
 import { UserMutationResponse } from '~/server/types/responses/user';
 import { handler } from '~/server/utils/handler';
 import { verifyAuth } from '~/server/middlewares';
+import status from 'http-status';
 
 const register = (Base: ClassType) => {
   @Resolver()
@@ -16,13 +17,13 @@ const register = (Base: ClassType) => {
     }
     @Mutation((_return) => UserMutationResponse)
     async register(
-      @Arg('register') { email, password, username }: RegisterInput,
+      @Arg('register') { email, password, username }: RegisterInput
     ): Promise<UserMutationResponse> {
       return handler(async () => {
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
           return {
-            code: 404,
+            code: status.BAD_GATEWAY,
             success: false,
             message: 'User already existed',
             errors: [
@@ -30,9 +31,9 @@ const register = (Base: ClassType) => {
                 field: `${existingUser.username === username ? 'Username' : 'Email'}`,
                 message: `${
                   existingUser.username === username ? 'Username' : 'Email'
-                } already taken`,
-              },
-            ],
+                } already taken`
+              }
+            ]
           };
         }
 
@@ -40,16 +41,16 @@ const register = (Base: ClassType) => {
         const newUser = User.create({
           username,
           email,
-          password: hashedPassword,
+          password: hashedPassword
         });
 
         await User.save(newUser);
 
         return {
-          code: 200,
+          code: status.CREATED,
           success: true,
-          message: 'you have created successfully',
-          user: newUser,
+          message: 'you have created user successfully',
+          user: newUser
         };
       });
     }

@@ -5,9 +5,9 @@ import { LoginInput } from '~/server/types/inputs';
 import { UserMutationResponse } from '~/server/types/responses/user';
 import { handler } from '~/server/utils/handler';
 import { generateToken, sendTokens } from '~/helpers/token';
-import { MyContext } from '~/server/types';
+import * as types from '~/server/types';
 import { verifyAuth } from '~/server/middlewares';
-
+import status from 'http-status';
 const login = (Base: ClassType) => {
   @Resolver()
   class Login extends Base {
@@ -19,15 +19,15 @@ const login = (Base: ClassType) => {
     @Mutation((_return) => UserMutationResponse)
     async login(
       @Arg('login') { username, password }: LoginInput,
-      @Ctx() { res }: MyContext,
+      @Ctx() { res }: types.MyContext
     ): Promise<UserMutationResponse> {
       return handler(async () => {
         const user = await User.findOne({ where: { username } });
         if (!user) {
           return {
-            code: 404,
+            code: status.NOT_FOUND,
             success: false,
-            message: 'User does not exist',
+            message: 'User does not exist'
           };
         }
 
@@ -35,19 +35,19 @@ const login = (Base: ClassType) => {
 
         if (!verifyPassword) {
           return {
-            code: 404,
-            success: true,
-            message: 'Your password is not correct',
+            code: status.BAD_REQUEST,
+            success: false,
+            message: 'Your password is not correct'
           };
         }
 
         sendTokens(res, user);
         return {
-          code: 200,
+          code: status.OK,
           success: true,
           message: 'you have logged in successfully',
           user,
-          accessToken: generateToken('accessToken', user),
+          accessToken: generateToken('accessToken', user)
         };
       });
     }

@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { clearAllCookies } from '~/helpers/cookie';
 import { User } from '../entities';
-import { SECRETS } from '~/constants/token';
+import { SECRETS } from '~/constants';
 import { MiddlewareFn } from 'type-graphql';
 import { MyContext } from '../types';
 import { AuthenticationError } from 'apollo-server-core';
@@ -20,7 +20,7 @@ export const verifyAuth: MiddlewareFn<MyContext> = async ({ context: { req, res 
     return {
       code: 401,
       success: false,
-      message: 'Token is missing',
+      message: 'Token is missing'
     };
 
   try {
@@ -32,7 +32,7 @@ export const verifyAuth: MiddlewareFn<MyContext> = async ({ context: { req, res 
       return {
         code: 404,
         success: false,
-        message: 'User not found',
+        message: 'User not found'
       };
 
     req.userId = userId;

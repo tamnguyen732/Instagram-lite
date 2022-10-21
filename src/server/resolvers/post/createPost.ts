@@ -5,7 +5,7 @@ import * as types from '~/server/types';
 import { createPostInput } from '~/server/types/inputs/createPostInput';
 import { PostMutationResponse } from '~/server/types/responses/post/';
 import { handler } from '~/server/utils/handler';
-
+import status from 'http-status';
 const createPost = (Base: ClassType) => {
   @Resolver()
   class createPost extends Base {
@@ -17,15 +17,13 @@ const createPost = (Base: ClassType) => {
     @Mutation(() => PostMutationResponse)
     createPost(
       @Arg('createPostArg') { caption, photo }: createPostInput,
-      @Ctx() { req }: types.MyContext,
+      @Ctx() { req }: types.MyContext
     ): Promise<PostMutationResponse> {
       return handler(async () => {
-        const id = req.userId;
-        console.log(id);
         const newPost = Post.create({
           caption,
           photo,
-          userId: parseInt(req.userId),
+          userId: parseInt(req.userId)
         });
 
         await Post.save(newPost);
@@ -33,18 +31,18 @@ const createPost = (Base: ClassType) => {
         const user = await User.findOneBy({ id: parseInt(req.userId) });
         if (!user) {
           return {
-            code: 404,
+            code: status.NOT_FOUND,
             success: false,
-            message: 'User not found',
+            message: 'User not found'
           };
         }
 
         user.posts = [newPost];
         await User.save(user);
         return {
-          code: 202,
+          code: status.CREATED,
           success: true,
-          message: 'You have created a post successfully',
+          message: 'You have created a post successfully'
         };
       });
     }

@@ -443,6 +443,13 @@
     "@types/react" "*"
     "hoist-non-react-statics" "^3.3.0"
 
+"@types/http-status@^1.1.2":
+  "integrity" "sha512-GodZPvF3xPVglUx4q7s0plKu1cdW0mMLADpWi5PMMx3n/2xGB6GoKqQxQxp6A5xuARtZpQ9/6p3WDFwCpPaN8A=="
+  "resolved" "https://registry.npmjs.org/@types/http-status/-/http-status-1.1.2.tgz"
+  "version" "1.1.2"
+  dependencies:
+    "http-status" "*"
+
 "@types/json-schema@^7.0.9":
   "integrity" "sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ=="
   "resolved" "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.11.tgz"
@@ -2002,6 +2009,11 @@
     "@tootallnate/once" "1"
     "agent-base" "6"
     "debug" "4"
+
+"http-status@*", "http-status@^1.5.3":
+  "integrity" "sha512-jCClqdnnwigYslmtfb28vPplOgoiZ0siP2Z8C5Ua+3UKbx410v+c+jT+jh1bbI4TvcEySuX0vd/CfFZFbDkJeQ=="
+  "resolved" "https://registry.npmjs.org/http-status/-/http-status-1.5.3.tgz"
+  "version" "1.5.3"
 
 "https-proxy-agent@^5.0.0", "https-proxy-agent@5":
   "integrity" "sha512-dFcAjpTQFgoLMzC2VwU+C/CbS7uRL0lWmxDITmqm7C+7F0Odmj6s9l6alZc6AELXhrnggM2CeWSXHGOdX2YtwA=="
@@ -3721,6 +3733,11 @@
     "has-bigints" "^1.0.2"
     "has-symbols" "^1.0.3"
     "which-boxed-primitive" "^1.0.2"
+
+"uninstall@^0.0.0":
+  "integrity" "sha512-pjP/0+A4gsbDVa8XH/S2GZdT9NPJW8NFMy3GI7HnsWG+NAmFSSj3QidNosXBI9cPtxxNExEDdhKFO6sli8K3mA=="
+  "resolved" "https://registry.npmjs.org/uninstall/-/uninstall-0.0.0.tgz"
+  "version" "0.0.0"
 
 "universalify@^0.1.0":
   "integrity" "sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg=="
