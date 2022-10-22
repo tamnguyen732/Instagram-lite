@@ -5,10 +5,13 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  Relation,
+  UpdateDateColumn
 } from 'typeorm';
-import { User } from './User';
+import { Comment } from '.';
+import { User } from '.';
 
 @ObjectType()
 @Entity()
@@ -29,6 +32,18 @@ export class Post extends BaseEntity {
   @Column({ nullable: true })
   photo!: string;
 
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.posts)
+  user?: User;
+
+  @Field(() => [User])
+  @Column('jsonb', { array: true, nullable: true })
+  reactions!: User[];
+
+  @Field(() => [Comment], { nullable: true })
+  @OneToMany(() => Comment, (comment) => comment.post)
+  comments?: Relation<Comment>[];
+
   @Field()
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt!: Date;
@@ -36,8 +51,4 @@ export class Post extends BaseEntity {
   @Field()
   @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt!: Date;
-
-  @Field(() => User)
-  @ManyToOne(() => User, (user) => user.posts)
-  user?: User;
 }

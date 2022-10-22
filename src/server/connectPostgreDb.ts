@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { Comment, Post, User } from './entities';
+import { Comment, Conversation, Post, User } from './entities';
 
 const connectPostgreDb = () => {
   const AppDataSource = new DataSource({
@@ -12,7 +12,7 @@ const connectPostgreDb = () => {
     database: 'instagram-lite',
     synchronize: true,
     logging: true,
-    entities: [User, Comment, Post],
+    entities: [User, Comment, Post, Conversation]
   });
   return AppDataSource.initialize()
     .then(() => {

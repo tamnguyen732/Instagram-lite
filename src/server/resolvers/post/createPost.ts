@@ -2,7 +2,7 @@ import { Arg, ClassType, Ctx, Mutation, Query, Resolver, UseMiddleware } from 't
 import { Post, User } from '~/server/entities';
 import { verifyAuth } from '~/server/middlewares';
 import * as types from '~/server/types';
-import { createPostInput } from '~/server/types/inputs/createPostInput';
+import { CreatePostInput } from '~/server/types/inputs/';
 import { PostMutationResponse } from '~/server/types/responses/post/';
 import { handler } from '~/server/utils/handler';
 import status from 'http-status';
@@ -16,7 +16,7 @@ const createPost = (Base: ClassType) => {
     @UseMiddleware(verifyAuth)
     @Mutation(() => PostMutationResponse)
     createPost(
-      @Arg('createPostArg') { caption, photo }: createPostInput,
+      @Arg('createPostArg') { caption, photo }: CreatePostInput,
       @Ctx() { req }: types.MyContext
     ): Promise<PostMutationResponse> {
       return handler(async () => {

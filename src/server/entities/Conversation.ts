@@ -1,5 +1,13 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn
+} from 'typeorm';
+import { User } from '.';
 
 @ObjectType()
 @Entity()
@@ -19,6 +27,10 @@ export class Conversation extends BaseEntity {
   @Field()
   @Column()
   members!: string;
+
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.conversation)
+  user!: User;
 
   @Field()
   @CreateDateColumn({ type: 'timestamptz' })
