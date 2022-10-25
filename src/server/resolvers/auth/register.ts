@@ -3,7 +3,7 @@ import { User } from '~/server/entities';
 import bcrypt from 'bcryptjs';
 import { RegisterInput } from '~/server/types/inputs';
 import { UserMutationResponse } from '~/server/types/responses/user';
-import { handler } from '~/server/utils/handler';
+import { handler } from '~/server/utils';
 import { verifyAuth } from '~/server/middlewares';
 import status from 'http-status';
 

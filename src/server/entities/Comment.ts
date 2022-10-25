@@ -26,9 +26,9 @@ export class Comment extends BaseEntity {
   @Column()
   text!: string;
 
-  @Field(() => [User])
+  @Field(() => [String])
   @Column('jsonb', { array: true, nullable: true })
-  reactions!: User[];
+  reactions!: String[];
 
   @Field(() => Post)
   @ManyToOne(() => Post, (post) => post.comments)

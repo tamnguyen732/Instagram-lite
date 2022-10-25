@@ -4,7 +4,7 @@ import { verifyAuth } from '~/server/middlewares';
 import * as types from '~/server/types';
 import { DeletePostInput } from '~/server/types/inputs';
 import { PostResponse } from '~/server/types/responses/post/';
-import { handler } from '~/server/utils/handler';
+import { handler } from '~/server/utils';
 import status from 'http-status';
 const deletePost = (Base: ClassType) => {
   @Resolver()

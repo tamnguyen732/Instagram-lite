@@ -2,28 +2,31 @@ import { Arg, ClassType, Ctx, Mutation, Query, Resolver, UseMiddleware } from 't
 import { Post } from '~/server/entities';
 import { verifyAuth } from '~/server/middlewares';
 import * as types from '~/server/types';
-import { PostMutationResponse } from '~/server/types/responses/post/';
-import { handler } from '~/server/utils/handler';
-import { getReaction } from '~/server/utils/getReaction';
-import { ReactToPostInput } from '~/server/types/inputs';
-
-const createPost = (Base: ClassType) => {
+import { handler } from '~/server/utils';
+import { getReaction } from '~/server/utils';
+import { BaseResponse } from '~/server/types/responses/common';
+const reactToPost = (Base: ClassType) => {
   @Resolver()
-  class createPost extends Base {
+  class reactToPost extends Base {
     @Query(() => String)
     async hello(): Promise<string> {
-      return 'hello create post';
+      return 'hello reactToPost ';
     }
     @UseMiddleware(verifyAuth)
-    @Mutation(() => PostMutationResponse)
-    createPost(@Arg('createPostArg') { id }: ReactToPostInput, @Ctx() { req }: types.MyContext) {
+    @Mutation(() => BaseResponse)
+    async reactToPost(
+      @Arg('postId') id: number,
+      @Arg('reaction', { nullable: true }) reaction: string,
+      @Ctx() { req }: types.MyContext
+    ): Promise<BaseResponse> {
       return handler(async () => {
         const userId = parseInt(req.userId);
-        getReaction({ entity: Post, id, userId, EntityType: 'Post' });
+
+        return await getReaction({ entity: Post, id, userId, entityName: 'Post', reaction });
       });
     }
   }
-  return createPost;
+  return reactToPost;
 };
 
-export default createPost;
+export default reactToPost;

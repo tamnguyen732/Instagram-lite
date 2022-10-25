@@ -2,7 +2,7 @@ import { Arg, ClassType, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { Post } from '~/server/entities';
 import { verifyAuth } from '~/server/middlewares';
 import { PostResponse } from '~/server/types/responses/post';
-import { handler } from '~/server/utils/handler';
+import { handler } from '~/server/utils';
 import status from 'http-status';
 const getSinglePost = (Base: ClassType) => {
   @Resolver()

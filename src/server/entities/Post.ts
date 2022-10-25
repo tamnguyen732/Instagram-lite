@@ -32,13 +32,13 @@ export class Post extends BaseEntity {
   @Column({ nullable: true })
   photo!: string;
 
-  @Field(() => User)
+  @Field(() => User, { nullable: true })
   @ManyToOne(() => User, (user) => user.posts)
   user?: User;
 
-  @Field(() => [User])
-  @Column('jsonb', { array: true, nullable: true })
-  reactions!: User[];
+  @Field(() => [Number], { nullable: true })
+  @Column('int', { array: true, nullable: true })
+  reactions?: Number[];
 
   @Field(() => [Comment], { nullable: true })
   @OneToMany(() => Comment, (comment) => comment.post)

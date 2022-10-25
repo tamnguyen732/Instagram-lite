@@ -3,7 +3,7 @@ import { User } from '~/server/entities';
 import bcrypt from 'bcryptjs';
 import { LoginInput } from '~/server/types/inputs';
 import { UserMutationResponse } from '~/server/types/responses/user';
-import { handler } from '~/server/utils/handler';
+import { handler } from '~/server/utils';
 import { generateToken, sendTokens } from '~/helpers/token';
 import * as types from '~/server/types';
 import { verifyAuth } from '~/server/middlewares';

@@ -4,6 +4,7 @@ import createPost from './createPost';
 import deletePost from './deletePost';
 import getPosts from './getPosts';
 import getSinglePost from './getSinglePost';
+import reactToPost from './reactToPost';
 import updatedPost from './updatePost';
 
 @Resolver()
@@ -12,5 +13,6 @@ export default class PostResolver extends combineResolvers(
   getPosts,
   getSinglePost,
   updatedPost,
-  deletePost
+  deletePost,
+  reactToPost
 ) {}

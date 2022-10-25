@@ -2,4 +2,4 @@ export * from './BaseResponse';
 export * from './FieldError';
 export * from './MutationResponse';
 export * from './PaginatedResponse';
-export * from './EntityTypes';
+export * from './ReactionType';
