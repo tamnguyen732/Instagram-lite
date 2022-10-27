@@ -23,12 +23,14 @@ export const paginate = async ({ limitPerPage, page, userId }: Props): Promise<R
     throw new Error('This Page Not Found');
   }
 
-  let query = Post.createQueryBuilder('post')
-    .orderBy('post.createdAt', 'DESC')
+  let query = Post.createQueryBuilder()
+    .orderBy('Post.createdAt', 'DESC')
+    .leftJoinAndSelect('Post.comments', 'comments')
     .take(limitPerPage)
     .skip((page - 1) * limitPerPage);
+
   if (userId) {
-    query = query.where('post.userId =:userId', { userId: userId });
+    query = query.where('Post.userId =:userId', { userId: userId });
   }
 
   const posts: Post[] = await query.getMany();

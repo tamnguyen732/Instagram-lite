@@ -8,7 +8,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
-import { User } from '.';
 import { Post } from '.';
 
 @ObjectType()
@@ -19,16 +18,20 @@ export class Comment extends BaseEntity {
   id!: number;
 
   @Field()
-  @Column()
+  @Column({ nullable: true })
   postId!: number;
+
+  @Field((_type) => ID, { nullable: true })
+  @Column({ nullable: true })
+  userId!: number;
 
   @Field()
   @Column()
   text!: string;
 
-  @Field(() => [String])
-  @Column('jsonb', { array: true, nullable: true })
-  reactions!: String[];
+  @Field(() => [Number], { nullable: true })
+  @Column('int', { array: true, nullable: true })
+  reactions?: Number[];
 
   @Field(() => Post)
   @ManyToOne(() => Post, (post) => post.comments)

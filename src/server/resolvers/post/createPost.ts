@@ -37,7 +37,6 @@ const createPost = (Base: ClassType) => {
           };
         }
 
-        user.posts = [newPost];
         await User.save(user);
         return {
           code: status.CREATED,

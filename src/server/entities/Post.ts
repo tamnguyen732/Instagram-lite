@@ -7,7 +7,6 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  Relation,
   UpdateDateColumn
 } from 'typeorm';
 import { Comment } from '.';
@@ -42,7 +41,7 @@ export class Post extends BaseEntity {
 
   @Field(() => [Comment], { nullable: true })
   @OneToMany(() => Comment, (comment) => comment.post)
-  comments?: Relation<Comment>[];
+  comments?: Comment[];
 
   @Field()
   @CreateDateColumn({ type: 'timestamptz' })

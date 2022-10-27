@@ -23,7 +23,7 @@ const register = (Base: ClassType) => {
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
           return {
-            code: status.BAD_GATEWAY,
+            code: status.BAD_REQUEST,
             success: false,
             message: 'User already existed',
             errors: [

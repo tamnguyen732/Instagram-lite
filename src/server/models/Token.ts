@@ -1,6 +1,10 @@
-import { getModelForClass } from '@typegoose/typegoose';
+import mongoose from 'mongoose';
+const EXPIRED_TOKEN = '5m';
 
-// entities
-import { Token as TokenEntity } from '../entities/';
+const tokenSchema = new mongoose.Schema({
+  userId: String,
+  token: String,
+  createdAt: { type: Date, expires: EXPIRED_TOKEN, default: Date.now }
+});
 
-export const TokenModel = getModelForClass(TokenEntity);
+export const Token = mongoose.models.Token || mongoose.model('Token', tokenSchema);

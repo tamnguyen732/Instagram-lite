@@ -11,7 +11,7 @@ const getSinglePost = (Base: ClassType) => {
     @Query(() => PostResponse)
     getSinglePost(@Arg('postId', (_type) => Number) postId: number): Promise<PostResponse> {
       return handler(async () => {
-        const post = await Post.findOne({ where: { id: postId } });
+        const post = await Post.findOne({ where: { id: postId }, relations: { comments: true } });
         if (!post) {
           return {
             code: status.NOT_FOUND,
