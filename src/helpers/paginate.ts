@@ -1,20 +1,22 @@
-import { Post } from '~/server/entities';
-export interface Props {
+import { Conversation, Post, User } from '~/server/entities';
+
+type Paginate = (params: {
+  entity: any;
   limitPerPage: number;
   page: number;
   userId?: number;
-}
+}) => Promise<ReturnProps>;
 type ReturnProps = {
   totalCount: number;
   lastPage: number;
-  posts: Post[];
+  entities: Post[] | User[] | Conversation[];
 };
-export const paginate = async ({ limitPerPage, page, userId }: Props): Promise<ReturnProps> => {
+export const paginate: Paginate = async ({ entity: Entity, limitPerPage, page, userId }) => {
   let totalCount;
   if (userId) {
-    totalCount = await Post.count({ where: { userId } });
+    totalCount = await Entity.count({ where: { userId } });
   } else {
-    totalCount = await Post.count();
+    totalCount = await Entity.count();
   }
 
   const lastPage = Math.ceil(totalCount / limitPerPage);
@@ -23,16 +25,21 @@ export const paginate = async ({ limitPerPage, page, userId }: Props): Promise<R
     throw new Error('This Page Not Found');
   }
 
-  let query = Post.createQueryBuilder()
-    .orderBy('Post.createdAt', 'DESC')
-    .leftJoinAndSelect('Post.comments', 'comments')
+  let query = Entity.createQueryBuilder('Entity')
     .take(limitPerPage)
     .skip((page - 1) * limitPerPage);
 
-  if (userId) {
-    query = query.where('Post.userId =:userId', { userId: userId });
+  if (Entity === Post) {
+    query = query
+      .orderBy('Entity.createdAt', 'DESC')
+      .leftJoinAndSelect('Entity.comments', 'comments');
   }
 
-  const posts: Post[] = await query.getMany();
-  return { totalCount, lastPage, posts };
+  if (userId && Entity === Post) {
+    query = query.where('Entity.userId =:userId', { userId: userId });
+  }
+
+  const entities = await query.getMany();
+
+  return { totalCount, lastPage, entities };
 };

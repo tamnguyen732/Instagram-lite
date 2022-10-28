@@ -4,6 +4,7 @@ import { verifyAuth } from '~/server/middlewares';
 import * as types from '~/server/types';
 import { PaginatedPostsResponse } from '~/server/types/responses/post';
 import status from 'http-status';
+import { Post } from '~/server/entities';
 const getPosts = (Base: ClassType) => {
   @Resolver()
   class getPosts extends Base {
@@ -14,9 +15,13 @@ const getPosts = (Base: ClassType) => {
       @Arg('page', (_type) => Number) page: number,
       @Ctx() { req }: types.MyContext
     ): Promise<PaginatedPostsResponse> {
-      const userId = parseInt(req.userId);
-
-      const { totalCount, lastPage, posts } = await paginate({ limitPerPage, page, userId });
+      const userId = req.userId;
+      const { totalCount, lastPage, entities } = await paginate({
+        entity: Post,
+        limitPerPage,
+        page,
+        userId
+      });
 
       return {
         code: status.OK,
@@ -24,7 +29,7 @@ const getPosts = (Base: ClassType) => {
         totalCount: totalCount,
         page,
         lastPage,
-        paginatedPosts: posts,
+        paginatedPosts: entities as Post[],
         hasMore: lastPage > page
       };
     }
@@ -35,7 +40,11 @@ const getPosts = (Base: ClassType) => {
       @Arg('limit', (_type) => Int) limitPerPage: number,
       @Arg('page', (_type) => Number) page: number
     ): Promise<PaginatedPostsResponse> {
-      const { totalCount, lastPage, posts } = await paginate({ limitPerPage, page });
+      const { totalCount, lastPage, entities } = await paginate({
+        entity: Post,
+        limitPerPage,
+        page
+      });
 
       return {
         code: status.OK,
@@ -43,7 +52,7 @@ const getPosts = (Base: ClassType) => {
         totalCount: totalCount,
         page,
         lastPage,
-        paginatedPosts: posts,
+        paginatedPosts: entities as Post[],
         hasMore: lastPage > page
       };
     }

@@ -32,7 +32,7 @@ const createComment = (Base: ClassType) => {
         const newComment = Comment.create({
           text,
           postId,
-          userId: parseInt(req.userId)
+          userId: req.userId
         });
         await Comment.save(newComment);
         await Post.save(currentPost);

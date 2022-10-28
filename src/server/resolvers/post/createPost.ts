@@ -23,12 +23,12 @@ const createPost = (Base: ClassType) => {
         const newPost = Post.create({
           caption,
           photo,
-          userId: parseInt(req.userId)
+          userId: req.userId
         });
 
         await Post.save(newPost);
 
-        const user = await User.findOneBy({ id: parseInt(req.userId) });
+        const user = await User.findOneBy({ id: req.userId });
         if (!user) {
           return {
             code: status.NOT_FOUND,

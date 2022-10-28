@@ -10,6 +10,8 @@ import connectMongoDb from '~/server/connectMongoDb';
 import AuthResolver from '~/server/resolvers/auth';
 import PostResolver from '~/server/resolvers/post';
 import CommentResolver from '~/server/resolvers/comment';
+import UserResolver from '~/server/resolvers/user';
+import ConversationResolver from '~/server/resolvers/conversation';
 const cors = Cors({
   origin: 'http://localhost:3000/',
   allowCredentials: true
@@ -19,7 +21,7 @@ connectPostgreDb();
 connectMongoDb();
 const server = new ApolloServer({
   schema: await buildSchema({
-    resolvers: [AuthResolver, PostResolver, CommentResolver]
+    resolvers: [AuthResolver, PostResolver, CommentResolver, UserResolver, ConversationResolver]
   }),
   context: ({ req, res }): MyContext => ({ req, res }),
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground]

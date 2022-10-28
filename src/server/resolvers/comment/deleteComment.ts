@@ -21,7 +21,7 @@ const deleteComment = (Base: ClassType) => {
       @Ctx() { req }: types.MyContext
     ): Promise<PostResponse> {
       return handler(async () => {
-        if (userId !== parseInt(req.userId)) {
+        if (userId !== req.userId) {
           return {
             code: status.BAD_REQUEST,
             success: false,

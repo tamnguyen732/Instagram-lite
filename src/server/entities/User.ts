@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Relation } from 'typeorm';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Conversation } from './Conversation';
 import { Post } from '.';
 
@@ -27,17 +27,17 @@ export class User extends BaseEntity {
 
   @Field(() => [Conversation], { nullable: true })
   @OneToMany(() => Conversation, (conversation) => conversation.user)
-  conversation!: Relation<Conversation>[];
+  conversation!: Conversation[];
 
   @Field(() => [Post], { nullable: true })
   @OneToMany(() => Post, (post) => post.user)
   posts!: Post[];
 
   @Field(() => [User], { nullable: true })
-  @Column('jsonb', { array: true, nullable: true })
+  @Column('jsonb', { array: true, nullable: true, default: [] })
   followers!: User[];
 
-  @Field(() => [User], { nullable: true })
-  @Column('jsonb', { array: true, nullable: true })
-  following?: User[];
+  @Field(() => [Number], { nullable: true })
+  @Column('int', { array: true, nullable: true, default: [] })
+  following!: Number[];
 }

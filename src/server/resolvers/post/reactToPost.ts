@@ -20,7 +20,7 @@ const reactToPost = (Base: ClassType) => {
       @Ctx() { req }: types.MyContext
     ): Promise<BaseResponse> {
       return handler(async () => {
-        const userId = parseInt(req.userId);
+        const userId = req.userId;
 
         return await getReaction({ entity: Post, id, userId, entityName: 'Post', reaction });
       });

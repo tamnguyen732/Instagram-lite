@@ -16,17 +16,13 @@ export class Conversation extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Field()
-  @Column()
-  creator!: string;
+  @Field((_type) => ID, { nullable: true })
+  @Column({ nullable: true })
+  userId!: number;
 
-  @Field()
-  @Column()
-  creatorId!: string;
-
-  @Field()
-  @Column()
-  members!: string;
+  @Field(() => [Number], { nullable: true })
+  @Column('int', { array: true, nullable: true })
+  members?: Number[];
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.conversation)

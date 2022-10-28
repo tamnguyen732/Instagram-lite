@@ -29,7 +29,7 @@ const deletePost = (Base: ClassType) => {
           };
         }
 
-        if (userId !== parseInt(req.userId)) {
+        if (userId !== req.userId) {
           return {
             code: status.BAD_REQUEST,
             success: false,

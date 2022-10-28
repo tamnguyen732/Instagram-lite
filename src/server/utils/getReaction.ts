@@ -25,8 +25,6 @@ export const getReaction: ReactionType = async ({
       message: ` ${reactItem} Not Found`
     };
   }
-
-  console.log(reactItem);
   const isLiked = reactItem!.reactions?.includes(userId);
 
   let query = Entity.createQueryBuilder().update(Entity).where('id = :id', { id });
