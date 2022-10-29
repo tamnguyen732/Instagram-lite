@@ -27,7 +27,7 @@ const getConversationById = (Base: ClassType) => {
           };
         }
         return {
-          code: status.CREATED,
+          code: status.OK,
           success: true,
           message: 'You have created a conversation successfully',
           conversation

@@ -1,4 +1,4 @@
-import { Conversation, Post, User } from '~/server/entities';
+import { Conversation, Message, Post, User } from '~/server/entities';
 
 type Paginate = (params: {
   entity: any;
@@ -28,6 +28,19 @@ export const paginate: Paginate = async ({ entity: Entity, limitPerPage, page, u
   let query = Entity.createQueryBuilder('Entity')
     .take(limitPerPage)
     .skip((page - 1) * limitPerPage);
+  if (Entity === Conversation) {
+    query = query
+      .leftJoinAndSelect('Entity.messages', 'messages')
+      .where('Entity.userId =:userId', { userId });
+    // .orWhere('Entity.receiverId =:id', { id: userId });
+  }
+
+  if (Entity === Conversation) {
+    const currentMessage = await Message.findOne({ where: { receiverMessageId: userId } });
+    if (currentMessage) {
+      query = query.orWhere('Entity.receiverId =:id', { id: userId });
+    }
+  }
 
   if (Entity === Post) {
     query = query

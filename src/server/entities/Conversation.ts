@@ -5,9 +5,10 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn
 } from 'typeorm';
-import { User } from '.';
+import { User, Message } from '.';
 
 @ObjectType()
 @Entity()
@@ -20,6 +21,10 @@ export class Conversation extends BaseEntity {
   @Column({ nullable: true })
   userId!: number;
 
+  @Field((_type) => ID, { nullable: true })
+  @Column({ nullable: true })
+  receiverId?: number;
+
   @Field(() => [Number], { nullable: true })
   @Column('int', { array: true, nullable: true })
   members?: Number[];
@@ -27,6 +32,10 @@ export class Conversation extends BaseEntity {
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.conversation)
   user!: User;
+
+  @Field(() => [Message], { nullable: true })
+  @OneToMany(() => Message, (message) => message.conversation, { onDelete: 'CASCADE' })
+  messages!: Message[];
 
   @Field()
   @CreateDateColumn({ type: 'timestamptz' })

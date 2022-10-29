@@ -29,7 +29,7 @@ const getConversations = (Base: ClassType) => {
         });
 
         return {
-          code: status.CREATED,
+          code: status.OK,
           success: true,
           totalCount,
           lastPage,

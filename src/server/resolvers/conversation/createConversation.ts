@@ -20,10 +20,17 @@ const createConversation = (Base: ClassType) => {
       @Ctx() { req }: types.MyContext
     ): Promise<ConversationResponse> {
       return handler(async () => {
+        if (receiverId === req.userId) {
+          return {
+            code: status.BAD_REQUEST,
+            success: false,
+            message: 'Unable to create conversation with yourself'
+          };
+        }
         const existingConversation = await Conversation.getRepository().findBy({
           members: ArrayContains([req.userId, receiverId])
         });
-        console.log(existingConversation);
+
         if (existingConversation.length !== 0) {
           return {
             code: status.BAD_REQUEST,
@@ -34,6 +41,7 @@ const createConversation = (Base: ClassType) => {
 
         const conversation = await Conversation.create({
           userId: req.userId,
+          receiverId,
           members: [req.userId, receiverId]
         }).save();
 
@@ -41,7 +49,7 @@ const createConversation = (Base: ClassType) => {
           return {
             code: status.BAD_REQUEST,
             success: false,
-            message: 'Internal Error'
+            message: 'Internal Server Error'
           };
         }
 
