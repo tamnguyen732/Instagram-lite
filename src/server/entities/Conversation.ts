@@ -34,7 +34,7 @@ export class Conversation extends BaseEntity {
   user!: User;
 
   @Field(() => [Message], { nullable: true })
-  @OneToMany(() => Message, (message) => message.conversation, { onDelete: 'CASCADE' })
+  @OneToMany(() => Message, (message) => message.conversation)
   messages!: Message[];
 
   @Field()

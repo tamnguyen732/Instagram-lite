@@ -30,16 +30,19 @@ export const paginate: Paginate = async ({ entity: Entity, limitPerPage, page, u
     .skip((page - 1) * limitPerPage);
   if (Entity === Conversation) {
     query = query
+
       .leftJoinAndSelect('Entity.messages', 'messages')
       .where('Entity.userId =:userId', { userId });
-    // .orWhere('Entity.receiverId =:id', { id: userId });
-  }
-
-  if (Entity === Conversation) {
     const currentMessage = await Message.findOne({ where: { receiverMessageId: userId } });
     if (currentMessage) {
       query = query.orWhere('Entity.receiverId =:id', { id: userId });
     }
+  }
+
+  if (Entity === Message) {
+    query = query
+      .orderBy('Entity.createdAt', 'ASC')
+      .where('Entity.userId =:userId', { userId: userId });
   }
 
   if (Entity === Post) {

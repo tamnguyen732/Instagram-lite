@@ -1,51 +1,51 @@
 import { Arg, ClassType, Ctx, Query, Resolver, UseMiddleware } from 'type-graphql';
-import { Conversation } from '~/server/entities';
+import { Conversation, Message } from '~/server/entities';
 import { verifyAuth } from '~/server/middlewares';
 import { handler } from '~/server/utils';
 import status from 'http-status';
 import { PaginatedConversationResponse } from '~/server/types/responses/conversation';
 import { paginate } from '~/helpers/paginate';
 import * as types from '~/server/types';
-const getConversations = (Base: ClassType) => {
+const getMessages = (Base: ClassType) => {
   @Resolver()
-  class getConversations extends Base {
+  class getMessages extends Base {
     @Query(() => String)
     async hello(): Promise<string> {
-      return 'hello conversation';
+      return 'get messages';
     }
     @UseMiddleware(verifyAuth)
     @Query(() => PaginatedConversationResponse)
-    getConversations(
+    getMessages(
       @Arg('limitPage') limitPerPage: number,
       @Arg('page') page: number,
+      @Arg('receiverId') receiverId: number,
       @Ctx() { req }: types.MyContext
     ): Promise<PaginatedConversationResponse> {
       return handler(async () => {
         const { totalCount, lastPage, entities } = await paginate({
-          entity: Conversation,
+          entity: Message,
           limitPerPage,
           page,
           userId: req.userId
         });
 
-        const conversations = entities as Conversation[];
+        const messages = entities as Message[];
 
-        const paginatedConversations = conversations.filter(
-          (c) => c.members?.includes(req.userId) && c.members.length !== 0
-        );
+        // const paginateMessages = messages.filter(
+        //   (m) => m.receiverMessageId === receiverId && m.creatorMessageId === req.userId
+        // );
 
         return {
           code: status.OK,
           success: true,
           totalCount,
           lastPage,
-          hasMore: lastPage > page,
-          paginatedConversations
+          hasMore: lastPage > page
         };
       });
     }
   }
-  return getConversations;
+  return getMessages;
 };
 
-export default getConversations;
+export default getMessages;
