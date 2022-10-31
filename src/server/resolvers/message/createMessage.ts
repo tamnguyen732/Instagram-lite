@@ -33,7 +33,7 @@ const createMessage = (Base: ClassType) => {
         const newMessage = await Message.create({
           conversationId,
           text,
-          creatorMessageId: req.userId,
+          userId: req.userId,
           receiverMessageId: receiverId
         }).save();
         if (!newMessage) {

@@ -1,9 +1,10 @@
-import { Arg, ClassType, Query, Resolver, UseMiddleware } from 'type-graphql';
+import { Arg, ClassType, Ctx, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { Conversation } from '~/server/entities';
 import { verifyAuth } from '~/server/middlewares';
 import { handler } from '~/server/utils';
 import status from 'http-status';
 import { ConversationResponse } from '~/server/types/responses/conversation';
+import * as types from '~/server/types';
 const getConversationById = (Base: ClassType) => {
   @Resolver()
   class getConversationById extends Base {
@@ -14,10 +15,13 @@ const getConversationById = (Base: ClassType) => {
     @UseMiddleware(verifyAuth)
     @Query(() => ConversationResponse)
     getConversationById(
-      @Arg('conversationId') conversationId: number
+      @Arg('conversationId') conversationId: number,
+      @Ctx() {req}: types.MyContext
     ): Promise<ConversationResponse> {
       return handler(async () => {
         const conversation = await Conversation.findOne({ where: { id: conversationId } });
+
+        
 
         if (!conversation) {
           return {

@@ -23,9 +23,10 @@ export class Message extends BaseEntity {
   @Field()
   @Column()
   text!: string;
-  @Column()
-  @Field((_type) => ID)
-  creatorMessageId!: number;
+
+  @Field((_type) => ID, { nullable: true })
+  @Column({ nullable: true })
+  userId!: number;
 
   @Column()
   @Field((_type) => ID)
@@ -36,7 +37,7 @@ export class Message extends BaseEntity {
   conversation!: Conversation;
 
   @Field()
-  @Column({ default: 0 })
+  @Column()
   seen!: boolean;
 
   @Field()

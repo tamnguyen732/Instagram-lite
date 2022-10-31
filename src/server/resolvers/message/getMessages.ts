@@ -3,9 +3,10 @@ import { Conversation, Message } from '~/server/entities';
 import { verifyAuth } from '~/server/middlewares';
 import { handler } from '~/server/utils';
 import status from 'http-status';
-import { PaginatedConversationResponse } from '~/server/types/responses/conversation';
 import { paginate } from '~/helpers/paginate';
 import * as types from '~/server/types';
+import { PaginatedMessageResponse } from '~/server/types/responses/message';
+import { GetMessagesInput } from '~/server/types/inputs';
 const getMessages = (Base: ClassType) => {
   @Resolver()
   class getMessages extends Base {
@@ -14,33 +15,42 @@ const getMessages = (Base: ClassType) => {
       return 'get messages';
     }
     @UseMiddleware(verifyAuth)
-    @Query(() => PaginatedConversationResponse)
+    @Query(() => PaginatedMessageResponse)
     getMessages(
-      @Arg('limitPage') limitPerPage: number,
-      @Arg('page') page: number,
-      @Arg('receiverId') receiverId: number,
+      @Arg('getMessageInput') { limitPerPage, page, conversationId }: GetMessagesInput,
       @Ctx() { req }: types.MyContext
-    ): Promise<PaginatedConversationResponse> {
+    ): Promise<PaginatedMessageResponse> {
       return handler(async () => {
         const { totalCount, lastPage, entities } = await paginate({
           entity: Message,
           limitPerPage,
           page,
-          userId: req.userId
+          userId: req.userId,
+          conversationId
         });
 
         const messages = entities as Message[];
 
-        // const paginateMessages = messages.filter(
-        //   (m) => m.receiverMessageId === receiverId && m.creatorMessageId === req.userId
-        // );
+        const currentConversation = await Conversation.findOne({ where: { id: conversationId } });
 
+        if (!currentConversation) {
+          return {
+            code: status.NOT_FOUND,
+            success: false,
+            message: 'Conversation Not Found'
+          };
+        }
+
+        const paginatedMessages = messages
+          .filter((m) => currentConversation.members?.includes(m.receiverMessageId))
+          .reverse();
         return {
           code: status.OK,
           success: true,
           totalCount,
           lastPage,
-          hasMore: lastPage > page
+          hasMore: lastPage > page,
+          paginatedMessages
         };
       });
     }
