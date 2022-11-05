@@ -1,0 +1,12 @@
+@use '~/scss/' as *;
+.input {
+  display: block;
+  border-radius: 3px;
+  border: $gray solid 1px;
+  width: 267px;
+  height: 36px;
+  margin: 4px;
+  &:focus {
+    border: $dark-gray solid 1px;
+  }
+}

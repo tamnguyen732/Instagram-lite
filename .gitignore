@@ -11,7 +11,10 @@
 # next.js
 /.next/
 /out/
-
+# docker
+/pgdata
+/docker
+/docker-compose.yml
 # production
 /build
 

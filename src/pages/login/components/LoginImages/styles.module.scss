@@ -1,0 +1,24 @@
+@use '~/scss/' as *;
+
+.container {
+  @include flex(center, center);
+}
+.main {
+  position: relative;
+  .img1 {
+    width: 384px;
+    height: 520px;
+  }
+  .img2 {
+    position: absolute;
+    opacity: 0;
+    transition: 1.8s ease-out, opacity 1.7s ease-out;
+    right: 43px;
+    top: 16px;
+    width: 216px;
+    height: 448px;
+    &.active {
+      opacity: 1;
+    }
+  }
+}

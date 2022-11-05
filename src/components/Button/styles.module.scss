@@ -1,0 +1,45 @@
+@use '~/scss/' as *;
+.btn {
+  font-weight: 400;
+  flex-shrink: 0;
+  border-radius: 6px;
+  transition: all 110ms ease-out;
+  &:active {
+    transform: translateY(2px);
+  }
+  border: none;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.primary {
+  color: $white;
+  background-color: $primary-blue;
+}
+
+.danger {
+  color: var(--light-color);
+  background-color: var(--primary-red-color);
+}
+
+.dark {
+  color: var(--dark-color);
+  background-color: var(--primary-color);
+}
+
+.small {
+  padding: 6px 16px;
+  font-size: 1.4rem;
+}
+
+.medium {
+  padding: 6px 26px;
+  font-size: 1.6rem;
+}
+
+.large {
+  padding: 3px 103px;
+  font-size: 1.6rem;
+}
