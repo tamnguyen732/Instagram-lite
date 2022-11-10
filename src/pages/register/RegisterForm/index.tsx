@@ -9,21 +9,38 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquareFacebook } from '@fortawesome/free-brands-svg-icons';
 import Link from 'next/link';
 const cx = bindClass(styles);
-const LoginForm = () => {
+const RegisterForm = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
 
   const onChange = () => {};
   return (
     <div className={cx('main')}>
       <div className={cx('container')}>
-        <Image className={cx('img')} src={logo.src} alt='instagram-logo' />
+        <div className={cx('header')}>
+          <Image className={cx('img')} src={logo.src} alt='instagram-logo' />
+          <span>Register to view videos and photos from your friends.</span>
+          <Button className={cx('button-facebook')} primary size='lg'>
+            <FontAwesomeIcon icon={faSquareFacebook} className={cx('icon')} />
+            <span>Log in with facebook</span>
+          </Button>
+        </div>
         <form className='wrapper'>
+          <div className={cx('con')}>
+            <hr className={cx('hr')} />
+            <span className={cx('or')}>OR</span>
+          </div>
           <div className='inputs'>
             <FormField
               value={email}
               placeholder='Phone number, user or email'
               onChange={(e) => setEmail(e.target.value)}
+            />
+            <FormField
+              value={username}
+              placeholder='Username'
+              onChange={(e) => setUsername(e.target.value)}
             />
             <FormField
               value={password}
@@ -32,27 +49,16 @@ const LoginForm = () => {
             />
           </div>
           <Button className={cx('button')} primary size='lg'>
-            Log In
+            Register
           </Button>
-          <div className={cx('con')}>
-            <hr className={cx('hr')} />
-            <span className={cx('or')}>OR</span>
-          </div>
-          <div className={cx('wrapper-login')}>
-            <div className={cx('facebook-login')}>
-              <FontAwesomeIcon icon={faSquareFacebook} className={cx('icon')} />
-              <span className={cx('login')}>Log in with facebook</span>
-            </div>
-            <span className={cx('forgot-password')}>forgot password?</span>
-          </div>
         </form>
       </div>
-      <div className={cx('wrapper-register')}>
-        <span>You don't have an account?</span>
-        <Link href={'#'}>Register</Link>
+      <div className={cx('wrapper-login')}>
+        <span>Do you have an account?</span>
+        <Link href={'#'}>Log In</Link>
       </div>
     </div>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

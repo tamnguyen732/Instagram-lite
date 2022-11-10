@@ -5,4 +5,5 @@ export const cookieConfig: CookieSerializeOptions = {
   httpOnly: true,
   sameSite: 'none',
   secure: true,
+  maxAge: 60 * 60 * 60
 };

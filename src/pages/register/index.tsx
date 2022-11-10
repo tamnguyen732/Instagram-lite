@@ -1,20 +1,18 @@
 import React from 'react';
-import LoginImages from '~/pages/login/components/LoginImages/';
 import { MainLayout } from '~/layouts/MainLayout';
-import LoginForm from './components/LoginForm';
 import { bindClass } from '~/lib/classNames';
+import RegisterForm from './RegisterForm';
 import styles from './styles.module.scss';
-import { GetServerSideProps } from 'next';
+
 const cx = bindClass(styles);
-const login = () => {
+const register = () => {
   return (
-    <MainLayout title='Login'>
+    <MainLayout title='Register'>
       <div className={cx('container')}>
-        <LoginImages />
-        <LoginForm />
+        <RegisterForm />
       </div>
     </MainLayout>
   );
 };
 
-export default login;
+export default register;

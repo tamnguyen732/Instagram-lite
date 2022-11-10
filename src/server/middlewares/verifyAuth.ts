@@ -7,7 +7,7 @@ import { MyContext } from '../types';
 import { AuthenticationError } from 'apollo-server-core';
 
 interface JwtPayloadSigned extends jwt.JwtPayload {
-  userId: string;
+  userId: number;
 }
 
 export const verifyAuth: MiddlewareFn<MyContext> = async ({ context: { req, res } }, next) => {
@@ -26,7 +26,7 @@ export const verifyAuth: MiddlewareFn<MyContext> = async ({ context: { req, res 
   try {
     const { userId } = jwt.verify(access_token, ACCESS_TOKEN) as JwtPayloadSigned;
 
-    const user = await User.findOneBy({ id: parseInt(userId) });
+    const user = await User.findOneBy({ id: userId });
 
     if (!user)
       return {

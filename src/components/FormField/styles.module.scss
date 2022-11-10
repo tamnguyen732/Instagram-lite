@@ -3,9 +3,10 @@
   display: block;
   border-radius: 3px;
   border: $gray solid 1px;
-  width: 267px;
+  width: calc(100% - 6px);
   height: 36px;
-  margin: 4px;
+  margin: 5px 0;
+
   &:focus {
     border: $dark-gray solid 1px;
   }

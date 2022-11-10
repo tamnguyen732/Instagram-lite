@@ -4,7 +4,7 @@ import 'reflect-metadata';
 import { buildSchema } from 'type-graphql';
 import Cors from 'micro-cors';
 // types
-import { MyContext } from '~/server/types/MyContext';
+import { MyContext } from '~/server/types/myContext';
 import connectPostgreDb from '~/server/connectPostgreDb';
 import connectMongoDb from '~/server/connectMongoDb';
 import AuthResolver from '~/server/resolvers/auth';
@@ -34,10 +34,15 @@ const server = new ApolloServer({
   context: ({ req, res }): MyContext => ({ req, res }),
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground]
 });
-
 const startServer = server.start();
 
-export default cors(async (req: any, res: any) => {
+export default cors(async (req, res) => {
+  if (req.method === 'OPTIONS') {
+    res.end();
+
+    return false;
+  }
+
   await startServer;
 
   await server.createHandler({ path: '/api/graphql' })(req, res);

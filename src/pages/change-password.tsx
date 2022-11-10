@@ -1,7 +1,5 @@
 import React from 'react';
 
-const changePassword = () => {
+export function changePassword() {
   return <div></div>;
-};
-
-export default changePassword;
+}

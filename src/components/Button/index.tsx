@@ -1,6 +1,6 @@
 import { DetailedHTMLProps, ReactNode } from 'react';
 
-import { bindClass } from '~/lib/classnames';
+import { bindClass } from '~/lib/classNames';
 
 import styles from './styles.module.scss';
 

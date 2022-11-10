@@ -1,0 +1,6 @@
+@use '~/scss/' as *;
+
+.container {
+  @include flex(center, center);
+  margin-top: 47px;
+}

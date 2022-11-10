@@ -1,10 +1,10 @@
 // types
 import { IconProps } from '~/types/utils';
 
-const IconEmoji = (props: IconProps) => {
+const IconEmoji = ({ className, ...rest }: IconProps) => {
   return (
     <svg
-      {...props}
+      className={className}
       aria-label='Emoji'
       color='#262626'
       fill='#262626'

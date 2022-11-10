@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react';
-import { bindClass } from '~/lib/classnames';
+import { bindClass } from '~/lib/classNames';
 import styles from './styles.module.scss';
 interface Props {
   value: string;

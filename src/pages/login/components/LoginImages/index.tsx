@@ -1,4 +1,3 @@
-import { StaticImageData } from 'next/image';
 import { useEffect, useState } from 'react';
 import {
   emptyScreenshot,
@@ -8,7 +7,7 @@ import {
   screenshot4
 } from '~/assets/images';
 import Image from '~/components/Image';
-import { bindClass } from '~/lib/classnames';
+import { bindClass } from '~/lib/classNames';
 import styles from './styles.module.scss';
 const cx = bindClass(styles);
 const LoginImages = () => {
