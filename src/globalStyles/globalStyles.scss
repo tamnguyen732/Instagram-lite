@@ -28,6 +28,7 @@ button {
 html {
   font-size: 100%;
   box-sizing: border-box;
+  margin: 0;
   @include tablet {
     font-size: 80%;
   }
@@ -43,7 +44,7 @@ body {
   line-height: 1.5;
   background-color: $body-bg;
   color: $txt-color;
-
+  margin: 0;
   @include mobile {
     margin-bottom: 3rem;
   }

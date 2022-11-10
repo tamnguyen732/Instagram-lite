@@ -1,15 +1,11 @@
 import Head from 'next/head';
 import { ReactNode } from 'react';
-import NavBar from '~/components/NavBar';
-import { bindClass } from '~/lib/classNames';
-import styles from './styles.module.scss';
 
 interface Props {
   title: string;
   children: ReactNode;
 }
-const cx = bindClass(styles);
-export const MainLayout = ({ children, title }: Props) => {
+export const SubLayout = ({ children, title }: Props) => {
   return (
     <>
       <Head>
@@ -22,10 +18,8 @@ export const MainLayout = ({ children, title }: Props) => {
         />
         <title>{title}</title>
       </Head>
-      <div className={cx('container')}>
-        <NavBar />
-        {children}
-      </div>
+
+      {children}
     </>
   );
 };

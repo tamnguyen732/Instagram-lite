@@ -1,0 +1,6 @@
+@use '~/scss/' as *;
+
+.container {
+  display: flex;
+  flex-direction: row;
+}

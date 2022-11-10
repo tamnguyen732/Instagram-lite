@@ -1,6 +1,6 @@
 import React from 'react';
 import LoginImages from '~/pages/login/components/LoginImages/';
-import { MainLayout } from '~/layouts/MainLayout';
+import { MainLayout } from '~/layouts/SubLayout';
 import LoginForm from './components/LoginForm';
 import { bindClass } from '~/lib/classNames';
 import styles from './styles.module.scss';

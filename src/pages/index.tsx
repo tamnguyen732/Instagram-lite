@@ -1,5 +1,11 @@
+import { MainLayout } from '~/layouts/MainLayout';
+
 const Home = () => {
-  return <div>helllo</div>;
+  return (
+    <MainLayout title='Home'>
+      <div></div>
+    </MainLayout>
+  );
 };
 
 export default Home;

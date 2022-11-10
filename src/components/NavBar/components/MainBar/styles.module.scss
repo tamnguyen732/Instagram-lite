@@ -1,0 +1,40 @@
+@use '~/scss/' as *;
+
+.container {
+  flex: 3;
+  width: 244px;
+  height: 100vh;
+  background-color: $white;
+
+  .list {
+    margin-left: 10px;
+    margin-top: 0;
+    width: 85%;
+    height: 52px;
+    padding-left: 0;
+    position: relative;
+    &:hover {
+      background-color: red;
+      border-radius: 16px;
+    }
+    &:hover > .icon {
+      font-size: 1.5rem;
+    }
+    .item {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      padding-left: 30px;
+      .title {
+        color: $black;
+        margin: 10px 0 0 15px;
+        font-size: 1.5rem;
+        font-weight: 300;
+      }
+      .icon {
+        font-size: 5rem;
+      }
+    }
+  }
+}
