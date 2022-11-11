@@ -1,28 +1,34 @@
-import IconCreate from '~/components/Icon/IconCreate';
-import IconEmoji from '~/components/Icon/IconEmoji';
-import IconHome from '~/components/Icon/IconHome';
-import IconLocation from '~/components/Icon/IconLocation';
-import IconNewMessage from '~/components/Icon/IconNewMessage';
+import { HiHome } from 'react-icons/hi2';
+import { BiSearch } from 'react-icons/bi';
+import { BsHeart, BsPlusSquare } from 'react-icons/bs';
+import { SlCursor } from 'react-icons/sl';
 import { ROUTES } from '~/constants/routes';
+import { IconType } from 'react-icons';
 
+interface Navbar {
+  title: string;
+  icon: IconType;
+  hasChild: boolean;
+  route: string;
+  active: boolean;
+}
 export const navBarAction = [
   {
     title: 'Home',
-    icon: IconHome,
+    icon: HiHome,
     hasChild: false,
     route: ROUTES.HOME,
     active: false
   },
   {
     title: 'Search',
-    icon: IconLocation,
+    icon: BiSearch,
     hasChild: true,
-    route: null,
     active: false
   },
   {
     title: 'Inbox',
-    icon: IconNewMessage,
+    icon: SlCursor,
     hasChild: false,
     route: ROUTES.INBOX,
     active: false
@@ -30,16 +36,20 @@ export const navBarAction = [
 
   {
     title: 'Notification',
-    icon: IconEmoji,
+    icon: BsHeart,
     hasChild: true,
-    route: null,
-    active: false
+    active: false,
+    route: ''
   },
   {
     title: 'Create',
-    icon: IconCreate,
-    hasChild: true,
-    route: null,
-    active: false
+    icon: BsPlusSquare,
+    hasChild: false,
+    active: false,
+    route: ''
   }
 ];
+
+export const findTitle = (navBarAction: Navbar[]) => {
+  return navBarAction.find((e) => e.title);
+};

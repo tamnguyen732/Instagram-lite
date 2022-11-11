@@ -1,10 +1,18 @@
 @use '~/scss/' as *;
 
 .container {
-  flex: 3;
   width: 244px;
   height: 100vh;
   background-color: $white;
+  border-right: $gray 1px solid;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  z-index: 100;
+  .image {
+    width: 100px;
+    cursor: pointer;
+    padding: 30px 10px 15px 30px;
+  }
 
   .list {
     margin-left: 10px;
@@ -13,28 +21,65 @@
     height: 52px;
     padding-left: 0;
     position: relative;
-    &:hover {
-      background-color: red;
-      border-radius: 16px;
-    }
-    &:hover > .icon {
-      font-size: 1.5rem;
+    &.active-list {
+      padding-top: 30px;
     }
     .item {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
       cursor: pointer;
-      padding-left: 30px;
+      padding: 10px;
+      margin-top: 10px;
+      position: relative;
+      @include flex(center, flex-start);
+      &:hover {
+        background-color: $light-gray;
+        border-radius: 16px;
+      }
+      &:hover {
+        .icon {
+          transform: scale(1.1);
+          transition: 0.1s ease-in-out;
+        }
+      }
+
+      &.active-item {
+        width: 50%;
+        height: auto;
+        padding: 15px 10px 13px 15px;
+        margin-top: 0;
+
+        &:hover {
+          border-radius: 55%;
+          border: $gray 1px solid;
+        }
+      }
+
       .title {
+        display: inline-block;
         color: $black;
-        margin: 10px 0 0 15px;
-        font-size: 1.5rem;
+        margin-left: 10px;
+        margin-top: 5px;
+        font-size: 1.1rem;
         font-weight: 300;
+        position: absolute;
+        top: 7px;
+        left: 40px;
+        &.active {
+          color: $black;
+          font-weight: 500;
+        }
+      }
+
+      .none {
+        display: none;
       }
       .icon {
-        font-size: 5rem;
+        font-size: 1.6rem;
+        color: $black;
+        font-weight: 500;
       }
     }
   }
+}
+.active {
+  width: 80px;
 }

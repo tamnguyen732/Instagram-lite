@@ -5,7 +5,7 @@ interface Props {
   value: string;
   placeholder: string;
   className?: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const cx = bindClass(styles);

@@ -1,19 +1,18 @@
+import { useState } from 'react';
 import FormField from '~/components/FormField';
 import styles from './styles.module.scss';
 import { bindClass } from '~/lib/classNames';
-import { useState } from 'react';
 import Image from '~/components/Image';
 import { logo } from '~/assets/images';
+import { FaFacebookSquare } from 'react-icons/fa';
 import Button from '~/components/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquareFacebook } from '@fortawesome/free-brands-svg-icons';
 import Link from 'next/link';
 const cx = bindClass(styles);
+
 const LoginForm = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const onChange = () => {};
   return (
     <div className={cx('main')}>
       <div className={cx('container')}>
@@ -40,7 +39,7 @@ const LoginForm = () => {
           </div>
           <div className={cx('wrapper-login')}>
             <div className={cx('facebook-login')}>
-              <FontAwesomeIcon icon={faSquareFacebook} className={cx('icon')} />
+              <FaFacebookSquare className={cx('icon')} />
               <span className={cx('login')}>Log in with facebook</span>
             </div>
             <span className={cx('forgot-password')}>forgot password?</span>

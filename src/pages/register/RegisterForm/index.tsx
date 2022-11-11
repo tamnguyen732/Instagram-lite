@@ -5,9 +5,9 @@ import { useState } from 'react';
 import Image from '~/components/Image';
 import { logo } from '~/assets/images';
 import Button from '~/components/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquareFacebook } from '@fortawesome/free-brands-svg-icons';
+import { FaFacebookSquare } from 'react-icons/fa';
 import Link from 'next/link';
+import { SubLayout } from '~/layouts/SubLayout';
 const cx = bindClass(styles);
 const RegisterForm = () => {
   const [email, setEmail] = useState<string>('');
@@ -22,7 +22,7 @@ const RegisterForm = () => {
           <Image className={cx('img')} src={logo.src} alt='instagram-logo' />
           <span>Register to view videos and photos from your friends.</span>
           <Button className={cx('button-facebook')} primary size='lg'>
-            <FontAwesomeIcon icon={faSquareFacebook} className={cx('icon')} />
+            <FaFacebookSquare className={cx('icon')} />
             <span>Log in with facebook</span>
           </Button>
         </div>
