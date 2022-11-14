@@ -2,11 +2,11 @@ import { bindClass } from '~/lib/classNames';
 import styles from './styles.module.scss';
 import { useState } from 'react';
 import FormField from '~/components/FormField';
-const cx = bindClass(styles);
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import Image from '~/components/Image';
 import { logo } from '~/assets/images';
 import Button from '~/components/Button';
+const cx = bindClass(styles);
 interface NavProps {
   subBarActive: boolean;
   setSubBarActive?: (subBarActive: boolean) => void;
@@ -50,7 +50,7 @@ const SubBar = ({ subBarActive, title }: NavProps) => {
                 />
                 <div className={cx('name')}>
                   <span>Adam</span>
-                  <span>started following you </span>
+                  <span>started following you. </span>
                   <span>7 days ago </span>
                 </div>
                 <Button className={cx('button')} primary size='md'>

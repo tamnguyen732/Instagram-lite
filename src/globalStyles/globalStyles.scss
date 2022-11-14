@@ -29,6 +29,7 @@ html {
   font-size: 100%;
   box-sizing: border-box;
   margin: 0;
+
   @include tablet {
     font-size: 80%;
   }
@@ -42,6 +43,8 @@ body {
   font-family: $font-family;
   font-weight: 400;
   line-height: 1.5;
+  overflow: hidden;
+  position: relative;
   background-color: $body-bg;
   color: $txt-color;
   margin: 0;

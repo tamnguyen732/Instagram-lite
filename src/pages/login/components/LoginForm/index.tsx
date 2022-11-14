@@ -7,30 +7,38 @@ import { logo } from '~/assets/images';
 import { FaFacebookSquare } from 'react-icons/fa';
 import Button from '~/components/Button';
 import Link from 'next/link';
+import Toast from '~/components/Toast';
+
 const cx = bindClass(styles);
 
 const LoginForm = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-
+  const [show, setShow] = useState<boolean>(false);
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    setShow(true);
+  };
   return (
     <div className={cx('main')}>
+      <Toast show={show} />
       <div className={cx('container')}>
         <Image className={cx('img')} src={logo.src} alt='instagram-logo' />
-        <form className='wrapper'>
+        <form className='wrapper' onSubmit={handleSubmit}>
           <div className='inputs'>
             <FormField
               value={email}
               placeholder='Phone number, user or email'
               onChange={(e) => setEmail(e.target.value)}
             />
+
             <FormField
               value={password}
               placeholder='Password'
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <Button className={cx('button')} primary size='lg'>
+          <Button className={cx('button')} primary size='lg' type='submit'>
             Log In
           </Button>
           <div className={cx('con')}>

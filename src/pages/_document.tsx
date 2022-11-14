@@ -1,4 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import dynamic from 'next/dynamic';
+const Toast = dynamic(() => import('~/components/Toast'), { ssr: false });
 
 class MyDocument extends Document {
   render() {
@@ -7,8 +9,9 @@ class MyDocument extends Document {
         <Head>
           <link rel='icon' href='/favicon.ico' />
         </Head>
-        <body>
+        <body id='root'>
           <Main />
+          <Toast />
           <NextScript />
         </body>
       </Html>

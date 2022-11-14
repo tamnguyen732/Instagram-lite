@@ -1,7 +1,5 @@
 import { DetailedHTMLProps } from 'react';
-
 import { bindClass } from '~/lib/classNames';
-
 import styles from './styles.module.scss';
 
 type BaseImageProps = DetailedHTMLProps<
