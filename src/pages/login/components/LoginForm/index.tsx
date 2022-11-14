@@ -8,20 +8,21 @@ import { FaFacebookSquare } from 'react-icons/fa';
 import Button from '~/components/Button';
 import Link from 'next/link';
 import Toast from '~/components/Toast';
+import { addToast } from '~/hooks/useToast';
 
 const cx = bindClass(styles);
 
 const LoginForm = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [show, setShow] = useState<boolean>(false);
   const handleSubmit = (e: any) => {
+    addToast({ message: 'ban dan dang ki thanh cong', type: 'success' });
+
     e.preventDefault();
-    setShow(true);
   };
   return (
     <div className={cx('main')}>
-      <Toast show={show} />
+      <Toast />
       <div className={cx('container')}>
         <Image className={cx('img')} src={logo.src} alt='instagram-logo' />
         <form className='wrapper' onSubmit={handleSubmit}>
