@@ -4,7 +4,7 @@ import { navBarAction } from '../action';
 import Link from 'next/link';
 import Image from '~/components/Image';
 import { logo } from '~/assets/images';
-import { RefObject, useState, forwardRef, useEffect } from 'react';
+import { RefObject, useState, forwardRef } from 'react';
 import { BsInstagram } from 'react-icons/bs';
 import { ROUTES } from '~/constants/routes';
 import { IconType } from 'react-icons';
@@ -24,7 +24,7 @@ interface Navbar {
   title: string;
   icon: IconType;
   hasChild: boolean;
-  route?: string | undefined;
+  route?: string | null;
 }
 const MainBar = forwardRef<any, NavProps>(({ setSubBarActive, subBarActive, setTitle }, ref) => {
   const { showModal } = useModalContext();
@@ -58,6 +58,7 @@ const MainBar = forwardRef<any, NavProps>(({ setSubBarActive, subBarActive, setT
         {navBarAction.map((nav, index) => {
           return (
             <li
+              key={nav.title}
               className={cx('item', subBarActive ? 'active-item' : '')}
               onClick={() => {
                 handleEvent(index, nav);

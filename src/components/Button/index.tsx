@@ -17,6 +17,7 @@ interface Props extends ButtonBaseProps {
   primary?: boolean;
   light?: boolean;
   dark?: boolean;
+  outline?: boolean;
   size?: 'sm' | 'md' | 'lg';
   danger?: boolean;
   onClick?: () => void;
@@ -30,6 +31,7 @@ const Button = ({
   primary,
   danger,
   size,
+  outline,
   onClick,
   ...rest
 }: Props) => {
@@ -41,6 +43,7 @@ const Button = ({
         dark,
         primary,
         danger,
+        outline,
         small: size === 'sm',
         medium: size === 'md',
         large: size === 'lg'

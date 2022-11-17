@@ -34,13 +34,13 @@ export const navBarAction = [
     title: 'Notification',
     icon: BsHeart,
     hasChild: true,
-    route: null
+    route: ''
   },
   {
     title: 'Create',
     icon: BsPlusSquare,
     hasChild: false,
-    route: null
+    route: ''
   }
 ];
 

@@ -25,10 +25,9 @@ const useToast: ReturnProp = () => {
   };
 
   const useGetToasts = () => {
-    const [toasts, setToasts] = useState<Toast[]>([]);
-
-    setToastsState = setToasts;
-
+    const [toast, setToast] = useState<Toast[]>([]);
+    setToastsState = setToast;
+    const toasts = [...new Set(toast)];
     return toasts;
   };
   const deleteToast = (toastId: string) =>

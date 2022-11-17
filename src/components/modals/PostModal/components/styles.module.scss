@@ -1,0 +1,30 @@
+@use '~/scss/' as *;
+.container {
+  margin-top: 50px;
+  @include flex(center, flex-start);
+  flex-direction: column;
+
+  .wrapper {
+    @include flex(center, flex-start);
+    margin-bottom: 10px;
+    .avatar {
+      z-index: 50;
+      width: 36px;
+      height: 36px;
+    }
+    .name {
+      color: $black;
+
+      font-size: 1.3rem;
+      font-weight: 400;
+    }
+  }
+  .text-area {
+    width: 380px;
+    height: 246px;
+    background-color: $white;
+    outline: none;
+    border: 1px solid $white;
+    font-size: 1.4rem;
+  }
+}

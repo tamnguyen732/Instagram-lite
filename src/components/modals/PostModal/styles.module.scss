@@ -2,9 +2,110 @@
 .container {
   border-radius: 20px;
   background-color: $white;
-  z-index: 200;
+  z-index: 100;
   transition: all 0.4s ease-in-out;
   animation: modal 0.1s forwards;
+  @include flex(center, flex-start);
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  &.active {
+    animation: modalActive 0.5s forwards;
+  }
+  .title {
+    display: inline-block;
+    color: $black;
+    width: 100%;
+    font-size: 1.3rem;
+    font-weight: 400;
+    text-align: center;
+    position: relative;
+    margin-top: 5px;
+    &::after {
+      content: '';
+      position: absolute;
+      width: inherit;
+      height: 1px;
+      background-color: $gray;
+      left: 0;
+      right: 0;
+      top: 40px;
+      bottom: 0;
+    }
+  }
+  .next {
+    position: absolute;
+    color: $primary-blue;
+    font-size: 1.2rem;
+    right: 20px;
+    top: 7px;
+    cursor: pointer;
+  }
+  .wrapper {
+    position: absolute;
+    width: 100%;
+    height: 55%;
+    @include flex(center, center);
+    flex-direction: column;
+    bottom: 40px;
+    &.active {
+      @include flex(flex-start, center);
+      position: absolute;
+      width: 100%;
+      height: 55%;
+      left: 20px;
+    }
+    .image {
+      position: absolute;
+      width: 410px;
+      height: 404px;
+      top: -116px;
+      left: 0;
+      &.active {
+        left: -25px;
+      }
+    }
+    .icon-wrapper {
+      position: relative;
+      margin-bottom: 40px;
+      flex: 1;
+      .icon1 {
+        font-size: 5rem;
+        font-weight: 200;
+        position: absolute;
+        color: $black;
+        right: 5px;
+        transform: rotate(-5deg);
+      }
+      .icon2 {
+        color: $black;
+        font-size: 5.5rem;
+        font-weight: 200;
+        position: absolute;
+        left: -35px;
+        top: 12px;
+      }
+    }
+
+    .text {
+      flex: 1;
+      color: $black;
+      font-size: 1.4rem;
+      font-weight: 300;
+    }
+    .button {
+      margin-bottom: 40px;
+    }
+  }
+  .post-wrapper {
+    height: inherit;
+    position: absolute;
+    right: 0;
+    background-color: $white;
+    width: 406px;
+    border-radius: 20px;
+    z-index: -1;
+  }
 }
 
 @keyframes modal {
@@ -15,7 +116,20 @@
   }
   to {
     width: 406px;
-    height: 400px;
+    height: 450px;
     transform: scale(1);
+  }
+}
+
+@keyframes modalActive {
+  from {
+    width: 406px;
+    height: 450px;
+    transform: tranlateX(1);
+  }
+  to {
+    width: 806px;
+    height: 450px;
+    transform: tranlateX(2);
   }
 }

@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { MODAL_TYPES } from '~/constants/modal';
 import { ModalType, useModalContext } from '~/contexts/ModalContext';
 import { bindClass } from '~/lib/classNames';
+
 import styles from './styles.module.scss';
 
 const cx = bindClass(styles);

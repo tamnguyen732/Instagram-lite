@@ -20,15 +20,18 @@
 }
 
 .danger {
-  color: var(--light-color);
-  background-color: var(--primary-red-color);
+  color: $white;
+  background-color: $red;
 }
-
 .dark {
-  color: var(--dark-color);
-  background-color: var(--primary-color);
+  color: $black;
+  background-color: $primary-blue;
 }
-
+.outline {
+  color: $primary-blue;
+  background-color: $white;
+  border: 1px solid $primary-blue;
+}
 .small {
   padding: 4px 16px;
   font-size: 1.4rem;

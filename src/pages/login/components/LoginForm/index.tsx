@@ -16,8 +16,7 @@ const LoginForm = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const handleSubmit = (e: any) => {
-    addToast({ message: 'ban dan dang ki thanh cong', type: 'success' });
-
+    addToast({ message: 'You have registered successfully', type: 'error' });
     e.preventDefault();
   };
   return (
