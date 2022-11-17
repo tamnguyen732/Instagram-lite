@@ -2,19 +2,23 @@
 .modal {
   position: fixed;
   inset: 0;
-
   display: flex;
-}
+  margin-left: 0;
 
-.overlay {
-  position: fixed;
-  inset: 0;
-
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.content {
-  position: relative;
-
-  margin: auto;
+  .overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.189);
+  }
+  .content {
+    position: absolute;
+    border-radius: 20px;
+    background-color: $white;
+    z-index: 60;
+    left: 50%;
+    top: 50%;
+    z-index: 100;
+    transform: translate(-50%, -50%);
+  }
 }

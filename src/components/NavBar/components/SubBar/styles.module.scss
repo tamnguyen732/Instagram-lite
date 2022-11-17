@@ -3,11 +3,11 @@
 .container {
   width: 100px;
   background-color: $white;
-  height: 100vh;
-  position: absolute;
+  position: fixed;
+  height: 100%;
   top: 0;
   opacity: 0;
-
+  z-index: 10;
   box-shadow: $box-shadow;
   border-radius: 20px;
   transition: all 0.5s ease-in-out;

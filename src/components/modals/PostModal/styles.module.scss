@@ -1,0 +1,21 @@
+@use '~/scss/' as *;
+.container {
+  border-radius: 20px;
+  background-color: $white;
+  z-index: 200;
+  transition: all 0.4s ease-in-out;
+  animation: modal 0.1s forwards;
+}
+
+@keyframes modal {
+  from {
+    width: 506px;
+    height: 500px;
+    transform: scale(1.2);
+  }
+  to {
+    width: 406px;
+    height: 400px;
+    transform: scale(1);
+  }
+}

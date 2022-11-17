@@ -10,43 +10,37 @@ interface Navbar {
   icon: IconType;
   hasChild: boolean;
   route: string;
-  active: boolean;
 }
 export const navBarAction = [
   {
     title: 'Home',
     icon: HiHome,
     hasChild: false,
-    route: ROUTES.HOME,
-    active: false
+    route: ROUTES.HOME
   },
   {
     title: 'Search',
     icon: BiSearch,
-    hasChild: true,
-    active: false
+    hasChild: true
   },
   {
     title: 'Inbox',
     icon: SlCursor,
     hasChild: false,
-    route: ROUTES.INBOX,
-    active: false
+    route: ROUTES.INBOX
   },
 
   {
     title: 'Notification',
     icon: BsHeart,
     hasChild: true,
-    active: false,
-    route: ''
+    route: null
   },
   {
     title: 'Create',
     icon: BsPlusSquare,
     hasChild: false,
-    active: false,
-    route: ''
+    route: null
   }
 ];
 

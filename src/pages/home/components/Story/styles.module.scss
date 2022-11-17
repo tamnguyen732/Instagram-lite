@@ -1,0 +1,14 @@
+@use '~/scss/' as *;
+
+.container {
+  margin-top: 27px;
+  width: 465px;
+  height: 115px;
+  background-color: $white;
+  border-radius: 20px;
+  border: $border;
+  @include mobile {
+    width: 345px;
+    margin-left: 5px;
+  }
+}

@@ -4,25 +4,30 @@ import { navBarAction } from '../action';
 import Link from 'next/link';
 import Image from '~/components/Image';
 import { logo } from '~/assets/images';
-import { useState } from 'react';
+import { RefObject, useState, forwardRef, useEffect } from 'react';
 import { BsInstagram } from 'react-icons/bs';
 import { ROUTES } from '~/constants/routes';
 import { IconType } from 'react-icons';
+
+import { MODAL_TYPES } from '~/constants/modal';
+import { ModalType, useModalContext } from '~/contexts/ModalContext';
+
 const cx = bindClass(styles);
 
-interface NavProps {
+interface NavProps<T extends HTMLElement = HTMLDivElement> {
   subBarActive: boolean;
   setSubBarActive: (subBarActive: boolean) => void;
   setTitle: (title: string) => void;
+  ref: RefObject<T>;
 }
 interface Navbar {
   title: string;
   icon: IconType;
   hasChild: boolean;
   route?: string | undefined;
-  active: boolean;
 }
-const MainBar = ({ setSubBarActive, subBarActive, setTitle }: NavProps) => {
+const MainBar = forwardRef<any, NavProps>(({ setSubBarActive, subBarActive, setTitle }, ref) => {
+  const { showModal } = useModalContext();
   const [idx, setIdx] = useState<number>(0);
   const handleEvent = (idx: number, nav: Navbar) => {
     if (nav.hasChild) {
@@ -30,12 +35,14 @@ const MainBar = ({ setSubBarActive, subBarActive, setTitle }: NavProps) => {
     } else {
       setSubBarActive(false);
     }
+    if (nav.title === 'Create') showModal(MODAL_TYPES.POST_CREATOR as ModalType);
+
     setTitle(nav.title);
     setIdx(idx);
   };
 
   return (
-    <div className={cx('container', subBarActive ? 'active' : '')}>
+    <div ref={ref} className={cx('container', subBarActive ? 'active' : '')}>
       {!subBarActive && <Image src={logo.src} alt='instagram-logo' className={cx('image')} />}
 
       <ul className={cx('list', subBarActive ? 'active-list' : '')}>
@@ -79,6 +86,6 @@ const MainBar = ({ setSubBarActive, subBarActive, setTitle }: NavProps) => {
       </ul>
     </div>
   );
-};
+});
 
 export default MainBar;

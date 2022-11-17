@@ -1,22 +1,23 @@
 import { bindClass } from '~/lib/classNames';
 import styles from './styles.module.scss';
-import { useState } from 'react';
+import { RefObject, useState, forwardRef } from 'react';
 import FormField from '~/components/FormField';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import Image from '~/components/Image';
 import { logo } from '~/assets/images';
 import Button from '~/components/Button';
 const cx = bindClass(styles);
-interface NavProps {
+interface NavProps<T extends HTMLElement = HTMLDivElement> {
   subBarActive: boolean;
   setSubBarActive?: (subBarActive: boolean) => void;
   title: string;
+  ref: RefObject<T>;
 }
-const SubBar = ({ subBarActive, title }: NavProps) => {
+const SubBar = forwardRef<any, NavProps>(({ subBarActive, title }, ref) => {
   const [search, setSearch] = useState<string>('');
 
   return (
-    <div className={cx('container', subBarActive ? 'active' : '')}>
+    <div ref={ref} className={cx('container', subBarActive ? 'active' : '')}>
       {title === 'Search' ? (
         <div className={cx('search-wrapper')}>
           <h3>Search</h3>
@@ -63,6 +64,6 @@ const SubBar = ({ subBarActive, title }: NavProps) => {
       )}
     </div>
   );
-};
+});
 
 export default SubBar;

@@ -1,40 +1,44 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { MODAL_TYPES } from '~/constants/modal';
+import { ModalType, useModalContext } from '~/contexts/ModalContext';
 import { bindClass } from '~/lib/classNames';
 import styles from './styles.module.scss';
 
 const cx = bindClass(styles);
-interface Modal {
-  openModal: () => void;
-}
+
 interface Props {
-  children: (args: Modal) => ReactNode;
-  element: ReactNode;
+  children?: ReactNode;
 }
-
-const Modal = ({ element, children }: Props) => {
-  const [open, setOpen] = useState<boolean>(false);
-
-  const openModal = () => {
-    setOpen(true);
-  };
-
+const RootModal = ({ children }: Props) => {
+  const { hideModal, isShow } = useModalContext();
+  const [mounted, setMounted] = useState<boolean>(false);
+  const ref = useRef<Element | null>(null);
   useEffect(() => {
-    const closeModal = (e: MouseEvent) => {
-      if ((e.target as null | Element)?.closest('[data-close-modal]')) setOpen(false);
+    ref.current = document.querySelector<HTMLElement>('#root');
+    if (!ref.current) return;
+    if (isShow) document.body.style.overflow = 'hidden';
+    setMounted(true);
+    return () => {
+      document.body.style.overflow = 'unset';
     };
-    window.addEventListener('click', closeModal);
-    return () => window.removeEventListener('click', closeModal);
-  }, []);
-  return open ? (
-    <>
-      {children({ openModal })}
-      <div className={cx('container')}>
-        <div className={cx('overlay')}></div>
+  }, [isShow]);
 
-        <div className={cx('content')}>{element}</div>
-      </div>
-      ;
-    </>
-  ) : null;
+  return mounted && ref.current
+    ? createPortal(
+        isShow ? (
+          <div className={cx('modal')}>
+            <div
+              onClick={() => {
+                hideModal(MODAL_TYPES.POST_CREATOR as ModalType);
+              }}
+              className={cx('overlay')}
+            />
+            <div className={cx('content')}>{children}</div>
+          </div>
+        ) : null,
+        ref.current!
+      )
+    : null;
 };
-export default Modal;
+export default RootModal;

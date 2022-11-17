@@ -2,12 +2,17 @@
 
 .container {
   width: 244px;
-  height: 100vh;
+  flex: 1;
   background-color: $white;
-  border-right: $gray 1px solid;
-  position: relative;
-  transition: all 0.3s ease-in-out;
-  z-index: 100;
+  border: $border;
+  position: fixed;
+  height: 100%;
+  z-index: 20;
+  transition: width 0.3s ease-in-out;
+  &.active {
+    width: 80px;
+  }
+
   .image {
     width: 100px;
     cursor: pointer;
@@ -79,7 +84,4 @@
       }
     }
   }
-}
-.active {
-  width: 80px;
 }
