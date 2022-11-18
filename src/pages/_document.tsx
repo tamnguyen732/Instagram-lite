@@ -7,6 +7,7 @@ class MyDocument extends Document {
     return (
       <Html lang='en'>
         <Head>
+          <meta charSet='UTF-8'></meta>
           <link rel='icon' href='/favicon.ico' />
         </Head>
         <body id='root'>

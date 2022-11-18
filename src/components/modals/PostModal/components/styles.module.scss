@@ -6,7 +6,7 @@
 
   .wrapper {
     @include flex(center, flex-start);
-    margin-bottom: 10px;
+    margin: 20px 0 10px 10px;
     .avatar {
       z-index: 50;
       width: 36px;
@@ -14,9 +14,9 @@
     }
     .name {
       color: $black;
-
       font-size: 1.3rem;
-      font-weight: 400;
+      font-weight: 600;
+      margin-left: 10px;
     }
   }
   .text-area {
