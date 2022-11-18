@@ -37,11 +37,7 @@ const PostModal = () => {
         </div>
       </div>
 
-      {isExpand ? (
-        <div className={cx('post-wrapper')}>
-          <CreatePostContent />
-        </div>
-      ) : null}
+      {isExpand && <CreatePostContent />}
     </div>
   );
 };

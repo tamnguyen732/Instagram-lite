@@ -1,23 +1,42 @@
 @use '~/scss/' as *;
 .container {
   width: 300px;
-  display: grid;
   height: 120px;
-  overflow-y: scroll;
-  z-index: 200;
-  overflow-x: hidden;
-  grid-template-columns: repeat(8, 25px);
-  grid-template-rows: repeat(4, 20px);
-  column-gap: 10px;
-  row-gap: 15px;
-  background-color: $white;
-  box-shadow: $box-shadow;
   position: absolute;
-  bottom: 90px;
-  left: 40px;
-  .emoji {
-    margin-left: 5px;
-    font-size: 1.4rem;
-    cursor: pointer;
+  &::before {
+    content: '';
+    position: absolute;
+
+    width: 10px;
+    height: 10px;
+    top: 27px;
+    left: 2px;
+    border-left: 13px solid transparent;
+    border-right: 13px solid transparent;
+    border-bottom: 15px solid white;
+  }
+  .wrapper {
+    width: inherit;
+    height: inherit;
+    display: grid;
+    height: 120px;
+    overflow-y: scroll;
+    z-index: 200;
+    grid-template-columns: repeat(7, 30px);
+    grid-template-rows: repeat(4, 20px);
+    column-gap: 10px;
+    row-gap: 15px;
+    background-color: $white;
+    box-shadow: $box-shadow;
+    position: absolute;
+    top: 37px;
+    left: 0;
+    border-radius: 10px;
+
+    .emoji {
+      margin-left: 5px;
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
   }
 }

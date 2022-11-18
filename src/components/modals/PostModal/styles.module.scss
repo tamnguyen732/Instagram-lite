@@ -97,15 +97,6 @@
       margin-bottom: 40px;
     }
   }
-  .post-wrapper {
-    height: inherit;
-    position: absolute;
-    right: 0;
-    background-color: $white;
-    width: 406px;
-    border-radius: 20px;
-    z-index: -1;
-  }
 }
 
 @keyframes modal {
@@ -128,7 +119,7 @@
     transform: tranlateX(1);
   }
   to {
-    width: 806px;
+    width: 780px;
     height: 450px;
     transform: tranlateX(2);
   }

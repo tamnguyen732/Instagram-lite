@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-type debounceProps = (params: { value: string; time: number }) => void;
+type debounceProps = (params: { value: string; time: number }) => string;
 
 const useDebounce: debounceProps = ({ value, time }) => {
   const [debounceValue, setDeBounceValue] = useState<string>('');
