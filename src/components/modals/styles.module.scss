@@ -4,21 +4,34 @@
   inset: 0;
   display: flex;
   margin-left: 0;
-
   .overlay {
     position: fixed;
     inset: 0;
-    z-index: 100;
+    display: none;
     background-color: rgba(0, 0, 0, 0.189);
+    &.active {
+      display: block;
+    }
+  }
+  .overlay2 {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.499);
   }
   .content {
     position: absolute;
     border-radius: 20px;
-    background-color: $white;
-    z-index: 60;
     left: 50%;
     top: 50%;
-    z-index: 100;
+    transform: translate(-50%, -50%);
+  }
+  .content2 {
+    position: absolute;
+    border-radius: 20px;
+    left: 50%;
+    top: 50%;
+    z-index: 10;
     transform: translate(-50%, -50%);
   }
 }

@@ -7,7 +7,7 @@ import SubBar from './components/SubBar/SubBar';
 import { useModalContext } from '~/contexts/ModalContext';
 const cx = bindClass(styles);
 const NavBar = () => {
-  const { isShow } = useModalContext();
+  const { modalsType } = useModalContext();
   const [subBarActive, setSubBarActive] = useState<boolean>(false);
   const mainbarRef = useRef<HTMLDivElement>(null);
   const subbarRef = useRef<HTMLDivElement>(null);
@@ -15,16 +15,16 @@ const NavBar = () => {
   useClickOutside([subbarRef, mainbarRef], () => setSubBarActive(false));
 
   useEffect(() => {
-    const isMeetConditions = isShow && mainbarRef.current !== null;
+    const isMeetConditions = modalsType.length && mainbarRef.current !== null;
     if (isMeetConditions) {
-      mainbarRef.current.style.backgroundColor = 'unset';
+      mainbarRef!.current!.style.backgroundColor = 'unset';
     }
     return () => {
       if (isMeetConditions) {
         mainbarRef.current.style.backgroundColor = '#fff';
       }
     };
-  }, [isShow, mainbarRef.current]);
+  }, [mainbarRef.current, modalsType.length]);
   const [title, setTitle] = useState<string>('');
   return (
     <div className={cx('container')}>
