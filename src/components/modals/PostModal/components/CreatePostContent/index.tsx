@@ -4,7 +4,6 @@ import Image from '~/components/Image';
 import { useEffect, useRef, useState } from 'react';
 import EmojiIcon from '~/components/Icon/EmojiIcon';
 import { BsEmojiSmile } from 'react-icons/bs';
-import useAutoFocus from '~/hooks/useAutoFocus';
 import { GoLocation } from 'react-icons/go';
 import { TfiClose } from 'react-icons/tfi';
 import FormField from '~/components/FormField';
@@ -24,9 +23,7 @@ const CreatePostContent = () => {
     setCharacter(value.split('').length);
   };
 
-  // useAutoFocus({ inputRef, value });
   const { location, loading } = fecthLocation({ value: locationValue });
-
   const handleChooseLocation = (name: string, country: string) => {
     if (!country) {
       setLocationValue(`${name}`);
@@ -47,7 +44,7 @@ const CreatePostContent = () => {
           <Image
             className={cx('avatar')}
             src={
-              'https://cdn-ajggd.nitrocdn.com/kMoOFpDlsOVtlYJLrnSRNCQXaUFHZPTY/assets/static/optimized/rev-9b0736f/wp-content/uploads/2021/06/cool-profile-pic-matheus-ferrero.jpeg#'
+              'https://zipmex.com/static/d1af016df3c4adadee8d863e54e82331/Twitter-NFT-profile.jpg'
             }
             alt='profile'
             objectFit='cover'
@@ -86,30 +83,30 @@ const CreatePostContent = () => {
             <GoLocation className={cx('location-icon')} />
           )}
           <FormField
-            className={cx('location-input')}
+            className={cx('location-input', hasValue ? 'noncursor' : '')}
             value={locationValue}
             placeholder='Add location'
             onChange={(e) => setLocationValue(e.target.value)}
           />
         </div>
       </div>
-      {loading ? (
-        <Loading size='sm' />
-      ) : locationValue ? (
-        <div className={cx('location-fetch', hasValue ? 'hidden' : '')}>
-          {location.map(({ name, country }) => {
-            return (
-              <span
-                onClick={() => {
-                  handleChooseLocation(name, country?.name);
-                }}
-              >
-                {name + ', ' + country?.name}
-              </span>
-            );
-          })}
-        </div>
-      ) : null}
+      {loading && locationValue
+        ? !hasValue && <Loading size='sm' />
+        : locationValue && (
+            <div className={cx('location-fetch', hasValue ? 'hidden' : '')}>
+              {location.map(({ name, country }) => {
+                return (
+                  <span
+                    onClick={() => {
+                      handleChooseLocation(name, country?.name);
+                    }}
+                  >
+                    {name + ', ' + country?.name}
+                  </span>
+                );
+              })}
+            </div>
+          )}
     </div>
   );
 };

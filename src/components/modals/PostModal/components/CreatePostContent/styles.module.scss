@@ -1,29 +1,34 @@
 @use '~/scss/' as *;
 .container {
-  height: 500px;
+  height: 510px;
+  top: 0;
   position: absolute;
   right: 0;
   background-color: $white;
-  width: 370px;
+  width: 380px;
   border-radius: 20px;
-  z-index: 1;
+  z-index: 200;
   margin-top: 50px;
   @include flex(center, flex-start);
   flex-direction: column;
-
-  .wrapper {
-    @include flex(center, flex-start);
-    margin: 20px 0 10px 10px;
-    .avatar {
-      z-index: 50;
-      width: 36px;
-      height: 36px;
-    }
-    .name {
-      color: $black;
-      font-size: 1.3rem;
-      font-weight: 600;
-      margin-left: 10px;
+  .header {
+    width: 100%;
+    margin-top: -5px;
+    padding-left: 7px;
+    .wrapper {
+      @include flex(center, flex-start);
+      margin: 20px 0 10px 10px;
+      .avatar {
+        z-index: 50;
+        width: 36px;
+        height: 36px;
+      }
+      .name {
+        color: $black;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-left: 10px;
+      }
     }
   }
   .text-area {
@@ -78,6 +83,9 @@
         border: none;
         height: 35px;
         margin-bottom: 10px;
+        &.noncursor {
+          pointer-events: none;
+        }
       }
       .location-icon {
         color: $black;

@@ -1,18 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useRef } from 'react';
+const useDebouncedCallback = (callback: Function, delay: number, dependencies?: any[]) => {
+  const timeout = useRef<any | null>(null);
 
-type debounceProps = (params: { value: string; time: number }) => string;
+  // Avoid error about spreading non-iterable (undefined)
+  const comboDeps = dependencies ? [callback, delay, ...dependencies] : [callback, delay];
 
-const useDebounce: debounceProps = ({ value, time }) => {
-  const [debounceValue, setDeBounceValue] = useState<string>('');
+  return useCallback((...args: any) => {
+    if (timeout.current !== null) {
+      clearTimeout(timeout.current);
+    }
 
-  useEffect(() => {
-    let timeoutId = setTimeout(() => {
-      setDeBounceValue(value);
-    }, time);
-    return () => clearTimeout(timeoutId);
-  }, [value]);
-
-  return debounceValue;
+    timeout.current = setTimeout(() => {
+      callback(...args);
+    }, delay);
+  }, comboDeps);
 };
 
-export default useDebounce;
+export default useDebouncedCallback;
