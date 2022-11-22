@@ -3,8 +3,9 @@ import { bindClass } from '~/lib/classNames';
 import styles from './styles.module.scss';
 interface Props {
   value: string;
-  placeholder: string;
+  placeholder?: string;
   className?: string;
+
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 

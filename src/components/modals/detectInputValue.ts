@@ -5,23 +5,21 @@ type inputTypes = <T extends unknown>(value: T) => void;
 const detectInputValue = () => {
   let setValueState: Dispatch<SetStateAction<boolean>> = () => {};
   const checkInputValue: inputTypes = (value) => {
-    useEffect(() => {
-      if (value) {
-        setValueState(true);
-      } else {
-        setValueState(false);
-      }
-    }, [value]);
+    if (value) {
+      setValueState(true);
+    } else {
+      setValueState(false);
+    }
   };
 
-  const inputValue = () => {
+  const getInputValue = () => {
     const [hasInputValue, setHasInputValue] = useState<boolean>(false);
 
     setValueState = setHasInputValue;
-    return hasInputValue;
+    return { hasInputValue, setHasInputValue };
   };
 
-  return { checkInputValue, inputValue };
+  return { checkInputValue, getInputValue };
 };
 
-export const { checkInputValue, inputValue } = detectInputValue();
+export const { checkInputValue, getInputValue } = detectInputValue();

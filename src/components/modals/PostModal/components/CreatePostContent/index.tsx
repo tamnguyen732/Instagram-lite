@@ -9,7 +9,7 @@ import { TfiClose } from 'react-icons/tfi';
 import FormField from '~/components/FormField';
 import fecthLocation from '~/helpers/fetchLocation';
 import Loading from '~/components/Loading';
-import { checkInputValue } from '../../detectInputValue';
+import { checkInputValue } from '../../../detectInputValue';
 const cx = bindClass(styles);
 const CreatePostContent = () => {
   const inputRef = useRef<any | null>(null);
@@ -24,11 +24,9 @@ const CreatePostContent = () => {
     setValue(value);
     setCharacter(value.split('').length);
   };
-
   checkInputValue(value);
   checkInputValue(locationValue);
   const { location, loading } = fecthLocation({ value: locationValue });
-
   const handleChooseLocation = (name: string, country: string) => {
     if (!country) {
       setLocationValue(`${name}`);
