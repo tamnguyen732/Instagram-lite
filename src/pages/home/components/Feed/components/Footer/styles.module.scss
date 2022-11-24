@@ -1,0 +1,138 @@
+@use '~/scss/' as *;
+
+.container {
+  flex: 1;
+  width: 100%;
+  @include flex(flex-start, center);
+  margin: 10px 0 0 10px;
+  flex-direction: column;
+  .icon-wrapper {
+    width: inherit;
+    @include flex(center, space-between);
+    font-size: 1.5rem;
+    position: relative;
+    .icon1 {
+      @include flex(center, center);
+      cursor: pointer;
+      gap: 15px;
+      flex-direction: row;
+      :hover {
+        color: $gray;
+      }
+    }
+    .icon2 {
+      cursor: pointer;
+      position: absolute;
+      right: 15px;
+      :hover {
+        color: $gray;
+      }
+    }
+  }
+  .like {
+    @include flex(center, flex-start);
+    font-size: 0.9rem;
+    margin-top: 5px;
+    gap: 5px;
+    :first-child {
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    :nth-child(3) {
+      font-weight: 500;
+      cursor: pointer;
+    }
+  }
+  .status {
+    display: inline-block;
+    height: 50px;
+    @include flex(center, flex-start);
+    font-size: 0.9rem;
+    gap: 5px;
+    text-overflow: ellipsis;
+    & > p {
+      text-overflow: ellipsis;
+      word-wrap: break-word;
+      :first-child {
+        font-weight: 500;
+        cursor: pointer;
+      }
+      :nth-child(2) {
+        cursor: pointer;
+        color: $dark-gray;
+      }
+    }
+  }
+  .name {
+    @include flex(center, flex-start);
+    width: 100%;
+    font-size: 0.9rem;
+    position: relative;
+    .comment {
+      @include flex(center, center);
+      gap: 5px;
+
+      & > span {
+        cursor: pointer;
+        font-weight: 500;
+      }
+    }
+
+    :nth-child(2) {
+      cursor: pointer;
+      margin-left: auto;
+      margin-right: 15px;
+      :hover {
+        color: $gray;
+      }
+    }
+  }
+  .view-comment {
+    color: $dark-gray;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  .time {
+    color: $dark-gray;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+  }
+  .input-wrapper {
+    width: inherit;
+    position: relative;
+    @include flex(center, flex-start);
+    gap: 5px;
+    &::before {
+      content: '';
+      position: absolute;
+      width: 105%;
+      height: 0.5px;
+      background-color: $gray;
+      top: 4px;
+      margin-left: -10px;
+    }
+    :first-child {
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+    .input {
+      width: 80%;
+      border: 1px $white solid;
+      font-size: 0.9rem;
+    }
+    .post-action {
+      color: $primary-blue;
+      opacity: 0.6;
+      cursor: default;
+      &.active {
+        opacity: 1;
+        cursor: pointer;
+      }
+    }
+  }
+  .icon-list {
+    position: absolute;
+    bottom: 120px;
+  }
+}

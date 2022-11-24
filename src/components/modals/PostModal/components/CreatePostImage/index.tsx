@@ -1,10 +1,9 @@
-import { ChangeEvent, useState, useEffect } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { bindClass } from '~/lib/classNames';
 import styles from './styles.module.scss';
 import { CiImageOn, CiYoutube } from 'react-icons/ci';
 import Button from '~/components/Button';
-import { checkInputValue } from '../../../detectInputValue';
-import { useModalContext } from '~/contexts/ModalContext';
+import { INPUT_TYPES, useModalContext } from '~/contexts/ModalContext';
 const cx = bindClass(styles);
 
 interface Props {
@@ -13,20 +12,13 @@ interface Props {
 
 const CreatePostImage = ({ isExpand }: Props) => {
   const [tempURL, setTempURL] = useState<string>('');
-  const { modalsType } = useModalContext();
+  const { checkEmtyInput } = useModalContext();
   const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files![0];
-    if (!file) return;
+    if (!file) setTempURL('');
     setTempURL(URL.createObjectURL(file));
   };
-  useEffect(() => {
-    console.log(modalsType.length);
-    if (!modalsType.length) {
-      setTempURL('');
-    }
-  }, [modalsType.length]);
-
-  checkInputValue(tempURL);
+  checkEmtyInput(tempURL, INPUT_TYPES.UPLOAD);
   return (
     <div className={cx('wrapper', isExpand ? 'active' : '')}>
       {tempURL ? (

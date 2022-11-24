@@ -1,12 +1,14 @@
 @use '~/scss/' as *;
 .container {
-  border-radius: 20px;
+  width: 406px;
+  height: 450px;
+  border-radius: $border-radius;
   background-color: $white;
   position: relative;
-  border-radius: 20px;
+  border-radius: $border-radius;
   z-index: 10;
   transition: all 0.4s ease-in-out;
-  animation: modal 0.1s forwards;
+  animation: modalAnimation 0.1s forwards;
   @include flex(center, flex-start);
   flex-direction: column;
 
@@ -43,19 +45,6 @@
     top: 7px;
     z-index: 20;
     cursor: pointer;
-  }
-}
-
-@keyframes modal {
-  from {
-    width: 506px;
-    height: 500px;
-    transform: scale(1.2);
-  }
-  to {
-    width: 406px;
-    height: 450px;
-    transform: scale(1);
   }
 }
 

@@ -11,12 +11,12 @@ const WarningModal = () => {
   useEffect(() => {
     ref.current = document.querySelector<HTMLElement>('#root');
     if (!ref.current) return;
-
     setMounted(true);
-  }, [modalsType.length]);
+  }, []);
   const handleHideAllModals = () => {
     hideModal(modalsType);
   };
+
   return mounted && ref.current
     ? createPortal(
         <div className={cx('container')}>

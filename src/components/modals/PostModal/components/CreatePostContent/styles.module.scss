@@ -5,9 +5,9 @@
   position: absolute;
   right: 0;
   background-color: $white;
-  width: 380px;
+  width: 384px;
   z-index: 5;
-  margin-top: 50px;
+  margin-top: 45px;
   @include flex(center, flex-start);
   flex-direction: column;
   .header {

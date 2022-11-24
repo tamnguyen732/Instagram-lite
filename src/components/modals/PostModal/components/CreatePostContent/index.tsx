@@ -9,7 +9,8 @@ import { TfiClose } from 'react-icons/tfi';
 import FormField from '~/components/FormField';
 import fecthLocation from '~/helpers/fetchLocation';
 import Loading from '~/components/Loading';
-import { checkInputValue } from '../../../detectInputValue';
+import { INPUT_TYPES, useModalContext } from '~/contexts/ModalContext';
+
 const cx = bindClass(styles);
 const CreatePostContent = () => {
   const inputRef = useRef<any | null>(null);
@@ -18,14 +19,13 @@ const CreatePostContent = () => {
   const [countCharater, setCharacter] = useState(0);
   const [hasValue, setHasValue] = useState<boolean>(false);
   const [activeIconList, setActiveIconList] = useState<boolean>(false);
-
+  const { checkEmtyInput } = useModalContext();
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
     const value = e.target.value;
     setValue(value);
     setCharacter(value.split('').length);
   };
-  checkInputValue(value);
-  checkInputValue(locationValue);
+
   const { location, loading } = fecthLocation({ value: locationValue });
   const handleChooseLocation = (name: string, country: string) => {
     if (!country) {
@@ -34,6 +34,9 @@ const CreatePostContent = () => {
     setLocationValue(`${name}, ${country}`);
     setHasValue(true);
   };
+  checkEmtyInput(value, INPUT_TYPES.STATUS);
+
+  checkEmtyInput(locationValue, INPUT_TYPES.LOCATION);
   useEffect(() => {
     if (!locationValue) {
       setHasValue(false);

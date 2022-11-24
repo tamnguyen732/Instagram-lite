@@ -1,32 +1,31 @@
-import { RefObject, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 type CallbackEvent = (e: MouseEvent) => void;
 
-const useEventListener = (
-  eventName: keyof WindowEventMap,
+type EventListener = (
+  eventname: keyof WindowEventMap,
   handler: CallbackEvent,
-  eventOptions?: AddEventListenerOptions
-): RefObject<HTMLElement> => {
+  element?: HTMLElement | Window
+) => void;
+
+const useEventListener: EventListener = (eventName, handler, element) => {
   const savedHandlerRef = useRef<any>(null);
-  const targetRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     savedHandlerRef.current = handler;
   }, [handler]);
-
   useEffect(() => {
-    const targetElement: HTMLElement | Window = targetRef.current ?? window;
-
+    const targetElement: HTMLElement | Window = element ?? window;
     if (!(targetElement && targetElement.addEventListener)) return;
 
     const eventListener = (e: Event) => savedHandlerRef.current(e);
 
-    targetElement.addEventListener(eventName, eventListener, eventOptions);
+    targetElement.addEventListener(eventName, eventListener);
 
-    return () => targetElement.removeEventListener(eventName, eventListener, eventOptions);
-  }, [eventName, eventOptions]);
-
-  return targetRef;
+    return () => {
+      targetElement.removeEventListener(eventName, eventListener);
+    };
+  }, [eventName, element]);
 };
 
 export default useEventListener;

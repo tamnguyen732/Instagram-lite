@@ -1,4 +1,5 @@
-import { RefObject } from 'react';
+import { RefObject, useRef } from 'react';
+import useClickOutside from '~/hooks/useClickOutside';
 import { bindClass } from '~/lib/classNames';
 import { emojiList } from './emojiList';
 import styles from './styles.module.scss';
@@ -9,8 +10,10 @@ interface EmojiIcon<T extends HTMLElement = HTMLInputElement> {
   setValue: (value: string) => void;
   inputRef: RefObject<T | null>;
   setActiveIconList: (value: boolean) => void;
+  className?: string;
 }
-const EmojiIcon = ({ value, setValue, inputRef, setActiveIconList }: EmojiIcon) => {
+const EmojiIcon = ({ value, setValue, inputRef, setActiveIconList, className }: EmojiIcon) => {
+  const divRef = useRef<any | null>(null);
   const getEmojiValue = (emoji: string) => {
     if (inputRef.current) {
       const cursor = inputRef.current!.selectionStart as number;
@@ -19,8 +22,10 @@ const EmojiIcon = ({ value, setValue, inputRef, setActiveIconList }: EmojiIcon) 
     }
     setActiveIconList(false);
   };
+
+  useClickOutside(divRef, () => setActiveIconList(false));
   return (
-    <div className={cx('container')}>
+    <div ref={divRef} className={cx('container', className)}>
       <div className={cx('wrapper')}>
         {emojiList.map((emj) => {
           return (

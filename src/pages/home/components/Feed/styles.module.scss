@@ -3,12 +3,18 @@
 .container {
   margin-top: 27px;
   width: 465px;
-  height: 495px;
+  height: auto;
+  z-index: 100;
+  margin-bottom: 40px;
   background-color: $white;
-  border-radius: 20px;
+  border-radius: 10px;
   border: $border;
+  overflow: hidden;
+  @include flex(center, center);
+  flex-direction: column;
   @include mobile {
     width: 345px;
     margin-left: 5px;
   }
+  flex-shrink: 0;
 }

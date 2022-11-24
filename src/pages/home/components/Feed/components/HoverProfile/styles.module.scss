@@ -1,0 +1,15 @@
+@use '~/scss/' as *;
+
+.container {
+  width: 400px;
+  height: 350px;
+  background-color: $white;
+  position: absolute;
+  left: 30px;
+  top: 30px;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  border: $border;
+  animation: showUp 1s forwards;
+  display: none;
+}

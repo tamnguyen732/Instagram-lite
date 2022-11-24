@@ -21,14 +21,14 @@
   }
   .content {
     position: absolute;
-    border-radius: 20px;
+    border-radius: $border-radius;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
   }
   .content2 {
     position: absolute;
-    border-radius: 20px;
+    border-radius: $border-radius;
     left: 50%;
     top: 50%;
     z-index: 10;

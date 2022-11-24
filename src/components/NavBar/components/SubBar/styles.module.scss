@@ -1,19 +1,18 @@
 @use '~/scss/' as *;
 
 .container {
-  width: 100px;
   background-color: $white;
   position: fixed;
   height: 100%;
   top: 0;
-  opacity: 0;
+  width: 464px;
   z-index: 10;
+  left: -500px;
   box-shadow: $box-shadow;
   border-radius: 20px;
   transition: all 0.5s ease-in-out;
   &.active {
-    width: 464px;
-    opacity: 1;
+    left: 0;
   }
   .search-wrapper {
     width: 100%;

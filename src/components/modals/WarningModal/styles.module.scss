@@ -11,16 +11,17 @@
     position: fixed;
     inset: 0;
     z-index: 1;
-    background-color: rgba(0, 0, 0, 0.289);
+    background-color: rgba(0, 0, 0, 0.327);
   }
   .content {
     overflow: hidden;
     z-index: 1;
-    border-radius: 20px;
-    background-color: $white;
-    border: 0.5px solid $gray;
     width: 400px;
     height: 200px;
+    border-radius: $border-radius;
+    background-color: $white;
+    border: 0.5px solid $gray;
+    animation: modalAnimation 0.1s forwards;
     .wrapper {
       width: inherit;
       .header {
