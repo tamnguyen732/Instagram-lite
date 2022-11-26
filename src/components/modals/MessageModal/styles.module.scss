@@ -1,80 +1,12 @@
 @use '~/scss/' as *;
 .container {
-  position: fixed;
-  top: 30px;
-  right: 10px;
-  .toast {
-    position: relative;
-    width: 240px;
-    height: 60px;
-    background-color: red;
-    z-index: 100;
-    border-radius: 5px;
-    top: 0;
-    right: 30px;
-    background: #fff;
-    padding: 20px 35px 20px 25px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    border-right: 6px solid #6af440;
-    transform: translateX(calc(350px));
-    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
-
-    &.active {
-      transform: translateX(calc(0));
+  width: 300px;
+  height: 250px;
+  background-color: $white;
+  border-radius: 10px;
+  .wrapper {
+    .icon {
+      color: $primary-blue;
     }
-    .toast-content {
-      display: flex;
-      align-items: center;
-      .check {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 40px;
-        width: 40px;
-        background-color: #6af440;
-        color: #fff;
-        font-size: 20px;
-        border-radius: 10%;
-      }
-      .message {
-        display: flex;
-        flex-direction: column;
-        margin: 0 20px;
-        .text {
-          font-size: 20px;
-          font-weight: 400;
-          color: #666;
-          .text-1 {
-            font-weight: 600;
-            color: #333;
-          }
-        }
-      }
-    }
-    .progress {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      height: 4px;
-      width: 100%;
-      background: #ddd;
-      :before {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background: #6af440;
-      }
-      .active:before {
-        animation: progress 5s linear forwards;
-      }
-    }
-  }
-}
-@keyframes progress {
-  100% {
-    left: 100%;
   }
 }

@@ -21,7 +21,7 @@ const Header = () => {
               }
               alt='profile'
               objectFit='cover'
-              rounded
+              profile
             />
             <div className={cx('name-wrapper')}>
               <span className={cx('name')}>Tam nguyen</span>

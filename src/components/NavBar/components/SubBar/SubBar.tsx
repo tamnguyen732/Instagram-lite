@@ -47,7 +47,7 @@ const SubBar = forwardRef<any, NavProps>(({ subBarActive, title }, ref) => {
                   src={logo.src}
                   alt='avartar'
                   objectFit='cover'
-                  rounded
+                  profile
                 />
                 <div className={cx('name')}>
                   <span>Adam</span>

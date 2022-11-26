@@ -12,9 +12,17 @@ interface ImageProps extends BaseImageProps {
   objectFit?: 'cover' | 'contain';
   rounded?: boolean;
   classname?: string;
+  profile?: boolean;
 }
 const cx = bindClass(styles);
-const Image = ({ alt = '', objectFit = 'cover', className, rounded, ...rest }: ImageProps) => {
+const Image = ({
+  alt = '',
+  objectFit = 'cover',
+  className,
+  rounded,
+  profile,
+  ...rest
+}: ImageProps) => {
   return (
     <div className={cx(className)}>
       <img
@@ -24,7 +32,8 @@ const Image = ({ alt = '', objectFit = 'cover', className, rounded, ...rest }: I
             'object-fit-contain': objectFit === 'contain'
           },
           {
-            rounded
+            rounded,
+            profile
           }
         )}
         {...rest}

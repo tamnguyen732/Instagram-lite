@@ -54,7 +54,7 @@ const CreatePostContent = () => {
             }
             alt='profile'
             objectFit='cover'
-            rounded
+            profile
           />
           <span className={cx('name')}> Tam Nguyen </span>
         </div>

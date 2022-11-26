@@ -7,7 +7,6 @@ import { logo } from '~/assets/images';
 import Button from '~/components/Button';
 import { FaFacebookSquare } from 'react-icons/fa';
 import Link from 'next/link';
-import { SubLayout } from '~/layouts/SubLayout';
 const cx = bindClass(styles);
 const RegisterForm = () => {
   const [email, setEmail] = useState<string>('');

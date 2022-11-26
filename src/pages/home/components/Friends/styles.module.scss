@@ -2,14 +2,61 @@
 
 .container {
   margin-top: 27px;
-  width: 365px;
-  height: 315px;
-  background-color: $white;
-  border-radius: $border-radius;
-  border: $border;
+  width: 355px;
+  min-height: 366px;
   position: absolute;
-  right: 10px;
+  @include flex(flex-start, flex-start);
+  flex-direction: column;
+  gap: 10px;
+  right: 20px;
   @include mobile {
     display: none;
+  }
+  .header {
+    @include flex(center, center);
+    margin-top: 10px;
+    gap: 5px;
+    .profile-image {
+      width: 34px;
+      height: 34px;
+    }
+    span {
+      color: $black;
+      font-size: 0.9rem;
+    }
+  }
+  .footer {
+    width: 100%;
+
+    .suggest {
+      @include flex(center, space-between);
+      :first-child {
+        color: $dark-gray;
+      }
+      :nth-child(2) {
+        cursor: pointer;
+        color: $dark-gray;
+      }
+    }
+    .friends {
+      margin-top: 10px;
+      @include flex(center, space-between);
+      .friend-wrapper {
+        @include flex(center, flex-start);
+        gap: 5px;
+        .friend-image {
+          width: 34px;
+          height: 34px;
+        }
+        span {
+          color: $black;
+          font-size: 0.9rem;
+        }
+      }
+      span {
+        color: $primary-blue;
+        cursor: pointer;
+      }
+    }
   }
 }

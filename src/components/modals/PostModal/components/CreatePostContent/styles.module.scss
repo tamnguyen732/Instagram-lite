@@ -17,15 +17,10 @@
     .wrapper {
       @include flex(center, flex-start);
       margin: 20px 0 10px 10px;
-      .avatar {
-        z-index: 50;
-        width: 36px;
-        height: 36px;
-      }
       .name {
         color: $black;
         font-size: 1.3rem;
-        font-weight: 600;
+        font-weight: 500;
         margin-left: 10px;
       }
     }

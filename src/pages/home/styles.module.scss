@@ -3,10 +3,9 @@
 .container {
   flex: 4;
   color: $black;
-  flex-grow: 0;
   position: absolute;
   width: 572px;
-  left: 380px;
+  left: 350px;
   @include mobile {
     width: 372px;
     overflow: hidden;

@@ -7,21 +7,16 @@ import { logo } from '~/assets/images';
 import { FaFacebookSquare } from 'react-icons/fa';
 import Button from '~/components/Button';
 import Link from 'next/link';
-import Toast from '~/components/Toast';
-import { addToast } from '~/hooks/useToast';
-
 const cx = bindClass(styles);
 
 const LoginForm = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const handleSubmit = (e: any) => {
-    addToast({ message: 'You have registered successfully', type: 'error' });
     e.preventDefault();
   };
   return (
     <div className={cx('main')}>
-      <Toast />
       <div className={cx('container')}>
         <Image className={cx('img')} src={logo.src} alt='instagram-logo' />
         <form className='wrapper' onSubmit={handleSubmit}>

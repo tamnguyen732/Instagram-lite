@@ -1,0 +1,49 @@
+@use '~/scss/' as *;
+
+.container {
+  width: 400px;
+  height: 280px;
+  background-color: $white;
+  border-radius: $border-radius;
+  overflow: hidden;
+  border: 0.5px solid $gray;
+  animation: modalAnimation 0.1s forwards;
+  @include flex(center, flex-start);
+  flex-direction: column;
+  gap: 10px;
+  .profile-image {
+    width: 80px;
+    height: 80px;
+    padding-top: 10px;
+  }
+  & > span {
+    margin-top: 10px;
+    color: $black;
+  }
+  .action {
+    width: 100%;
+    margin-top: auto;
+    @include flex(center, flex-start);
+    flex-direction: column;
+    padding-left: 0;
+
+    :first-child {
+      padding: 12px;
+      text-align: center;
+      width: inherit;
+      color: $red;
+      cursor: pointer;
+      border-top: 1px $dark-gray solid;
+      margin-bottom: 0;
+    }
+    :nth-child(2) {
+      padding: 15px 0 10px 0;
+      margin-bottom: -16px;
+      text-align: center;
+      width: inherit;
+      color: $black;
+      cursor: pointer;
+      border-top: 1px $dark-gray solid;
+    }
+  }
+}

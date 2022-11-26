@@ -1,8 +1,27 @@
 @use '~/scss/' as *;
 .container {
   width: 370px;
-  height: 390px;
+  min-height: 260px;
   background-color: $white;
   border-radius: $border-radius;
   animation: modalAnimation 0.1s forwards;
+  overflow: hidden;
+  .wrapper {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+
+    & .active {
+      background-color: $light-gray;
+    }
+    .item {
+      width: inherit;
+      color: $black;
+      cursor: pointer;
+      padding: 12px 0;
+      line-height: 1.5;
+      border-bottom: 1px solid $gray;
+    }
+  }
 }
