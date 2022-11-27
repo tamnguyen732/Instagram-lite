@@ -1,4 +1,4 @@
-import { MODAL_TYPES } from '~/contexts/ModalContext';
+import { MODAL_TYPES, useModalContext } from '~/contexts/ModalContext';
 import { bindClass } from '~/lib/classNames';
 import styles from './styles.module.scss';
 import { MdOutlineClose } from 'react-icons/md';
@@ -9,17 +9,21 @@ import { BiLinkAlt } from 'react-icons/bi';
 const cx = bindClass(styles);
 
 const SharePostModal = () => {
+  const { hideModal } = useModalContext();
   return (
     <div key={MODAL_TYPES.SHARE_POST} className={cx('container')}>
       <div className={cx('header')}>
         <span>Share to...</span>
-        <MdOutlineClose className={cx('header-icon')} />
+        <MdOutlineClose
+          onClick={() => hideModal(MODAL_TYPES.SHARE_POST)}
+          className={cx('header-icon')}
+        />
       </div>
 
       <ul className={cx('content')}>
         <li className={cx('social')}>
           <RiFacebookCircleLine />
-          <span>Share to facebook</span>
+          <span>Share to Facebook</span>
         </li>
         <li className={cx('social')}>
           <RiMessengerLine />
@@ -41,7 +45,7 @@ const SharePostModal = () => {
           <BiLinkAlt />
           <span>Copy Link</span>
         </li>
-        <li className={cx('social')}>
+        <li className={cx('action')}>
           <span>Cancel</span>
         </li>
       </ul>

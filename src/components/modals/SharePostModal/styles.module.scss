@@ -2,7 +2,7 @@
 
 .container {
   width: 398px;
-  height: 396px;
+  min-height: 410px;
   background-color: $white;
   border-radius: $border-radius;
   overflow: hidden;
@@ -20,6 +20,7 @@
     @include flex(center, space-between);
     .header-icon {
       color: $black;
+      padding-right: 5px;
       font-size: 1.6rem;
       cursor: pointer;
     }
@@ -37,8 +38,9 @@
     @include flex(flex-start, center);
     flex-direction: column;
     padding-left: 0;
+    margin: 0;
     :hover {
-      background-color: gray;
+      background-color: $light-gray;
     }
     .social {
       width: inherit;
@@ -46,7 +48,9 @@
       gap: 10px;
       padding: 10px 0;
       cursor: pointer;
-
+      :hover {
+        background-color: unset;
+      }
       :first-child {
         color: $black;
         font-size: 1.9rem;
@@ -57,13 +61,14 @@
         font-size: 1.1rem;
       }
     }
-    .cancel {
+    .action {
       width: inherit;
       position: absolute;
-      padding: 10px 0;
+      padding: 10px 50px;
       color: $black;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       bottom: 0;
+      cursor: pointer;
     }
   }
 }

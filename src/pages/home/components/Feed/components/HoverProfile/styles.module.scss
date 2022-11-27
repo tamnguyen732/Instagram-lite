@@ -1,15 +1,70 @@
 @use '~/scss/' as *;
 
 .container {
-  width: 400px;
-  height: 350px;
+  width: 390px;
+  height: 340px;
   background-color: $white;
   position: absolute;
-  left: 30px;
-  top: 30px;
+  left: 16px;
+  top: 35px;
   border-radius: $border-radius;
   box-shadow: $box-shadow;
   border: $border;
+  @include flex(center, center);
+  flex-direction: column;
   animation: showUp 1s forwards;
   display: none;
+  .header {
+    @include flex(center, flex-start);
+    margin: 12px 0 0 12px;
+    gap: 5px;
+    .profile {
+      width: 60px;
+      height: 60px;
+    }
+    .name {
+      @include flex(flex-start, center);
+      flex-direction: column;
+      :first-child {
+        font-size: 1.2rem;
+        color: $black;
+      }
+      :nth-child(2) {
+        font-size: 0.9rem;
+        color: $gray;
+      }
+    }
+  }
+  .content {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 120px);
+    grid-template-rows: repeat(3, 50px);
+    row-gap: 25px;
+    column-gap: 10px;
+
+    & > span {
+      place-self: center;
+    }
+    .post-image {
+      width: 128px;
+      height: 130px;
+      border: 1px $gray solid;
+      :hover {
+        opacity: 0.8;
+      }
+    }
+  }
+  .footer {
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    .btn {
+      background-color: $white;
+      padding: 5px 40px;
+      margin: 0 0 8px 10px;
+      border: 1px $gray solid;
+      font-size: 1.1rem;
+    }
+  }
 }
