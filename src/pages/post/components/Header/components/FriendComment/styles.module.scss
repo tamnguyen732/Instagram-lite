@@ -1,0 +1,48 @@
+@use '~/scss/' as *;
+
+.container {
+  .caption-wrapper {
+    padding: 10px 0 0 10px;
+    width: 100%;
+    height: auto;
+
+    @include flex(flex-start, flex-start);
+    gap: 5px;
+    flex-direction: row;
+    .content-wrapper {
+      @include flex(flex-start, flex-start);
+      flex-direction: column;
+
+      width: 100%;
+      .profile2 {
+        margin-right: 5px;
+      }
+      .text {
+        height: auto;
+        display: block;
+        margin: 0;
+        line-break: auto;
+      }
+      .time-wrapper {
+        @include flex(center, center);
+        gap: 20px;
+        :first-child {
+          color: $gray;
+          font-size: 0.9rem;
+        }
+        :nth-child(2) {
+          color: $dark-gray;
+          font-size: 0.9rem;
+          font-weight: 500;
+          cursor: pointer;
+        }
+        :last-child {
+          color: $dark-gray;
+          font-size: 0.9rem;
+          font-weight: 500;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

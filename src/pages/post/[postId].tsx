@@ -1,6 +1,7 @@
-import Image from '~/components/Image';
 import { MainLayout } from '~/layouts/MainLayout';
 import { bindClass } from '~/lib/classNames';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 import styles from './styles.module.scss';
 
@@ -10,18 +11,9 @@ const PostDetail = () => {
     <>
       <MainLayout title='PostDetail'>
         <div className={cx('container')}>
-          <div className={cx('header')}>
-            <Image
-              className={cx('avatar')}
-              src={
-                'https://zipmex.com/static/d1af016df3c4adadee8d863e54e82331/Twitter-NFT-profile.jpg'
-              }
-              alt='profile'
-              objectFit='cover'
-            />
-            <div className={cx('footer')}></div>
-          </div>
-          <div className={cx('footer')}></div>
+          <Header />
+          <hr className={cx('hr')} />
+          <Footer />
         </div>
       </MainLayout>
     </>

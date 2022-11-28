@@ -1,0 +1,117 @@
+@use '~/scss/' as *;
+
+.container {
+  width: 100%;
+  @include flex(flex-start, center);
+  margin: 15px 0 0 10px;
+  flex-direction: column;
+  .icon-wrapper {
+    width: inherit;
+    @include flex(center, space-between);
+    font-size: 1.5rem;
+    position: relative;
+    .icon1 {
+      @include flex(center, center);
+      cursor: pointer;
+      gap: 15px;
+      flex-direction: row;
+      :hover {
+        color: $gray;
+      }
+    }
+    .icon2 {
+      cursor: pointer;
+      position: absolute;
+      right: 15px;
+      :hover {
+        color: $gray;
+      }
+    }
+  }
+  .like {
+    @include flex(center, flex-start);
+    font-size: 0.9rem;
+    margin-top: 5px;
+    gap: 5px;
+    :first-child {
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    :nth-child(3) {
+      font-weight: 500;
+      cursor: pointer;
+    }
+  }
+
+  .name {
+    @include flex(center, flex-start);
+    width: 100%;
+    font-size: 0.9rem;
+    position: relative;
+    .comment {
+      @include flex(center, center);
+      gap: 5px;
+
+      & > span {
+        cursor: pointer;
+        font-weight: 500;
+      }
+    }
+
+    :nth-child(2) {
+      cursor: pointer;
+      margin-left: auto;
+      margin-right: 15px;
+      :hover {
+        color: $gray;
+      }
+    }
+  }
+
+  .time {
+    color: $dark-gray;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+  }
+  .input-wrapper {
+    padding-top: 5px;
+    width: inherit;
+    position: relative;
+    @include flex(center, flex-start);
+    gap: 5px;
+    &::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 0.5px;
+      background-color: $gray;
+      top: 4px;
+      margin-left: -10px;
+    }
+    :first-child {
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+    .input {
+      background-color: unset;
+      width: 75%;
+      border: none;
+      font-size: 0.9rem;
+    }
+    .post-action {
+      color: $primary-blue;
+      font-weight: 600;
+      opacity: 0.6;
+      cursor: default;
+      &.active {
+        opacity: 1;
+        cursor: pointer;
+      }
+    }
+  }
+  .icon-list {
+    position: absolute;
+    bottom: 120px;
+  }
+}

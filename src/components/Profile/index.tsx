@@ -1,12 +1,25 @@
-import React from 'react';
-import Detail from './Detail';
-import Images from './Images';
+import styles from './styles.module.scss';
+import { bindClass } from '~/lib/classNames';
 
-const Profile = () => {
+import Image from '~/components/Image';
+interface Props {
+  name: string;
+  location: string;
+  src: string;
+  alt: string;
+  onClick?: () => void;
+  className?: string;
+}
+
+const cx = bindClass(styles);
+const Profile = ({ name, location, src, alt, onClick, className }: Props) => {
   return (
-    <div>
-      <Detail />
-      <Images />
+    <div onClick={onClick} className={cx('container', className)}>
+      <Image className={cx('avatar')} src={src} alt={alt} objectFit='cover' profile />
+      <div className={cx('name-wrapper')}>
+        <span className={cx('name')}>{name}</span>
+        <span className={cx('location')}>{location}</span>
+      </div>
     </div>
   );
 };
