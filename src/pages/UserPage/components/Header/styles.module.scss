@@ -1,0 +1,66 @@
+@use '~/scss/' as *;
+
+.container {
+  width: 100%;
+  height: auto;
+  right: 20px;
+  top: 15px;
+  @include flex(center, flex-start);
+  gap: 80px;
+  border-bottom: 1px solid $gray;
+  padding-bottom: 40px;
+  .image {
+    width: 140px;
+    height: 140px;
+    margin: 30px 0 0 60px;
+  }
+  .info {
+    .name {
+      @include flex(center, flex-start);
+      gap: 20px;
+      & > span {
+        color: $black;
+        font-size: 1.3rem;
+        font-weight: 600;
+      }
+      .btn {
+        background-color: $white;
+        border: 1px $gray solid;
+        padding: 5px 20px;
+        font-size: 1.1rem;
+      }
+      .caret {
+        position: absolute;
+        font-size: 1.3rem;
+      }
+      .icon {
+        color: $black;
+        font-size: 1.8rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+    }
+    .post {
+      @include flex(center, flex-start);
+      margin-top: 15px;
+      gap: 60px;
+      .text {
+        color: $black;
+        .text-number {
+          color: $black;
+          font-weight: 600;
+        }
+      }
+    }
+    & > p {
+      color: $black;
+    }
+    & > span {
+      color: $dark-gray;
+      font-weight: 500;
+      & > span {
+        color: $black;
+      }
+    }
+  }
+}
