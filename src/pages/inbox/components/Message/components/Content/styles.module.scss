@@ -1,0 +1,12 @@
+@use '~/scss/' as *;
+
+.container {
+  width: 100%;
+  position: relative;
+  padding-top: 10px;
+  .message-wrapper {
+    width: inherit;
+    @include flex(flex-start, flex-start);
+    flex-direction: column;
+  }
+}

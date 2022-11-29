@@ -1,0 +1,53 @@
+@use '~/scss/' as *;
+
+.container {
+  margin-left: 25px;
+  width: 58%;
+  position: absolute;
+  bottom: 20px;
+  border-radius: 30px;
+  border: 1px $gray solid;
+  .input-wrapper {
+    width: 100%;
+    position: relative;
+    @include flex(center, flex-start);
+    gap: 5px;
+    :first-child {
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: $black;
+      flex: 1;
+      padding-left: 15px;
+    }
+    .input {
+      flex: 10;
+      width: 100%;
+
+      border: 1px $body-bg solid;
+      font-size: 0.9rem;
+      border-radius: 10px;
+      background-color: $body-bg;
+    }
+    .icons {
+      flex: 1;
+      font-size: 1.4rem;
+      cursor: pointer;
+      @include flex(center, center);
+      gap: 8px;
+      margin-right: 20px;
+      .file {
+        position: absolute;
+        width: 10px;
+        height: 20px;
+        right: 45px;
+        opacity: 0;
+        background-color: $body-bg;
+      }
+    }
+  }
+  .icon-list {
+    position: absolute;
+    bottom: 90px;
+    left: 30px;
+  }
+}

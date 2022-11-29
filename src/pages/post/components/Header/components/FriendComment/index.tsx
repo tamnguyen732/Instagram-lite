@@ -1,5 +1,4 @@
 import Image from '~/components/Image';
-import Profile from '~/components/Profile';
 import { bindClass } from '~/lib/classNames';
 import styles from './styles.module.scss';
 

@@ -1,0 +1,13 @@
+@use '~/scss/' as *;
+
+.container {
+  overflow: hidden;
+  position: absolute;
+  left: 290px;
+  width: 940px;
+  height: 500px;
+  top: 20px;
+  border: 1px solid $gray;
+  border-radius: 5px;
+  @include flex(center, flex-start);
+}

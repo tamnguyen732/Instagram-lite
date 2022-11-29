@@ -1,4 +1,4 @@
-import { generateAction } from './generateAction';
+import { generateAction } from '~/helpers/generateAction';
 export const otherPost = [
   {
     title: 'Follow',

@@ -1,12 +1,90 @@
 @use '~/scss/' as *;
 .container {
-  width: 300px;
-  height: 250px;
+  width: 380px;
+  height: 375px;
   background-color: $white;
-  border-radius: 10px;
-  .wrapper {
+  border-radius: $border-radius;
+  animation: modalAnimation 0.1s forwards;
+  .header {
+    @include flex(center, space-between);
+    padding: 10px 20px 0 20px;
+    font-weight: 700;
     .icon {
+      color: $black;
+      cursor: pointer;
+    }
+    .text1 {
+      color: $black;
+    }
+    .text2 {
       color: $primary-blue;
     }
+  }
+  .wrapper {
+    width: inherit;
+    height: auto;
+
+    @include flex(center, flex-start);
+    padding: 0 10px;
+    margin-top: 10px;
+    border: 1px solid $gray;
+    gap: 10px;
+    & > span {
+      color: $black;
+      font-weight: 700;
+    }
+    .input-wrapper {
+      .name-wrapper {
+        margin-top: 5px;
+        @include flex(center, flex-start);
+        flex-flow: wrap;
+        cursor: pointer;
+        .name {
+          width: auto;
+          height: auto;
+          background-color: $primary-blue-bg;
+          color: $primary-blue;
+          padding: 5px 7px;
+          margin: 4px 4px 4px 0;
+          border-radius: $border-radius;
+          @include flex(center, center);
+          gap: 4px;
+          & > span {
+            font-size: 0.9rem;
+          }
+          .icon2 {
+            font-size: 0.8rem;
+          }
+        }
+      }
+      .input {
+        width: 80%;
+        border: unset;
+        padding: 5px 0;
+      }
+    }
+  }
+  .result {
+    position: absolute;
+    bottom: 50px;
+    @include flex(center, center);
+    flex-direction: column;
+    .icon-notfound {
+      width: 100px;
+      height: 100px;
+    }
+    .text3 {
+      color: $black;
+      font-weight: 700;
+    }
+    .text4 {
+      text-align: center;
+      color: $dark-gray;
+    }
+  }
+  .user-list {
+    padding: 10px 0 0 10px;
+    @include flex(flex-start, center);
+    flex-direction: column;
   }
 }

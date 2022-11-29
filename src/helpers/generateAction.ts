@@ -2,7 +2,7 @@ export type Action = {
   title: string;
   action: () => void;
   actionId: string;
-  hasConfirm: boolean;
+  hasConfirm?: boolean;
 };
 
 export const generateAction = (actions: Action[]) => {

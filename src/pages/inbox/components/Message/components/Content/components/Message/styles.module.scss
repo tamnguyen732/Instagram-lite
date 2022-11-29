@@ -1,0 +1,105 @@
+@use '~/scss/' as *;
+
+.wrapper {
+  width: 200px;
+  margin: 5px 10px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  background-color: $white;
+  border: 1px solid $gray;
+  position: relative;
+  ::after {
+    position: absolute;
+    content: '';
+    width: 100px;
+    height: 50px;
+    background-color: transparent;
+    right: -40px;
+    top: -10px;
+    z-index: 15;
+  }
+  &.owner {
+    background-color: $gray;
+
+    align-self: flex-end;
+    border: 1px solid $gray;
+    ::after {
+      position: absolute;
+      content: '';
+      width: 100px;
+      height: 50px;
+      background-color: transparent;
+      left: -40px;
+      top: -10px;
+      z-index: 15;
+    }
+  }
+  & > span {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+    color: $black;
+  }
+  .icon-wrapper {
+    color: $dark-gray;
+    display: none;
+    :hover {
+      color: $black;
+    }
+    .icon {
+      position: absolute;
+      right: -30px;
+      bottom: 30px;
+      cursor: pointer;
+      font-size: 1.3rem;
+      z-index: 100;
+      &.owner {
+        left: -30px;
+      }
+    }
+    &.active {
+      display: block;
+      color: $black;
+    }
+  }
+  .action {
+    position: absolute;
+    @include flex(center, center);
+    gap: 10px;
+    border-radius: 10px;
+    background-color: $black;
+    width: 100px;
+    padding: 2px 0;
+    height: auto;
+    top: -10px;
+    right: -110px;
+    .item {
+      z-index: 100;
+    }
+    &.owner {
+      left: -110px;
+    }
+    cursor: pointer;
+    .item {
+      font-weight: 600;
+    }
+    ::after {
+      position: absolute;
+      content: none;
+      width: 0;
+      height: 0;
+    }
+  }
+}
+
+.wrapper:hover .icon-wrapper {
+  display: block;
+}
+
+@keyframes actionAnimation {
+  from {
+  }
+  to {
+  }
+}

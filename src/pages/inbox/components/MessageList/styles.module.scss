@@ -1,0 +1,80 @@
+@use '~/scss/' as *;
+
+.container {
+  width: 350px;
+  height: 100%;
+  border-right: 1px solid $gray;
+  .header {
+    padding: 12px;
+    @include flex(center, flex-start);
+    color: $black;
+    position: relative;
+    .header-wrapper {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      @include flex(center, center);
+      text-align: center;
+      cursor: pointer;
+      & > span {
+        font-weight: 600;
+        font-size: 1.2rem;
+      }
+      :last-child {
+        font-weight: 800;
+        font-size: 1.4rem;
+      }
+    }
+    :last-child {
+      font-weight: 800;
+      font-size: 1.6rem;
+      margin-left: auto;
+    }
+  }
+  .heading-text {
+    @include flex(center, center);
+    gap: 10px;
+    color: $black;
+    border: 1px solid $gray;
+    border-left: none;
+    border-right: none;
+    padding: 8px 0;
+    font-weight: 600;
+  }
+  .content {
+    width: 100%;
+    padding-left: 0;
+    cursor: pointer;
+    overflow-y: scroll;
+    @include flex(center, flex-start);
+    flex-direction: column;
+    :hover {
+      background-color: $light-gray;
+    }
+    .content-wrapper {
+      width: inherit;
+      @include flex(center, flex-start);
+      gap: 10px;
+      :hover {
+        background-color: unset;
+      }
+      .image {
+        width: 60px;
+        height: 60px;
+        padding: 15px 0 0 20px;
+      }
+      .name {
+        @include flex(flex-start, center);
+        padding-top: 20px;
+        flex-direction: column;
+        :first-child {
+          color: $black;
+        }
+        :last-child {
+          color: $dark-gray;
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+}

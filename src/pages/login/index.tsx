@@ -4,7 +4,6 @@ import { SubLayout } from '~/layouts/SubLayout';
 import LoginForm from './components/LoginForm';
 import { bindClass } from '~/lib/classNames';
 import styles from './styles.module.scss';
-import { GetServerSideProps } from 'next';
 const cx = bindClass(styles);
 const login = () => {
   return (

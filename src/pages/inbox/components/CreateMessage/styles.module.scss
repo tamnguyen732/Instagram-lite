@@ -1,0 +1,36 @@
+@use '~/scss/' as *;
+
+.container {
+  position: absolute;
+  right: 150px;
+  @include flex(center, center);
+  flex-direction: column;
+  margin-top: 47px;
+  gap: 5px;
+  .icons {
+    position: relative;
+    bottom: 100px;
+    right: 50px;
+    color: $black;
+    :first-child {
+      position: absolute;
+      font-size: 3rem;
+      top: 25px;
+      left: 20px;
+    }
+    :last-child {
+      position: absolute;
+      font-size: 6rem;
+    }
+  }
+  .text1 {
+    color: $black;
+  }
+  .text2 {
+    color: $dark-gray;
+    margin-bottom: 10px;
+  }
+  .btn {
+    font-size: 1.1rem;
+  }
+}

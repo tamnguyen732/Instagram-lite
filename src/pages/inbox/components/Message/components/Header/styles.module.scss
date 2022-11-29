@@ -1,0 +1,19 @@
+@use '~/scss/' as *;
+
+.container {
+  padding-top: 5px;
+
+  .wrapper {
+    @include flex(center, space-between);
+    padding-left: 35px;
+    border-bottom: 1px solid $gray;
+    .icons {
+      padding-right: 20px;
+      cursor: pointer;
+      @include flex(center, center);
+      gap: 12px;
+      color: $black;
+      font-size: 1.8rem;
+    }
+  }
+}
