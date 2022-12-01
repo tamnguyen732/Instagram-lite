@@ -3,7 +3,6 @@ import styles from './styles.module.scss';
 import { bindClass } from '~/lib/classNames';
 import { BsHeart, BsEmojiSmile, BsChat, BsBookmark } from 'react-icons/bs';
 import { SlCursor } from 'react-icons/sl';
-import FormField from '~/components/FormField';
 import showMoreContent from './showMoreContent';
 import { MODAL_TYPES, useModalContext } from '~/contexts/ModalContext';
 import EmojiIcon from '~/components/Icon/EmojiIcon';
@@ -52,7 +51,7 @@ const Footer = () => {
       <span className={cx('time')}>1 day go</span>
       <div className={cx('input-wrapper')}>
         <BsEmojiSmile onClick={() => setActiveList(!activeList)} />
-        <FormField
+        <input
           ref={ref}
           className={cx('input')}
           value={value}

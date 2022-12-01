@@ -21,7 +21,6 @@ const followUser = (Base: ClassType) => {
       @Ctx() { req }: types.MyContext
     ): Promise<UserMutationResponse> {
       return handler(async () => {
-        const currentUserId = parseInt(req.userId);
         const otherUser = await User.findOne({ where: { id } });
         if (!otherUser) {
           return {
@@ -31,7 +30,14 @@ const followUser = (Base: ClassType) => {
           };
         }
 
-        const currentUser = await User.findOne({ where: { id: currentUserId } });
+        if (id === req.userId) {
+          return {
+            code: status.BAD_REQUEST,
+            success: false,
+            message: 'You can not follow yourself'
+          };
+        }
+        const currentUser = await User.findOne({ where: { id: req.userId } });
         const existingFollowing = currentUser?.following?.includes(id);
 
         if (FollowingTypes.FOLLOW === type) {
@@ -39,17 +45,23 @@ const followUser = (Base: ClassType) => {
             return {
               code: status.BAD_REQUEST,
               success: false,
-              message: 'You have followed this user'
+              message: 'You arealdy followed this user'
             };
           } else {
             User.createQueryBuilder()
-              .where('id = :id', { id: currentUserId })
+              .where('id = :id', { id: req.userId })
               .update(User)
               .set({
                 following: () => `array_append("following", ${id})`
               })
               .execute();
-
+            User.createQueryBuilder()
+              .where('id = :id', { id })
+              .update(User)
+              .set({
+                followers: () => `array_append("followers", ${req.userId})`
+              })
+              .execute();
             return {
               code: status.OK,
               success: true,
@@ -59,9 +71,16 @@ const followUser = (Base: ClassType) => {
         }
         User.createQueryBuilder()
           .update(User)
-          .where('id = :id', { id: currentUserId })
+          .where('id = :id', { id: req.userId })
           .set({
             following: () => `array_remove("following", ${id})`
+          })
+          .execute();
+        User.createQueryBuilder()
+          .where('id = :id', { id })
+          .update(User)
+          .set({
+            followers: () => `array_remove("followers", ${req.userId})`
           })
           .execute();
         return {

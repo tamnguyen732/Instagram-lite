@@ -4,7 +4,7 @@ import 'reflect-metadata';
 import { buildSchema } from 'type-graphql';
 import Cors from 'micro-cors';
 // types
-import { MyContext } from '~/server/types/myContext';
+
 import connectPostgreDb from '~/server/connectPostgreDb';
 import connectMongoDb from '~/server/connectMongoDb';
 import AuthResolver from '~/server/resolvers/auth';
@@ -13,11 +13,12 @@ import CommentResolver from '~/server/resolvers/comment';
 import UserResolver from '~/server/resolvers/user';
 import ConversationResolver from '~/server/resolvers/conversation';
 import MessageResolver from '~/server/resolvers/message';
+
+import { MyContext } from '~/server/types';
 const cors = Cors({
   origin: 'http://localhost:3000/',
   allowCredentials: true
 });
-
 connectPostgreDb();
 connectMongoDb();
 const server = new ApolloServer({
@@ -39,7 +40,6 @@ const startServer = server.start();
 export default cors(async (req, res) => {
   if (req.method === 'OPTIONS') {
     res.end();
-
     return false;
   }
 

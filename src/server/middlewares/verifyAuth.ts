@@ -4,7 +4,7 @@ import { User } from '../entities';
 import { SECRETS } from '~/constants';
 import { MiddlewareFn } from 'type-graphql';
 import { MyContext } from '../types';
-import { AuthenticationError } from 'apollo-server-core';
+import { sendAccessToken } from '~/helpers/token';
 
 interface JwtPayloadSigned extends jwt.JwtPayload {
   userId: number;
@@ -36,10 +36,36 @@ export const verifyAuth: MiddlewareFn<MyContext> = async ({ context: { req, res 
       };
 
     req.userId = userId;
-
     return next();
   } catch (error) {
-    clearAllCookies(res);
-    throw new AuthenticationError(`Error authenticating user ${JSON.stringify(error)}`);
+    return jwt.verify(refresh_token, REFRESH_TOKEN, async (err, decoded) => {
+      if (err) {
+        clearAllCookies(res);
+
+        return {
+          code: 401,
+          success: false,
+          message: 'Invalid or expired refresh token'
+        };
+      }
+
+      const { userId } = decoded as any;
+
+      const user = await User.findOneBy({ id: userId });
+
+      if (!user)
+        return {
+          code: 404,
+          success: false,
+          message: 'User not found'
+        };
+
+      const accessToken = sendAccessToken(res, userId);
+
+      req.userId = userId;
+      req.accessToken = accessToken;
+
+      return next();
+    });
   }
 };

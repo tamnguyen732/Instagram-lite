@@ -1,7 +1,6 @@
 import { bindClass } from '~/lib/classNames';
 import styles from './styles.module.scss';
 import { RefObject, useState, forwardRef } from 'react';
-import FormField from '~/components/FormField';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import Image from '~/components/Image';
 import { logo } from '~/assets/images';
@@ -22,7 +21,7 @@ const SubBar = forwardRef<any, NavProps>(({ subBarActive, title }, ref) => {
         <div className={cx('search-wrapper')}>
           <h3>Search</h3>
           <div className={cx('input-wrapper')}>
-            <FormField
+            <input
               className={cx('input')}
               value={search}
               placeholder='Search'

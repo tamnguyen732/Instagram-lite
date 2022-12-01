@@ -6,31 +6,53 @@ import Image from '~/components/Image';
 import { logo } from '~/assets/images';
 import { FaFacebookSquare } from 'react-icons/fa';
 import Button from '~/components/Button';
+import { useForm } from 'react-hook-form';
 import Link from 'next/link';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { validationSchema, ValidationSchema } from './formValidation';
+import { LoginInput, useLoginMutation } from '~/types/generated';
+
 const cx = bindClass(styles);
 
 const LoginForm = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    setFocus,
+    formState: { errors }
+  } = useForm<ValidationSchema>({
+    resolver: zodResolver(validationSchema)
+  });
+
+  const [loginUser, { data, loading, error }] = useLoginMutation();
+  console.log(data);
+  const onSubmit = async (data: LoginInput) => {
+    const response = await loginUser({
+      variables: { LoginInput: data }
+    });
+
+    const message = response.data?.login.message;
+    if (message) {
+      if (message?.includes('password')) {
+        setError('password', { message });
+      } else {
+        setError('username', { message });
+      }
+    }
   };
   return (
     <div className={cx('main')}>
       <div className={cx('container')}>
         <Image className={cx('img')} src={logo.src} alt='instagram-logo' />
-        <form className='wrapper' onSubmit={handleSubmit}>
+        <form className='wrapper' onSubmit={handleSubmit(onSubmit)}>
           <div className='inputs'>
+            <FormField placeholder='Username' register={register('username')} errors={errors} />
             <FormField
-              value={email}
-              placeholder='Phone number, user or email'
-              onChange={(e) => setEmail(e.target.value)}
-            />
-
-            <FormField
-              value={password}
+              type='password'
               placeholder='Password'
-              onChange={(e) => setPassword(e.target.value)}
+              register={register('password')}
+              errors={errors}
             />
           </div>
           <Button className={cx('button')} primary size='lg' type='submit'>

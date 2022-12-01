@@ -3,6 +3,7 @@ import { Resolver } from 'type-graphql';
 import combineResolvers from '~/helpers/combineResolvers';
 import changePassword from './changePassword';
 import forgotPassword from './forgotPassword';
+import getSession from './getSession';
 import login from './login';
 import logout from './logout';
 import register from './register';
@@ -13,5 +14,6 @@ export default class AuthResolver extends combineResolvers(
   register,
   forgotPassword,
   changePassword,
-  logout
+  logout,
+  getSession
 ) {}

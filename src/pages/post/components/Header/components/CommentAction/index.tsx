@@ -30,7 +30,7 @@ const CommentAction = () => {
       <span className={cx('time')}>1 day ago</span>
       <div className={cx('input-wrapper')}>
         <BsEmojiSmile onClick={() => setActiveList(!activeList)} />
-        <FormField
+        <input
           placeholder='Write comment...'
           ref={ref}
           className={cx('input')}

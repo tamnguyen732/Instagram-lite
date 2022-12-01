@@ -6,7 +6,6 @@ import EmojiIcon from '~/components/Icon/EmojiIcon';
 import { BsEmojiSmile } from 'react-icons/bs';
 import { GoLocation } from 'react-icons/go';
 import { TfiClose } from 'react-icons/tfi';
-import FormField from '~/components/FormField';
 import fecthLocation from '~/helpers/fetchLocation';
 import Loading from '~/components/Loading';
 import { INPUT_TYPES, useModalContext } from '~/contexts/ModalContext';
@@ -88,7 +87,7 @@ const CreatePostContent = () => {
           ) : (
             <GoLocation className={cx('location-icon')} />
           )}
-          <FormField
+          <input
             className={cx('location-input', hasValue ? 'noncursor' : '')}
             value={locationValue}
             placeholder='Add location'

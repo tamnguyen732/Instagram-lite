@@ -2,7 +2,7 @@
 .main {
   .container {
     width: 336px;
-    height: 85vh;
+    height: auto;
     background-color: $white;
     @include flex(center, flex-start);
     flex-direction: column;

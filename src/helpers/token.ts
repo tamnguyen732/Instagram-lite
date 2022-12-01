@@ -27,6 +27,7 @@ export const sendAccessToken = (res: NextApiResponse, user: User) => {
     value: accessToken
   };
   setCookie(res, token);
+  return accessToken;
 };
 
 export const sendTokens = (res: NextApiResponse, user: User) => {

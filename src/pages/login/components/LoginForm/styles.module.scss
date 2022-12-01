@@ -4,7 +4,8 @@
   flex-direction: column;
   .container {
     width: 354px;
-    height: 392px;
+    height: auto;
+    padding-bottom: 10px;
     background-color: $white;
     @include flex(center, flex-start);
     flex-direction: column;
