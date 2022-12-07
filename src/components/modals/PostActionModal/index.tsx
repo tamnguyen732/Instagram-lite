@@ -18,7 +18,7 @@ const PostActionModal = () => {
   });
   addPostAction('unfollow', () => {
     hideModal(MODAL_TYPES.POST_ACTION);
-    showModal(MODAL_TYPES.NEW_MESSAGE);
+    showModal(MODAL_TYPES.WARNING_USER);
   });
   addPostAction('follow', () => setIsFollow(true));
   addPostAction('copy', () => {

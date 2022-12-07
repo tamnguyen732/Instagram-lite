@@ -15,7 +15,7 @@ interface Props {
 
 const cx = bindClass(styles);
 const FormField = ({ errors, register, placeholder, type = 'text', className }: Props) => {
-  const errorMessage = errors[register?.name]?.message;
+  const errorMessage = errors[register!.name]?.message;
   return (
     <>
       <input

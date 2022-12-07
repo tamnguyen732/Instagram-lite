@@ -65,7 +65,7 @@ const MessageModal = () => {
               })}
             </div>
 
-            <FormField className={cx('input')} value='' placeholder='Search...' />
+            <input className={cx('input')} value='' placeholder='Search...' />
           </div>
         </div>
         {/* <div className={cx('result')}>

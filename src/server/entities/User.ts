@@ -35,9 +35,9 @@ export class User extends BaseEntity {
 
   @Field(() => [Number], { defaultValue: [] })
   @Column('int', { array: true, nullable: true, default: [] })
-  followers!: Number[];
+  followers!: number[];
 
   @Field(() => [Number], { defaultValue: [] })
   @Column('int', { array: true, nullable: true, default: [] })
-  following!: Number[];
+  following!: number[];
 }
