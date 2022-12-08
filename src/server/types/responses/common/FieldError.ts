@@ -4,7 +4,6 @@ import { Field, ObjectType } from 'type-graphql';
 export class FieldError {
   @Field()
   field!: string;
-
   @Field()
   message!: string;
 }

@@ -6,7 +6,6 @@ export class BaseResponse {
   code!: number;
   @Field()
   success!: boolean;
-
   @Field({ nullable: true })
   message?: string;
 }

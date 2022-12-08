@@ -8,7 +8,6 @@ import { BaseResponse } from '../common';
 export class GetSessionResponse extends BaseResponse {
   @Field(() => User, { nullable: true })
   user?: User | null;
-
   @Field(() => String, { nullable: true })
   accessToken?: string;
 }

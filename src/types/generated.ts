@@ -108,6 +108,15 @@ export type GetMessagesInput = {
   page: Scalars['Float'];
 };
 
+export type GetSessionResponse = {
+  __typename?: 'GetSessionResponse';
+  accessToken?: Maybe<Scalars['String']>;
+  code: Scalars['Float'];
+  message?: Maybe<Scalars['String']>;
+  success: Scalars['Boolean'];
+  user?: Maybe<User>;
+};
+
 export type LoginInput = {
   password: Scalars['String'];
   username: Scalars['String'];
@@ -333,6 +342,7 @@ export type Query = {
   getConversationById: ConversationResponse;
   getConversations: PaginatedConversationResponse;
   getMessages: PaginatedMessageResponse;
+  getSession: GetSessionResponse;
   getSinglePost: PostResponse;
   getSingleUser: UserResponse;
   getUsers: PaginatedUsersResponse;
@@ -415,7 +425,7 @@ export type User = {
   conversation?: Maybe<Array<Conversation>>;
   email: Scalars['String'];
   followers?: Maybe<Array<User>>;
-  following?: Maybe<Array<Scalars['Float']>>;
+  following?: Maybe<Array<User>>;
   id: Scalars['ID'];
   posts?: Maybe<Array<Post>>;
   username: Scalars['String'];
@@ -445,41 +455,73 @@ export type ChangePasswordInput = {
   userId: Scalars['Float'];
 };
 
+export type BaseUserFragment = { __typename?: 'User', id: string, email: string, username: string, avatar?: string | null };
+
+export type UserMutationResponseFragment = { __typename?: 'UserMutationResponse', code: number, message?: string | null, success: boolean, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null };
+
 export type LoginMutationVariables = Exact<{
   LoginInput: LoginInput;
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, accessToken?: string | null, user?: { __typename?: 'User', id: string, email: string, username: string, following?: Array<number> | null, posts?: Array<{ __typename?: 'Post', photo?: string | null, caption?: string | null }> | null } | null } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserMutationResponse', accessToken?: string | null, code: number, message?: string | null, success: boolean, user?: { __typename?: 'User', id: string, email: string, username: string, avatar?: string | null, conversation?: Array<{ __typename?: 'Conversation', receiverId?: string | null }> | null, posts?: Array<{ __typename?: 'Post', photo?: string | null, caption?: string | null }> | null, following?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, followers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
 
 export type RegisterMutationVariables = Exact<{
   registerInput: RegisterInput;
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', username: string, email: string } | null } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserMutationResponse', code: number, message?: string | null, success: boolean, user?: { __typename?: 'User', id: string, email: string, username: string, avatar?: string | null } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+
+export type GetSessionQueryVariables = Exact<{ [key: string]: never; }>;
 
 
+export type GetSessionQuery = { __typename?: 'Query', getSession: { __typename?: 'GetSessionResponse', code: number, success: boolean, accessToken?: string | null, user?: { __typename?: 'User', id: string, email: string, username: string, avatar?: string | null, conversation?: Array<{ __typename?: 'Conversation', userId?: string | null, receiverId?: string | null }> | null, posts?: Array<{ __typename?: 'Post', photo?: string | null, caption?: string | null }> | null, followers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, following?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null } | null } };
+
+export const BaseUserFragmentDoc = gql`
+    fragment baseUser on User {
+  id
+  email
+  username
+  avatar
+}
+    `;
+export const UserMutationResponseFragmentDoc = gql`
+    fragment userMutationResponse on UserMutationResponse {
+  code
+  message
+  success
+  errors {
+    field
+    message
+  }
+}
+    `;
 export const LoginDocument = gql`
     mutation Login($LoginInput: LoginInput!) {
   login(login: $LoginInput) {
-    code
-    success
-    message
+    ...userMutationResponse
     user {
-      id
-      email
-      username
+      ...baseUser
+      conversation {
+        receiverId
+      }
       posts {
         photo
         caption
       }
-      following
+      following {
+        ...baseUser
+      }
+      followers {
+        ...baseUser
+      }
     }
     accessToken
   }
 }
-    `;
+    ${UserMutationResponseFragmentDoc}
+${BaseUserFragmentDoc}`;
 export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
 /**
@@ -509,16 +551,14 @@ export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, Log
 export const RegisterDocument = gql`
     mutation Register($registerInput: RegisterInput!) {
   register(register: $registerInput) {
-    code
-    success
-    message
+    ...userMutationResponse
     user {
-      username
-      email
+      ...baseUser
     }
   }
 }
-    `;
+    ${UserMutationResponseFragmentDoc}
+${BaseUserFragmentDoc}`;
 export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
 
 /**
@@ -545,3 +585,56 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const GetSessionDocument = gql`
+    query GetSession {
+  getSession {
+    code
+    success
+    user {
+      ...baseUser
+      conversation {
+        userId
+        receiverId
+      }
+      posts {
+        photo
+        caption
+      }
+      followers {
+        ...baseUser
+      }
+      following {
+        ...baseUser
+      }
+    }
+    accessToken
+  }
+}
+    ${BaseUserFragmentDoc}`;
+
+/**
+ * __useGetSessionQuery__
+ *
+ * To run a query within a React component, call `useGetSessionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSessionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSessionQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetSessionQuery(baseOptions?: Apollo.QueryHookOptions<GetSessionQuery, GetSessionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSessionQuery, GetSessionQueryVariables>(GetSessionDocument, options);
+      }
+export function useGetSessionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSessionQuery, GetSessionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSessionQuery, GetSessionQueryVariables>(GetSessionDocument, options);
+        }
+export type GetSessionQueryHookResult = ReturnType<typeof useGetSessionQuery>;
+export type GetSessionLazyQueryHookResult = ReturnType<typeof useGetSessionLazyQuery>;
+export type GetSessionQueryResult = Apollo.QueryResult<GetSessionQuery, GetSessionQueryVariables>;

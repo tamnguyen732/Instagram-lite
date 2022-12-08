@@ -1,5 +1,8 @@
 mutation Register($registerInput: RegisterInput!) {
   register(register: $registerInput) {
     ...userMutationResponse
+    user {
+      ...baseUser
+    }
   }
 }

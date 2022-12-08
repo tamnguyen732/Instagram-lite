@@ -33,11 +33,11 @@ export class User extends BaseEntity {
   @OneToMany(() => Post, (post) => post.user)
   posts!: Post[];
 
-  @Field(() => [Number], { defaultValue: [] })
-  @Column('int', { array: true, nullable: true, default: [] })
-  followers!: number[];
+  @Field(() => [User], { defaultValue: [] })
+  @Column('jsonb', { nullable: true, default: [] })
+  followers!: User[];
 
-  @Field(() => [Number], { defaultValue: [] })
-  @Column('int', { array: true, nullable: true, default: [] })
-  following!: number[];
+  @Field(() => [User], { defaultValue: [] })
+  @Column('jsonb', { nullable: true, default: [] })
+  following!: User[];
 }

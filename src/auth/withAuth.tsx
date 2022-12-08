@@ -10,22 +10,14 @@ import { wrapper } from '~/redux/store';
 import { initializeApollo } from '~/lib/ApolloCient';
 import { AddParameters } from '~/types/utils';
 import { ROUTES } from '~/constants/routes';
-import { StoreDispatch } from '~/types/store';
+import { StoreDispatch } from '~/redux/types/store';
 import { ParsedUrlQuery } from 'querystring';
-
-interface WrapperOptions {
-  isProtected: boolean;
-}
+import { BaseUserFragment, GetSessionDocument, GetSessionQuery } from '~/types/generated';
+import { authAction } from '~/redux/slices/authSlice';
 
 interface protectOption {
   isProtected: boolean;
 }
-
-type WithPageProps = <P extends Record<string, unknown> = Record<string, unknown>>(
-  options: WrapperOptions
-) => (
-  callback?: AddParameters<GetServerSideProps<P>, [dispatch: StoreDispatch]>
-) => (context: GetServerSidePropsContext) => Promise<GetServerSidePropsResult<P>>;
 
 type WithAuthProps = <P extends Record<string, unknown> = Record<string, unknown>>(
   options: protectOption,
@@ -34,10 +26,11 @@ type WithAuthProps = <P extends Record<string, unknown> = Record<string, unknown
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>
 ) => Promise<GetServerSidePropsResult<P>>;
 
-const withAuth: WithAuthProps = ({ isProtected }, callback) =>
+export const withAuth: WithAuthProps = ({ isProtected }, callback) =>
   wrapper.getServerSideProps(({ dispatch }) => async (ctx) => {
     const { req, res, resolvedUrl } = ctx;
-    const { access_token, refresh_token, prev_route } = req.cookies;
+
+    const { access_token, refresh_token } = req.cookies;
     const isMissingToken = !access_token || !refresh_token;
     const redirectToLogin = () => ({
       redirect: {
@@ -46,20 +39,38 @@ const withAuth: WithAuthProps = ({ isProtected }, callback) =>
       }
     });
 
-    if (isMissingToken) {
+    const removeSession = () => {
       clearAllCookies(res as NextApiResponse);
       return redirectToLogin();
+    };
+
+    if (isMissingToken) {
+      clearAllCookies(res as NextApiResponse);
+      if (isProtected) return redirectToLogin();
     }
-    if (!isMissingToken) {
+    if (!isProtected && !isMissingToken) {
       return {
         redirect: {
-          destination: prev_route ?? ROUTES.HOME,
+          destination: ROUTES.HOME,
           permanent: false
         }
       };
     }
     if (isProtected) {
       const client = initializeApollo({ headers: ctx.req.headers });
+      try {
+        const {
+          data: { getSession }
+        } = await client.query<GetSessionQuery>({
+          query: GetSessionDocument
+        });
+        const { success, user } = getSession;
+        dispatch(authAction.setCurrentUser(user as BaseUserFragment));
+        if (!success) return removeSession();
+        dispatch(authAction.setIsLoggedIn(true));
+      } catch (error) {
+        return removeSession();
+      }
     }
     if (!callback)
       return {

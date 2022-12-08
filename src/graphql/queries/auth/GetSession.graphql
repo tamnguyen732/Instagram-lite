@@ -1,22 +1,25 @@
-mutation Login($LoginInput: LoginInput!) {
-  login(login: $LoginInput) {
-    ...userMutationResponse
+query GetSession {
+  getSession {
+    code
+    success
     user {
       ...baseUser
       conversation {
+        userId
         receiverId
       }
       posts {
         photo
         caption
       }
-      following {
-        ...baseUser
-      }
       followers {
         ...baseUser
       }
+      following {
+        ...baseUser
+      }
     }
+
     accessToken
   }
 }

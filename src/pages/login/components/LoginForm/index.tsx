@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import FormField from '~/components/FormField';
 import styles from './styles.module.scss';
 import { bindClass } from '~/lib/classNames';
@@ -11,6 +10,11 @@ import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { validationSchema, ValidationSchema } from './formValidation';
 import { LoginInput, useLoginMutation } from '~/types/generated';
+import mapError from '~/helpers/mapErrors';
+import { useStoreDispatch } from '~/redux/store';
+import Loading from '~/components/Loading';
+import { authAction } from '~/redux/slices/authSlice';
+import { useRouter } from 'next/router';
 
 const cx = bindClass(styles);
 
@@ -19,26 +23,30 @@ const LoginForm = () => {
     register,
     handleSubmit,
     setError,
-    setFocus,
     formState: { errors }
   } = useForm<ValidationSchema>({
     resolver: zodResolver(validationSchema)
   });
-
-  const [loginUser, { data, loading, error }] = useLoginMutation();
-  console.log(data);
+  const dispatch = useStoreDispatch();
+  const router = useRouter();
+  const [loginUser, { loading }] = useLoginMutation();
   const onSubmit = async (data: LoginInput) => {
     const response = await loginUser({
       variables: { LoginInput: data }
     });
 
-    const message = response.data?.login.message;
-    if (message) {
-      if (message?.includes('password')) {
-        setError('password', { message });
-      } else {
-        setError('username', { message });
-      }
+    const errors = response.data!.login.errors;
+
+    const user = response.data?.login.user;
+
+    if (user) {
+      dispatch(authAction.setCurrentUser(user));
+      dispatch(authAction.setIsLoggedIn(true));
+      router.push('/');
+    }
+    if (errors) {
+      const { message } = mapError(errors);
+      setError('password', { message });
     }
   };
   return (
@@ -56,7 +64,7 @@ const LoginForm = () => {
             />
           </div>
           <Button className={cx('button')} primary size='lg' type='submit'>
-            Log In
+            {loading ? <Loading size='sm' /> : ' Log In'}
           </Button>
           <div className={cx('con')}>
             <hr className={cx('hr')} />

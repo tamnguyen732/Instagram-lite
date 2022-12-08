@@ -4,6 +4,7 @@ import { SubLayout } from '~/layouts/SubLayout';
 import LoginForm from './components/LoginForm';
 import { bindClass } from '~/lib/classNames';
 import styles from './styles.module.scss';
+import { withAuth } from '~/auth';
 const cx = bindClass(styles);
 const login = () => {
   return (
@@ -17,3 +18,4 @@ const login = () => {
 };
 
 export default login;
+export const getServerSideProps = withAuth({ isProtected: false });

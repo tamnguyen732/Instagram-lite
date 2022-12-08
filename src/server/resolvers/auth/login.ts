@@ -27,7 +27,12 @@ const login = (Base: ClassType) => {
           return {
             code: status.NOT_FOUND,
             success: false,
-            message: 'User does not exist'
+            errors: [
+              {
+                field: 'usernameOrPassword',
+                message: 'Invalid username or password'
+              }
+            ]
           };
         }
 
@@ -37,7 +42,12 @@ const login = (Base: ClassType) => {
           return {
             code: status.BAD_REQUEST,
             success: false,
-            message: 'Your password is not correct'
+            errors: [
+              {
+                field: 'usernameOrPassword',
+                message: 'Invalid username or password'
+              }
+            ]
           };
         }
 

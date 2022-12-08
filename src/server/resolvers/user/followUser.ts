@@ -38,8 +38,8 @@ const followUser = (Base: ClassType) => {
           };
         }
         const currentUser = await User.findOne({ where: { id: req.userId } });
-        const existingFollowing = currentUser?.following?.includes(id);
-
+        const existingFollowing = currentUser?.following.some((e) => e.id === id);
+        const existingFollower = otherUser?.followers.some((e) => e.id === id);
         if (FollowingTypes.FOLLOW === type) {
           if (existingFollowing) {
             return {
@@ -48,46 +48,33 @@ const followUser = (Base: ClassType) => {
               message: 'You arealdy followed this user'
             };
           } else {
-            User.createQueryBuilder()
-              .where('id = :id', { id: req.userId })
-              .update(User)
-              .set({
-                following: () => `array_append("following", ${id})`
-              })
-              .execute();
-            User.createQueryBuilder()
-              .where('id = :id', { id })
-              .update(User)
-              .set({
-                followers: () => `array_append("followers", ${req.userId})`
-              })
-              .execute();
+            if (!existingFollower && id !== req.userId) {
+              otherUser?.followers.push(JSON.parse(JSON.stringify(currentUser)));
+              await User.save(otherUser);
+            }
+            currentUser?.following.push(JSON.parse(JSON.stringify(otherUser)));
+            await User.save(currentUser as User);
+
             return {
               code: status.OK,
               success: true,
               message: 'You just followed this user'
             };
           }
+        } else {
+          const otherUserIndex = otherUser?.followers.findIndex((e) => e.id === req.userId);
+          otherUser?.followers.splice(otherUserIndex as number, 1);
+          await User.save(otherUser);
+
+          const currentUserIndex = currentUser?.following.findIndex((e) => e.id === id);
+          currentUser?.following.splice(currentUserIndex as number, 1);
+          await User.save(currentUser as User);
+          return {
+            code: status.OK,
+            success: true,
+            message: 'You just unfollowed this user'
+          };
         }
-        User.createQueryBuilder()
-          .update(User)
-          .where('id = :id', { id: req.userId })
-          .set({
-            following: () => `array_remove("following", ${id})`
-          })
-          .execute();
-        User.createQueryBuilder()
-          .where('id = :id', { id })
-          .update(User)
-          .set({
-            followers: () => `array_remove("followers", ${req.userId})`
-          })
-          .execute();
-        return {
-          code: status.OK,
-          success: true,
-          message: 'You just unfollowed this user'
-        };
       });
     }
   }
