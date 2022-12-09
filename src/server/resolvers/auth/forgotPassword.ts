@@ -29,7 +29,6 @@ const forgotPassword = (Base: ClassType) => {
         const userId = user.id.toString();
         const token = nanoid();
         const hashedToken = await hashedData(token);
-        console.log(token);
         await Token.findOneAndDelete({ userId });
         await Token.create({
           userId,

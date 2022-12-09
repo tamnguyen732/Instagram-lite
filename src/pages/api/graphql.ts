@@ -4,7 +4,6 @@ import 'reflect-metadata';
 import { buildSchema } from 'type-graphql';
 import Cors from 'micro-cors';
 // types
-
 import connectPostgreDb from '~/server/connectPostgreDb';
 import connectMongoDb from '~/server/connectMongoDb';
 import AuthResolver from '~/server/resolvers/auth';
@@ -16,7 +15,7 @@ import MessageResolver from '~/server/resolvers/message';
 
 import { MyContext } from '~/server/types';
 const cors = Cors({
-  origin: 'http://localhost:3000/',
+  origin: 'http://localhost:3000',
   allowCredentials: true
 });
 connectPostgreDb();

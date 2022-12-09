@@ -28,6 +28,8 @@ const RegisterForm = () => {
     const response = await registerUser({
       variables: { registerInput: data }
     });
+
+    console.log(response);
   };
   return (
     <div className={cx('main')}>
@@ -62,7 +64,7 @@ const RegisterForm = () => {
       </div>
       <div className={cx('wrapper-login')}>
         <span>Do you have an account?</span>
-        <Link href={'#'}>Log In</Link>
+        <Link href={'/login'}>Log In</Link>
       </div>
     </div>
   );

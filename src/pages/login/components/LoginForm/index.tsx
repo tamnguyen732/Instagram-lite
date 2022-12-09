@@ -81,7 +81,7 @@ const LoginForm = () => {
       </div>
       <div className={cx('wrapper-register')}>
         <span>You don't have an account?</span>
-        <Link href={'#'}>Register</Link>
+        <Link href={'/register'}>Register</Link>
       </div>
     </div>
   );

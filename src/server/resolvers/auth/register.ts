@@ -6,6 +6,7 @@ import { UserMutationResponse } from '~/server/types/responses/user';
 import { handler } from '~/server/utils';
 import { verifyAuth } from '~/server/middlewares';
 import status from 'http-status';
+import { Code } from '~/server/models/Code';
 
 const register = (Base: ClassType) => {
   @Resolver()
@@ -17,7 +18,7 @@ const register = (Base: ClassType) => {
     }
     @Mutation((_return) => UserMutationResponse)
     async register(
-      @Arg('register') { email, password, username }: RegisterInput
+      @Arg('register') { email, password, username, code }: RegisterInput
     ): Promise<UserMutationResponse> {
       return handler(async () => {
         const existingUser = await User.findOne({ where: { email } });
@@ -34,6 +35,15 @@ const register = (Base: ClassType) => {
                 } already taken`
               }
             ]
+          };
+        }
+
+        const codeRecord = await Code.findOne({ email });
+        if (codeRecord.code !== code) {
+          return {
+            code: status.BAD_REQUEST,
+            success: false,
+            errors: [{ field: 'Email', message: 'Wrong code, you can press send code again' }]
           };
         }
 

@@ -7,6 +7,7 @@ import getSession from './getSession';
 import login from './login';
 import logout from './logout';
 import register from './register';
+import verifiedUser from './verifiedUser';
 
 @Resolver()
 export default class AuthResolver extends combineResolvers(
@@ -15,5 +16,6 @@ export default class AuthResolver extends combineResolvers(
   forgotPassword,
   changePassword,
   logout,
-  getSession
+  getSession,
+  verifiedUser
 ) {}

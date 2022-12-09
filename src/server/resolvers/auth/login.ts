@@ -8,6 +8,7 @@ import { generateToken, sendTokens } from '~/helpers/token';
 import * as types from '~/server/types';
 import { verifyAuth } from '~/server/middlewares';
 import status from 'http-status';
+
 const login = (Base: ClassType) => {
   @Resolver()
   class Login extends Base {
