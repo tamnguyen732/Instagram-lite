@@ -9,13 +9,19 @@ import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { validationSchema, ValidationSchema } from './formValidation';
-import { RegisterInput, useRegisterMutation } from '~/types/generated';
-
+import { useVerifiedUserMutation } from '~/types/generated';
+import { useStoreDispatch } from '~/redux/store';
+import { authAction } from '~/redux/slices/authSlice';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 const cx = bindClass(styles);
 
 const RegisterForm = () => {
-  const [registerUser, { data, loading, error }] = useRegisterMutation();
+  const router = useRouter();
+  const [verifiedUser, { data, loading }] = useVerifiedUserMutation();
+  const dispatch = useStoreDispatch();
   console.log(data);
+
   const {
     register,
     handleSubmit,
@@ -24,13 +30,20 @@ const RegisterForm = () => {
     resolver: zodResolver(validationSchema)
   });
 
-  const onSubmit: SubmitHandler<ValidationSchema> = async (data: RegisterInput) => {
-    const response = await registerUser({
-      variables: { registerInput: data }
+  const onSubmit: SubmitHandler<ValidationSchema> = async (data: ValidationSchema) => {
+    console.log();
+    const { email } = data;
+    dispatch(authAction.setToVerifyUser(data));
+    await verifiedUser({
+      variables: { verifyUser: email }
     });
-
-    console.log(response);
   };
+
+  useEffect(() => {
+    if (data?.verifiedUser.success) {
+      router.push('/verifyAccount');
+    }
+  }, [data?.verifiedUser.success]);
   return (
     <div className={cx('main')}>
       <div className={cx('container')}>

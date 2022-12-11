@@ -1,3 +1,3 @@
 import { useStoreSelector } from './store';
 
-export const useAuthSelector = () => useStoreSelector((state) => state);
+export const useAuthSelector = () => useStoreSelector((state) => state.auth);

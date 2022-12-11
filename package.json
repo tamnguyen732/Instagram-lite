@@ -14,8 +14,6 @@
     "@badrap/bar-of-progress": "^0.2.2",
     "@hookform/resolvers": "^2.9.10",
     "@reduxjs/toolkit": "^1.8.6",
-    "@sendgrid/mail": "^7.7.0",
-    "@types/emoji-mart": "^3.0.9",
     "@types/nodemailer": "^6.4.6",
     "apollo-server-core": "^3.10.3",
     "apollo-server-micro": "^3.10.3",

@@ -163,6 +163,7 @@ export type Mutation = {
   updateComment: PostResponse;
   updatePost: PostResponse;
   uploadAvatar: BaseResponse;
+  verifiedUser: BaseResponse;
 };
 
 
@@ -257,6 +258,11 @@ export type MutationUpdatePostArgs = {
 
 export type MutationUploadAvatarArgs = {
   image: Scalars['Int'];
+};
+
+
+export type MutationVerifiedUserArgs = {
+  verifyUser: Scalars['String'];
 };
 
 export type PaginatedConversationResponse = {
@@ -401,6 +407,7 @@ export type QueryLastMessageArgs = {
 };
 
 export type RegisterInput = {
+  code: Scalars['Float'];
   email: Scalars['String'];
   password: Scalars['String'];
   username: Scalars['String'];
@@ -472,6 +479,13 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserMutationResponse', code: number, message?: string | null, success: boolean, user?: { __typename?: 'User', id: string, email: string, username: string, avatar?: string | null } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+
+export type VerifiedUserMutationVariables = Exact<{
+  verifyUser: Scalars['String'];
+}>;
+
+
+export type VerifiedUserMutation = { __typename?: 'Mutation', verifiedUser: { __typename?: 'BaseResponse', code: number, success: boolean, message?: string | null } };
 
 export type GetSessionQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -585,6 +599,41 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const VerifiedUserDocument = gql`
+    mutation VerifiedUser($verifyUser: String!) {
+  verifiedUser(verifyUser: $verifyUser) {
+    code
+    success
+    message
+  }
+}
+    `;
+export type VerifiedUserMutationFn = Apollo.MutationFunction<VerifiedUserMutation, VerifiedUserMutationVariables>;
+
+/**
+ * __useVerifiedUserMutation__
+ *
+ * To run a mutation, you first call `useVerifiedUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVerifiedUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [verifiedUserMutation, { data, loading, error }] = useVerifiedUserMutation({
+ *   variables: {
+ *      verifyUser: // value for 'verifyUser'
+ *   },
+ * });
+ */
+export function useVerifiedUserMutation(baseOptions?: Apollo.MutationHookOptions<VerifiedUserMutation, VerifiedUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<VerifiedUserMutation, VerifiedUserMutationVariables>(VerifiedUserDocument, options);
+      }
+export type VerifiedUserMutationHookResult = ReturnType<typeof useVerifiedUserMutation>;
+export type VerifiedUserMutationResult = Apollo.MutationResult<VerifiedUserMutation>;
+export type VerifiedUserMutationOptions = Apollo.BaseMutationOptions<VerifiedUserMutation, VerifiedUserMutationVariables>;
 export const GetSessionDocument = gql`
     query GetSession {
   getSession {
