@@ -1558,6 +1558,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-facebook-login@^4.1.5":
+  "integrity" "sha512-adYUfzgeOa0I0dtgFsG/KzigvslSEY8KWXyAp9RjjPp7aWzbpNbkw8KR1RaGb98m+xO0udf9OnjDlpGsPcfCvA=="
+  "resolved" "https://registry.npmjs.org/@types/react-facebook-login/-/react-facebook-login-4.1.5.tgz"
+  "version" "4.1.5"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*", "@types/react@^16.8 || ^17.0 || ^18.0", "@types/react@^18.0.14":
   "integrity" "sha512-x4gGuASSiWmo0xjDLpm5mPb52syZHJx02VKbqUKdLmKtAwIh63XClGsiTI1K6DO5q7ox4xAsQrU+Gl3+gGXF9Q=="
   "resolved" "https://registry.npmjs.org/@types/react/-/react-18.0.14.tgz"
@@ -5132,6 +5139,11 @@
     "loose-envify" "^1.1.0"
     "scheduler" "^0.23.0"
 
+"react-facebook-login@^4.1.1":
+  "integrity" "sha512-COnHEHlYGTKipz4963safFAK9PaNTcCiXfPXMS/yxo8El+/AJL5ye8kMJf23lKSSGGPgqFQuInskIHVqGqTvSw=="
+  "resolved" "https://registry.npmjs.org/react-facebook-login/-/react-facebook-login-4.1.1.tgz"
+  "version" "4.1.1"
+
 "react-hook-form@^7.0.0", "react-hook-form@^7.37.0":
   "integrity" "sha512-6NFTxsnw+EXSpNNvLr5nFMjPdYKRryQcelTHg7zwBB6vAzfPIcZq4AExP4heVlwdzntepQgwiOQW4z7Mr99Lsg=="
   "resolved" "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.37.0.tgz"
@@ -5179,7 +5191,7 @@
   dependencies:
     "clsx" "^1.1.1"
 
-"react@*", "react@^16.3.0 || ^17 || ^18", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17 || ^18", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", "react@^18.2.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=16":
+"react@*", "react@^16.0.0", "react@^16.3.0 || ^17 || ^18", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17 || ^18", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", "react@^18.2.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=16":
   "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   "version" "18.2.0"

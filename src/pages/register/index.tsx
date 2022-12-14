@@ -1,4 +1,5 @@
 import React from 'react';
+import { withAuth } from '~/auth';
 import { SubLayout } from '~/layouts/SubLayout';
 import { bindClass } from '~/lib/classNames';
 import RegisterForm from './RegisterForm';
@@ -16,3 +17,4 @@ const register = () => {
 };
 
 export default register;
+export const getServerSideProps = withAuth({ isProtected: false });

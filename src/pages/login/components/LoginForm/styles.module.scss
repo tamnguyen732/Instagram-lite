@@ -24,7 +24,12 @@
     }
     .button {
       margin: 10px 0 15px 0;
+      padding: 8px 0;
+      position: relative;
       text-align: center;
+      .loading {
+        position: absolute;
+      }
     }
   }
   .con {

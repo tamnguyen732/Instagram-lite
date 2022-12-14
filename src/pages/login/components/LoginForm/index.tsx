@@ -63,8 +63,8 @@ const LoginForm = () => {
               errors={errors}
             />
           </div>
-          <Button className={cx('button')} primary size='lg' type='submit'>
-            {loading ? <Loading size='sm' /> : ' Log In'}
+          <Button disabled={loading} className={cx('button')} primary size='lg' type='submit'>
+            {loading ? <Loading size='sm' className='loading' /> : ' Log In'}
           </Button>
           <div className={cx('con')}>
             <hr className={cx('hr')} />

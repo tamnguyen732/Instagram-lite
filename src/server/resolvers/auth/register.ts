@@ -1,4 +1,4 @@
-import { Arg, ClassType, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
+import { Arg, ClassType, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
 import { User } from '~/server/entities';
 import bcrypt from 'bcryptjs';
 import { RegisterInput } from '~/server/types/inputs';
@@ -7,6 +7,8 @@ import { handler } from '~/server/utils';
 import { verifyAuth } from '~/server/middlewares';
 import status from 'http-status';
 import { Code } from '~/server/models/Code';
+import { sendTokens } from '~/helpers/token';
+import * as types from '~/server/types';
 
 const register = (Base: ClassType) => {
   @Resolver()
@@ -18,10 +20,12 @@ const register = (Base: ClassType) => {
     }
     @Mutation((_return) => UserMutationResponse)
     async register(
-      @Arg('register') { email, password, username, code }: RegisterInput
+      @Arg('register') { email, password, username, verifyCode }: RegisterInput,
+      @Ctx() { res }: types.MyContext
     ): Promise<UserMutationResponse> {
       return handler(async () => {
         const existingUser = await User.findOne({ where: { email } });
+
         if (existingUser) {
           return {
             code: status.BAD_REQUEST,
@@ -39,11 +43,18 @@ const register = (Base: ClassType) => {
         }
 
         const codeRecord = await Code.findOne({ email });
-        if (codeRecord.code !== code) {
+        if (!codeRecord) {
+          return {
+            code: status.NOT_FOUND,
+            success: false,
+            errors: [{ field: 'Register', message: 'Code Not Found, Try Again!' }]
+          };
+        }
+        if (codeRecord!.code !== verifyCode) {
           return {
             code: status.BAD_REQUEST,
             success: false,
-            errors: [{ field: 'Email', message: 'Wrong code, you can press send code again' }]
+            errors: [{ field: 'Register', message: 'Wrong Code, You can press send code again' }]
           };
         }
 
@@ -54,8 +65,8 @@ const register = (Base: ClassType) => {
           password: hashedPassword
         });
 
+        sendTokens(res, newUser);
         await User.save(newUser);
-
         return {
           code: status.CREATED,
           success: true,

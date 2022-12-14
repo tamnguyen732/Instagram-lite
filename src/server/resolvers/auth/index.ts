@@ -5,6 +5,7 @@ import changePassword from './changePassword';
 import forgotPassword from './forgotPassword';
 import getSession from './getSession';
 import login from './login';
+import loginFacebook from './loginFacebook';
 import logout from './logout';
 import register from './register';
 import verifiedUser from './verifiedUser';
@@ -17,5 +18,6 @@ export default class AuthResolver extends combineResolvers(
   changePassword,
   logout,
   getSession,
-  verifiedUser
+  verifiedUser,
+  loginFacebook
 ) {}

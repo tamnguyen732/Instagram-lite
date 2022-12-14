@@ -19,14 +19,14 @@ const verifiedUser = (Base: ClassType) => {
     async verifiedUser(@Arg('verifyUser') email: string): Promise<BaseResponse> {
       return handler(async () => {
         const nanoid = customAlphabet('1234567890', 10);
-        const verifiedCode = Number(nanoid(6));
+        const verifyCode = Number(nanoid(6));
         await Code.findOneAndDelete({ email });
         await Code.create({
-          code: verifiedCode,
+          code: verifyCode,
           email
         });
 
-        await sendEmail({ email, token: verifiedCode });
+        await sendEmail({ email, token: verifyCode });
         return {
           code: status.CREATED,
           success: true,

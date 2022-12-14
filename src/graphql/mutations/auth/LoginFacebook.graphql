@@ -1,0 +1,7 @@
+mutation LoginFacebook($accessToken: String!, $userId: String!) {
+  loginFacebook(accessToken: $accessToken, userId: $userId) {
+    code
+    success
+    message
+  }
+}

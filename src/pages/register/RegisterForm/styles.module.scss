@@ -23,6 +23,7 @@
         text-align: center;
       }
       .button-facebook {
+        padding: 8px 0;
         margin-top: 8px;
         width: 274px;
         @include flex(center, center);
@@ -41,6 +42,7 @@
   }
 
   .button {
+    padding: 8px 0;
     margin: 15px 0;
     text-align: center;
   }

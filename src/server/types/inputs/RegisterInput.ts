@@ -9,5 +9,5 @@ export class RegisterInput {
   @Field()
   password!: string;
   @Field()
-  code!: number;
+  verifyCode!: number;
 }

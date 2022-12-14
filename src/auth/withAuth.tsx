@@ -52,10 +52,11 @@ export const withAuth: WithAuthProps = ({ isProtected }, callback) =>
       return {
         redirect: {
           destination: ROUTES.HOME,
-          permanent: false
+          permanent: true
         }
       };
     }
+
     if (isProtected) {
       const client = initializeApollo({ headers: ctx.req.headers });
       try {
@@ -64,11 +65,11 @@ export const withAuth: WithAuthProps = ({ isProtected }, callback) =>
         } = await client.query<GetSessionQuery>({
           query: GetSessionDocument
         });
-        const { success, user } = getSession;
+        const { user } = getSession;
         dispatch(authAction.setCurrentUser(user as BaseUserFragment));
-        if (!success) return removeSession();
         dispatch(authAction.setIsLoggedIn(true));
       } catch (error) {
+        console.log(error);
         return removeSession();
       }
     }

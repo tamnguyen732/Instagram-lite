@@ -15,7 +15,7 @@ export class User extends BaseEntity {
   username!: string;
 
   @Field()
-  @Column({ unique: true })
+  @Column()
   email!: string;
 
   @Column()
@@ -24,6 +24,9 @@ export class User extends BaseEntity {
   @Field({ nullable: true })
   @Column({ nullable: true })
   avatar?: string;
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  account?: string;
 
   @Field(() => [Conversation], { nullable: true })
   @OneToMany(() => Conversation, (conversation) => conversation.user)

@@ -155,6 +155,7 @@ export type Mutation = {
   followUser: UserMutationResponse;
   forgotPassword: BaseResponse;
   login: UserMutationResponse;
+  loginFacebook: UserMutationResponse;
   logout: BaseResponse;
   reactToComment: BaseResponse;
   reactToPost: BaseResponse;
@@ -221,6 +222,12 @@ export type MutationForgotPasswordArgs = {
 
 export type MutationLoginArgs = {
   login: LoginInput;
+};
+
+
+export type MutationLoginFacebookArgs = {
+  accessToken: Scalars['String'];
+  userId: Scalars['String'];
 };
 
 
@@ -407,10 +414,10 @@ export type QueryLastMessageArgs = {
 };
 
 export type RegisterInput = {
-  code: Scalars['Float'];
   email: Scalars['String'];
   password: Scalars['String'];
   username: Scalars['String'];
+  verifyCode: Scalars['Float'];
 };
 
 export type UpdateCommentInput = {
@@ -428,6 +435,7 @@ export type UpdatePostInput = {
 
 export type User = {
   __typename?: 'User';
+  account?: Maybe<Scalars['String']>;
   avatar?: Maybe<Scalars['String']>;
   conversation?: Maybe<Array<Conversation>>;
   email: Scalars['String'];
@@ -472,6 +480,14 @@ export type LoginMutationVariables = Exact<{
 
 
 export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserMutationResponse', accessToken?: string | null, code: number, message?: string | null, success: boolean, user?: { __typename?: 'User', id: string, email: string, username: string, avatar?: string | null, conversation?: Array<{ __typename?: 'Conversation', receiverId?: string | null }> | null, posts?: Array<{ __typename?: 'Post', photo?: string | null, caption?: string | null }> | null, following?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, followers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+
+export type LoginFacebookMutationVariables = Exact<{
+  accessToken: Scalars['String'];
+  userId: Scalars['String'];
+}>;
+
+
+export type LoginFacebookMutation = { __typename?: 'Mutation', loginFacebook: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null } };
 
 export type RegisterMutationVariables = Exact<{
   registerInput: RegisterInput;
@@ -562,6 +578,42 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const LoginFacebookDocument = gql`
+    mutation LoginFacebook($accessToken: String!, $userId: String!) {
+  loginFacebook(accessToken: $accessToken, userId: $userId) {
+    code
+    success
+    message
+  }
+}
+    `;
+export type LoginFacebookMutationFn = Apollo.MutationFunction<LoginFacebookMutation, LoginFacebookMutationVariables>;
+
+/**
+ * __useLoginFacebookMutation__
+ *
+ * To run a mutation, you first call `useLoginFacebookMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginFacebookMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginFacebookMutation, { data, loading, error }] = useLoginFacebookMutation({
+ *   variables: {
+ *      accessToken: // value for 'accessToken'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useLoginFacebookMutation(baseOptions?: Apollo.MutationHookOptions<LoginFacebookMutation, LoginFacebookMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginFacebookMutation, LoginFacebookMutationVariables>(LoginFacebookDocument, options);
+      }
+export type LoginFacebookMutationHookResult = ReturnType<typeof useLoginFacebookMutation>;
+export type LoginFacebookMutationResult = Apollo.MutationResult<LoginFacebookMutation>;
+export type LoginFacebookMutationOptions = Apollo.BaseMutationOptions<LoginFacebookMutation, LoginFacebookMutationVariables>;
 export const RegisterDocument = gql`
     mutation Register($registerInput: RegisterInput!) {
   register(register: $registerInput) {
