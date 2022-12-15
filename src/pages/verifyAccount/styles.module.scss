@@ -1,17 +1,75 @@
 @use '~/scss/' as *;
+.main {
+  @include flex(center, center);
+  flex-direction: column;
+  margin: 30px;
 
-.container {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  left: 50%;
-  top: 50%;
-  width: 400px;
-  .input {
-    padding: 10px;
-    width: 100%;
-    margin-bottom: 10px;
+  .container {
+    width: 351px;
+    height: auto;
+    background-color: $white;
+    @include flex(center, center);
+    flex-direction: column;
+
+    border: $border;
+    .icon {
+      font-size: 4.6rem;
+      height: auto;
+      color: $black;
+    }
+    .text {
+      margin: 0;
+      color: $black;
+      font-weight: 700;
+    }
+    .text2 {
+      width: 90%;
+      text-align: center;
+      color: $black;
+      span {
+        cursor: pointer;
+        color: $primary-blue;
+        font-weight: 600;
+      }
+    }
+    .inputs {
+      margin-bottom: 10px;
+      .input {
+        width: 300px;
+      }
+    }
+    .button {
+      width: 100%;
+    }
+    .error {
+      color: $red;
+    }
+    .go-back {
+      cursor: pointer;
+      color: $primary-blue;
+      font-size: 1rem;
+      font-weight: 600;
+      text-align: center;
+      display: block;
+      margin: 10px 0 0 10px;
+      padding-bottom: 10px;
+    }
   }
-  .error {
-    color: $red;
+  .wrapper-login {
+    margin-top: 15px;
+    width: 351px;
+    height: 50px;
+    background-color: $white;
+    border: $border;
+    margin-top: 10px;
+    @include flex(center, center);
+    span {
+      color: $black;
+      margin-right: 4px;
+    }
+    :nth-child(2) {
+      color: $primary-blue;
+      font-weight: 700;
+    }
   }
 }

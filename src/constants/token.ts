@@ -10,6 +10,6 @@ export const SECRETS = {
 };
 
 export const EXPIRES = {
-  ACCESS_TOKEN: 7 * 24 * 60 * 60, // 7 days (by seconds)
+  ACCESS_TOKEN: 2 * 24 * 60 * 60, // 2 days (by seconds)
   REFRESH_TOKEN: 14 * 24 * 60 * 60 // 14 days (by seconds)
 };

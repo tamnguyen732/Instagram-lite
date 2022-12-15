@@ -25,7 +25,7 @@ const register = (Base: ClassType) => {
     ): Promise<UserMutationResponse> {
       return handler(async () => {
         const existingUser = await User.findOne({ where: { email } });
-
+        console.log(verifyCode);
         if (existingUser) {
           return {
             code: status.BAD_REQUEST,

@@ -2,10 +2,11 @@ import { Secret, sign } from 'jsonwebtoken';
 import { NextApiResponse } from 'next';
 import { COOKIE_NAMES, EXPIRES } from '~/constants';
 import { User } from '~/server/entities';
+import { BaseUserFragment } from '~/types/generated';
 
 import { setCookie } from './cookie';
 
-export const generateToken = (type: string, user: User) => {
+export const generateToken = (type: string, user: User | BaseUserFragment) => {
   return sign(
     {
       userId: user.id

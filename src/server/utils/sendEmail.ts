@@ -32,7 +32,7 @@ export const sendEmail = async ({ email, token, userId }: EmailType) => {
         to: `${email}`,
         subject: '💬 RESET PASSWORD 🚀',
         text: 'Hello, 👋  ',
-        html: `<p><h3> Hello, ${email}, </h3>\n <a href='${DOMAIN}/change-password?token=${token}&userId=${userId}'><h2>Click here to change your password<h2></a></p>`
+        html: `<p><h3> Hello, ${email}, </h3>\n <a href='${DOMAIN}/changePassword?token=${token}&userId=${userId}'><h2>Click here to change your password<h2></a></p>`
       });
     }
 

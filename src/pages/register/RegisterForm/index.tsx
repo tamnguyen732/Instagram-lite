@@ -56,7 +56,11 @@ const RegisterForm = () => {
       variables: { userId: userID, accessToken }
     });
 
-    console.log(response);
+    const success = response.data?.loginFacebook.success
+
+    if(success) {
+      router.push('/')
+    }
   };
   return (
     <div className={cx('main')}>

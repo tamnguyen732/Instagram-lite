@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { withAuth } from '~/auth';
 import Button from '~/components/Button';
+import FormField from '~/components/FormField';
 import mapError from '~/helpers/mapErrors';
 import { SubLayout } from '~/layouts/SubLayout';
 import { bindClass } from '~/lib/classNames';
@@ -10,36 +11,44 @@ import { authAction } from '~/redux/slices/authSlice';
 import { useStoreDispatch } from '~/redux/store';
 import { useRegisterMutation } from '~/types/generated';
 import styles from './styles.module.scss';
+import { useForm } from 'react-hook-form';
+import { validationSchema, ValidationSchema } from './formValidation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'react-toastify';
+import { HiOutlineMail } from 'react-icons/hi';
+import Link from 'next/link';
 const cx = bindClass(styles);
 const verifyAcount = () => {
-  const [code, setCode] = useState<string>();
-  const { toVerifyUser, currentUser } = useAuthSelector();
+  const [code, setCode] = useState<string>('');
+  const { toVerifyUser } = useAuthSelector();
   const [newError, setNewError] = useState<string>('');
   const dispatch = useStoreDispatch();
   const router = useRouter();
   const [registerUser, { data, loading, error }] = useRegisterMutation();
   console.log(data);
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors }
+  } = useForm<ValidationSchema>({
+    resolver: zodResolver(validationSchema)
+  });
 
-  const handleSubmit = async () => {
-    if (containsAnyLetters(code!)) return;
-    if (!code) return;
+  const onSubmit = async (code: ValidationSchema) => {
     const data = { ...toVerifyUser, verifyCode: +code! };
     const response = await registerUser({
       variables: { registerInput: data }
     });
-
-    const errors = response.data?.register.errors;
-    const message = response.data?.register.message;
-    const user = response.data?.register.user;
-
-    if (message) {
-      setNewError(message);
-    }
+    const { success, errors, user } = response.data!.register;
     if (errors?.length) {
       const { message } = mapError(errors);
       if (message) {
-        setNewError(message);
+        setError('code', { message });
       }
+    }
+    if (success) {
+      toast.success('Register successfully');
     }
     if (user) {
       dispatch(authAction.setCurrentUser(user));
@@ -47,31 +56,43 @@ const verifyAcount = () => {
       router.push('/');
     }
   };
-  function containsAnyLetters(str: string) {
-    return /[a-zA-Z]/.test(str);
-  }
-
-  useEffect(() => {
-    if (containsAnyLetters(code!)) {
-      setNewError('Wrong code, please enter again!');
-    }
-    if (!code) {
-      setNewError('');
-    }
-  }, [newError, code]);
   return (
-    <SubLayout title='verifyAccount'>
-      <div className={cx('container')}>
-        <input className={cx('input')} type='text' onChange={(e) => setCode(e.target.value)} />
-        <p className={cx('error')}>{newError}</p>
-        <Button onClick={handleSubmit} primary size='md'>
-          Verify
-        </Button>
+    <SubLayout title='Forgot Password'>
+      <div className={cx('main')}>
+        <div className={cx('container')}>
+          <HiOutlineMail className={cx('icon')} />
+          <h4 className={cx('text')}>Receive Verification Code</h4>
+
+          <p className={cx('text2')}>
+            We have sent the code to your email. <span>Send code again.</span>
+          </p>
+
+          <form className='wrapper' onSubmit={handleSubmit(onSubmit)}>
+            <div className={cx('inputs')}>
+              <FormField
+                className={cx('input')}
+                type='text'
+                placeholder='Enter Code'
+                register={register('code')}
+                errors={errors}
+              />
+            </div>
+            <Button className={cx('button')} primary size='lg' type='submit'>
+              {/* {loading ? <Loading size='sm' className='loading' /> : ' Log In'} */}
+              Submit
+            </Button>
+          </form>
+          <span className={cx('go-back')} onClick={() => router.back()}>
+            Go Back
+          </span>
+        </div>
+        <div className={cx('wrapper-login')}>
+          <span>Do you have an account?</span>
+          <Link href={'/login'}>Log In</Link>
+        </div>
       </div>
     </SubLayout>
   );
 };
-
 export default verifyAcount;
-
-export const getServerSideProps = withAuth({ isProtected: false });
+// export const getServerSideProps = withAuth({ isProtected: true });
