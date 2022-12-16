@@ -1,7 +1,5 @@
 mutation VerifiedUser($verifyUser: String!) {
   verifiedUser(verifyUser: $verifyUser) {
-    code
-    success
-    message
+    ...BaseResponse
   }
 }

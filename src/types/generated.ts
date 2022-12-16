@@ -470,6 +470,8 @@ export type ChangePasswordInput = {
   userId: Scalars['Float'];
 };
 
+export type BaseResponseFragment = { __typename?: 'BaseResponse', code: number, message?: string | null, success: boolean };
+
 export type BaseUserFragment = { __typename?: 'User', id: string, email: string, username: string, avatar?: string | null };
 
 export type UserMutationResponseFragment = { __typename?: 'UserMutationResponse', code: number, message?: string | null, success: boolean, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null };
@@ -479,14 +481,14 @@ export type ChangePasswordMutationVariables = Exact<{
 }>;
 
 
-export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'BaseResponse', code: number, success: boolean, message?: string | null } };
+export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'BaseResponse', code: number, message?: string | null, success: boolean } };
 
 export type ForgotPasswordMutationVariables = Exact<{
   forgotPassword: Scalars['String'];
 }>;
 
 
-export type ForgotPasswordMutation = { __typename?: 'Mutation', forgotPassword: { __typename?: 'BaseResponse', code: number, success: boolean, message?: string | null } };
+export type ForgotPasswordMutation = { __typename?: 'Mutation', forgotPassword: { __typename?: 'BaseResponse', code: number, message?: string | null, success: boolean } };
 
 export type LoginMutationVariables = Exact<{
   LoginInput: LoginInput;
@@ -503,6 +505,11 @@ export type LoginFacebookMutationVariables = Exact<{
 
 export type LoginFacebookMutation = { __typename?: 'Mutation', loginFacebook: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null } };
 
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = { __typename?: 'Mutation', logout: { __typename?: 'BaseResponse', code: number, message?: string | null, success: boolean } };
+
 export type RegisterMutationVariables = Exact<{
   registerInput: RegisterInput;
 }>;
@@ -515,13 +522,20 @@ export type VerifiedUserMutationVariables = Exact<{
 }>;
 
 
-export type VerifiedUserMutation = { __typename?: 'Mutation', verifiedUser: { __typename?: 'BaseResponse', code: number, success: boolean, message?: string | null } };
+export type VerifiedUserMutation = { __typename?: 'Mutation', verifiedUser: { __typename?: 'BaseResponse', code: number, message?: string | null, success: boolean } };
 
 export type GetSessionQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetSessionQuery = { __typename?: 'Query', getSession: { __typename?: 'GetSessionResponse', code: number, success: boolean, accessToken?: string | null, user?: { __typename?: 'User', id: string, email: string, username: string, avatar?: string | null, conversation?: Array<{ __typename?: 'Conversation', userId?: string | null, receiverId?: string | null }> | null, posts?: Array<{ __typename?: 'Post', photo?: string | null, caption?: string | null }> | null, followers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, following?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null } | null } };
 
+export const BaseResponseFragmentDoc = gql`
+    fragment BaseResponse on BaseResponse {
+  code
+  message
+  success
+}
+    `;
 export const BaseUserFragmentDoc = gql`
     fragment baseUser on User {
   id
@@ -544,12 +558,10 @@ export const UserMutationResponseFragmentDoc = gql`
 export const ChangePasswordDocument = gql`
     mutation ChangePassword($changePasswordInput: changePasswordInput!) {
   changePassword(changePassword: $changePasswordInput) {
-    code
-    success
-    message
+    ...BaseResponse
   }
 }
-    `;
+    ${BaseResponseFragmentDoc}`;
 export type ChangePasswordMutationFn = Apollo.MutationFunction<ChangePasswordMutation, ChangePasswordMutationVariables>;
 
 /**
@@ -579,12 +591,10 @@ export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<ChangePas
 export const ForgotPasswordDocument = gql`
     mutation forgotPassword($forgotPassword: String!) {
   forgotPassword(forgotPassword: $forgotPassword) {
-    code
-    success
-    message
+    ...BaseResponse
   }
 }
-    `;
+    ${BaseResponseFragmentDoc}`;
 export type ForgotPasswordMutationFn = Apollo.MutationFunction<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
 
 /**
@@ -698,6 +708,38 @@ export function useLoginFacebookMutation(baseOptions?: Apollo.MutationHookOption
 export type LoginFacebookMutationHookResult = ReturnType<typeof useLoginFacebookMutation>;
 export type LoginFacebookMutationResult = Apollo.MutationResult<LoginFacebookMutation>;
 export type LoginFacebookMutationOptions = Apollo.BaseMutationOptions<LoginFacebookMutation, LoginFacebookMutationVariables>;
+export const LogoutDocument = gql`
+    mutation Logout {
+  logout {
+    ...BaseResponse
+  }
+}
+    ${BaseResponseFragmentDoc}`;
+export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
+
+/**
+ * __useLogoutMutation__
+ *
+ * To run a mutation, you first call `useLogoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logoutMutation, { data, loading, error }] = useLogoutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
+      }
+export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
+export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const RegisterDocument = gql`
     mutation Register($registerInput: RegisterInput!) {
   register(register: $registerInput) {
@@ -738,12 +780,10 @@ export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutatio
 export const VerifiedUserDocument = gql`
     mutation VerifiedUser($verifyUser: String!) {
   verifiedUser(verifyUser: $verifyUser) {
-    code
-    success
-    message
+    ...BaseResponse
   }
 }
-    `;
+    ${BaseResponseFragmentDoc}`;
 export type VerifiedUserMutationFn = Apollo.MutationFunction<VerifiedUserMutation, VerifiedUserMutationVariables>;
 
 /**

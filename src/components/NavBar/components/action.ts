@@ -4,6 +4,7 @@ import { BsHeart, BsPlusSquare } from 'react-icons/bs';
 import { SlCursor } from 'react-icons/sl';
 import { ROUTES } from '~/constants/routes';
 import { IconType } from 'react-icons';
+import {IoLogOutOutline} from 'react-icons/io5'
 
 interface Navbar {
   title: string;
@@ -39,6 +40,12 @@ export const navBarAction = [
   {
     title: 'Create',
     icon: BsPlusSquare,
+    hasChild: false,
+    route: ''
+  },
+  {
+    title: 'Log Out',
+    icon: IoLogOutOutline,
     hasChild: false,
     route: ''
   }

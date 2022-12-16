@@ -8,8 +8,7 @@ import { RefObject, useState, forwardRef } from 'react';
 import { BsInstagram } from 'react-icons/bs';
 import { ROUTES } from '~/constants/routes';
 import { IconType } from 'react-icons';
-import { MODAL_TYPES } from '~/constants/modal';
-import { ModalType, useModalContext } from '~/contexts/ModalContext';
+import { ModalType, MODAL_TYPES, useModalContext } from '~/contexts/ModalContext';
 const cx = bindClass(styles);
 
 interface NavProps<T extends HTMLElement = HTMLDivElement> {
@@ -35,6 +34,10 @@ const MainBar = forwardRef<any, NavProps>(({ setSubBarActive, subBarActive, setT
     }
     if (nav.title === 'Create') {
       showModal(MODAL_TYPES.POST_CREATOR as ModalType);
+    }
+
+    if (nav.title === 'Log Out') {
+      showModal(MODAL_TYPES.LOGOUT as ModalType);
     }
 
     setTitle(nav.title);

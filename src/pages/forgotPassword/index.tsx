@@ -11,14 +11,13 @@ import styles from './styles.module.scss';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
+import Loading from '~/components/Loading';
 const cx = bindClass(styles);
 const forgotPassword = () => {
   const router = useRouter();
-  // const [forgotPasswordFetch, { data, loading, error }] = useForgotPasswordMutation();
-  // console.log(data);
-  // const handleSubmit = async () => {
-  //   await forgotPasswordFetch({ variables: { forgotPassword: email } });
-  // };
+  const [forgotPasswordFetch, { data, loading, error }] = useForgotPasswordMutation();
+  console.log(data);
 
   const {
     register,
@@ -29,7 +28,15 @@ const forgotPassword = () => {
     resolver: zodResolver(validationSchema)
   });
 
-  const onSubmit = () => {};
+  const onSubmit = async (data: ValidationSchema) => {
+    const { email } = data;
+    const response = await forgotPasswordFetch({ variables: { forgotPassword: email } });
+
+    const success = response.data?.forgotPassword.success;
+    if (success) {
+      toast.success('We have sent you an email');
+    }
+  };
   return (
     <SubLayout title='Forgot Password'>
       <div className={cx('container')}>
@@ -45,7 +52,7 @@ const forgotPassword = () => {
             />
           </div>
           <Button className={cx('button')} primary size='lg' type='submit'>
-            {/* {loading ? <Loading size='sm' className='loading' /> : ' Log In'} */}
+            {loading ? <Loading size='sm' className='loading' /> : ' Submit'}
             Submit
           </Button>
         </form>

@@ -1,0 +1,70 @@
+@use '~/scss/' as *;
+.container {
+  width: 300px;
+  height: auto;
+  @include flex(center, flex-start);
+  flex-direction: column;
+  .content {
+    overflow: hidden;
+    z-index: 1;
+    width: 400px;
+    height: 200px;
+    border-radius: $border-radius;
+    background-color: $white;
+    border: 0.5px solid $gray;
+    animation: modalAnimation 0.1s forwards;
+    .wrapper {
+      width: inherit;
+      .header {
+        @include flex(center, center);
+        flex-direction: column;
+        gap: 5px;
+
+        h4 {
+          color: $black;
+          margin-bottom: 0;
+        }
+        & > span {
+          color: $dark-gray;
+        }
+      }
+      .action {
+        @include flex(center, center);
+        top: 45px;
+        flex-direction: column;
+        position: relative;
+        gap: 20px;
+        width: 100%;
+        cursor: pointer;
+        &::before {
+          content: '';
+          position: absolute;
+          height: 0.5px;
+          width: 100%;
+          background-color: $gray;
+        }
+        &::after {
+          content: '';
+          position: absolute;
+          height: 0.5px;
+          width: 100%;
+          background-color: $gray;
+          top: -10px;
+        }
+        .text1 {
+          display: inline-block;
+          width: inherit;
+          color: $red;
+          text-align: center;
+          height: 100%;
+        }
+        .text2 {
+          display: inline-block;
+          text-align: center;
+          width: inherit;
+          color: $black;
+        }
+      }
+    }
+  }
+}

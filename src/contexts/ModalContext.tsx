@@ -1,6 +1,7 @@
 import { useState, createContext, ReactNode, useContext, useEffect } from 'react';
 import RootModal from '~/components/modals';
 import LikeListModal from '~/components/modals/LikeListModal';
+import LogoutModal from '~/components/modals/LogoutModal';
 import MessageModal from '~/components/modals/MessageModal';
 import PostActionModal from '~/components/modals/PostActionModal';
 import PostModal from '~/components/modals/PostModal';
@@ -15,7 +16,8 @@ export const MODAL_TYPES = {
   NEW_MESSAGE: 'NEW_MESSAGE',
   WARNING_USER: 'WARNING_USER',
   LIKE_LIST: 'LIKE_LIST',
-  UNFOLLOW: 'UNFOLLOW'
+  UNFOLLOW: 'UNFOLLOW',
+  LOGOUT: 'LOGOUT'
 } as const;
 
 export const INPUT_TYPES = {
@@ -32,7 +34,8 @@ const MODALS = {
   [MODAL_TYPES.NEW_MESSAGE]: <MessageModal key={MODAL_TYPES.NEW_MESSAGE} />,
   [MODAL_TYPES.WARNING_USER]: <WarningModal key={MODAL_TYPES.WARNING_USER} />,
   [MODAL_TYPES.LIKE_LIST]: <LikeListModal key={MODAL_TYPES.LIKE_LIST} />,
-  [MODAL_TYPES.UNFOLLOW]: <UnfollowModal key={MODAL_TYPES.UNFOLLOW} />
+  [MODAL_TYPES.UNFOLLOW]: <UnfollowModal key={MODAL_TYPES.UNFOLLOW} />,
+  [MODAL_TYPES.LOGOUT]: <LogoutModal key={MODAL_TYPES.LOGOUT} />
 } as const;
 
 interface ModalContextTypes {

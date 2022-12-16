@@ -11,20 +11,56 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { logo } from '~/assets/images';
 import Image from '~/components/Image';
 import { useRouter } from 'next/router';
+import {
+  ChangePasswordInput,
+  useChangePasswordMutation,
+  useLogoutMutation
+} from '~/types/generated';
+import { string } from 'zod';
+import { toast } from 'react-toastify';
+import Loading from '~/components/Loading';
 const cx = bindClass(styles);
 const changePassword = () => {
   const router = useRouter();
+  const [changePassword, { data, loading, error }] = useChangePasswordMutation();
+  const [logout] = useLogoutMutation();
+  console.log(data);
   const {
     register,
     handleSubmit,
     setError,
-    watch,
     formState: { errors }
   } = useForm<ValidationSchema>({
     resolver: zodResolver(validationSchema)
   });
 
-  const onSubmit = () => {};
+  const onSubmit = async (info: ValidationSchema) => {
+    const { password } = info;
+    const { token, userId } = router.query;
+
+    const newToken = token as string;
+
+    if (!token || !userId) return;
+    try {
+      const data = { password, token: newToken, userId: Number(userId) };
+      const response = await changePassword({
+        variables: { changePasswordInput: data }
+      });
+
+      const success = response.data?.changePassword.success;
+
+      if (success) {
+        toast.success('Your password has been updated successfully');
+      }
+
+      await logout();
+      setTimeout(() => {
+        router.push('/login');
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <SubLayout title='Change Password'>
       <div className={cx('container')}>
@@ -47,8 +83,7 @@ const changePassword = () => {
             />
           </div>
           <Button className={cx('button')} primary size='lg' type='submit'>
-            {/* {loading ? <Loading size='sm' className='loading' /> : ' Log In'} */}
-            Change Password
+            {loading ? <Loading size='sm' className='loading' /> : '  Change Password'}
           </Button>
         </form>
         <span className={cx('go-back')} onClick={() => router.back()}>

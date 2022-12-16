@@ -21,7 +21,7 @@ const NavBar = () => {
     }
     return () => {
       if (isMeetConditions) {
-        mainbarRef.current.style.backgroundColor = '#fff';
+        mainbarRef.current!.style.backgroundColor = '#fff';
       }
     };
   }, [mainbarRef.current, modalsType.length]);

@@ -1,0 +1,5 @@
+fragment BaseResponse on BaseResponse {
+  code
+  message
+  success
+}
