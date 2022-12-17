@@ -57,7 +57,7 @@ const verifyAcount = () => {
     }
   };
   return (
-    <SubLayout title='Forgot Password'>
+    <SubLayout title='Verify Password'>
       <div className={cx('main')}>
         <div className={cx('container')}>
           <HiOutlineMail className={cx('icon')} />

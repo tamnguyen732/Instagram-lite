@@ -1,3 +1,4 @@
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import FormField from '~/components/FormField';
 import styles from './styles.module.scss';
 import { bindClass } from '~/lib/classNames';
@@ -9,13 +10,13 @@ import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { validationSchema, ValidationSchema } from './formValidation';
-import { LoginInput, useLoginMutation } from '~/types/generated';
+import { LoginInput, useLoginFacebookMutation, useLoginMutation } from '~/types/generated';
 import mapError from '~/helpers/mapErrors';
 import { useStoreDispatch } from '~/redux/store';
 import Loading from '~/components/Loading';
 import { authAction } from '~/redux/slices/authSlice';
 import { useRouter } from 'next/router';
-
+import { ReactFacebookLoginInfo } from 'react-facebook-login';
 const cx = bindClass(styles);
 
 const LoginForm = () => {
@@ -30,15 +31,12 @@ const LoginForm = () => {
   const dispatch = useStoreDispatch();
   const router = useRouter();
   const [loginUser, { loading }] = useLoginMutation();
+  const [loginFacebook] = useLoginFacebookMutation();
   const onSubmit = async (data: LoginInput) => {
     const response = await loginUser({
       variables: { LoginInput: data }
     });
-
-    const errors = response.data!.login.errors;
-
-    const user = response.data?.login.user;
-
+    const { errors, user } = response.data!.login;
     if (user) {
       dispatch(authAction.setCurrentUser(user));
       dispatch(authAction.setIsLoggedIn(true));
@@ -47,6 +45,18 @@ const LoginForm = () => {
     if (errors) {
       const { message } = mapError(errors);
       setError('password', { message });
+    }
+  };
+
+  const responseFacebook = async (data: ReactFacebookLoginInfo) => {
+    const { userID, accessToken } = data;
+    const response = await loginFacebook({
+      variables: { userId: userID, accessToken }
+    });
+
+    const success = response.data?.loginFacebook.success;
+    if (success) {
+      router.push('/');
     }
   };
   return (
@@ -73,9 +83,21 @@ const LoginForm = () => {
           <div className={cx('wrapper-login')}>
             <div className={cx('facebook-login')}>
               <FaFacebookSquare className={cx('icon')} />
-              <span className={cx('login')}>Log in with facebook</span>
+              <FacebookLogin
+                appId={process.env.NEXT_PUBLIC_FACEBOOK_CLIENT_ID}
+                autoLoad
+                fields='name,email,picture'
+                callback={responseFacebook}
+                render={(renderProps: any) => (
+                  <span onClick={renderProps.onClick} className={cx('login')}>
+                    Log in with facebook
+                  </span>
+                )}
+              />
             </div>
-            <span className={cx('forgot-password')}>forgot password?</span>
+            <Link href={'/forgotPassword'} className={cx('forgot-password')}>
+              forgot password?
+            </Link>
           </div>
         </form>
       </div>

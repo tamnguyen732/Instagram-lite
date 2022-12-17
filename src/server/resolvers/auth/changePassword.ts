@@ -41,6 +41,26 @@ const changePassword = (Base: ClassType) => {
 
         const hashedPassword = await hashedData(password);
 
+        const existingUser = await User.findOneBy({ id: userId });
+
+        if (!existingUser) {
+          return {
+            code: status.NOT_FOUND,
+            success: false,
+            message: 'User Not Found'
+          };
+        }
+
+        const comparedPassword = await bcrypt.compare(password, existingUser.password);
+        console.log(comparedPassword);
+        if (comparedPassword) {
+          return {
+            code: status.BAD_REQUEST,
+            success: false,
+            message: 'You have used this password before'
+          };
+        }
+
         await User.createQueryBuilder()
           .update({ password: hashedPassword })
           .where({ id: userId })

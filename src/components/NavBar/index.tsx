@@ -3,7 +3,7 @@ import useClickOutside from '~/hooks/useClickOutside';
 import MainBar from './components/MainBar';
 import { bindClass } from '~/lib/classNames';
 import styles from './styles.module.scss';
-import SubBar from './components/SubBar/SubBar';
+import SubBar from './components/SubBar';
 import { useModalContext } from '~/contexts/ModalContext';
 const cx = bindClass(styles);
 const NavBar = () => {

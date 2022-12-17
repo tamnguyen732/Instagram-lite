@@ -4,8 +4,6 @@
   width: 351px;
   height: auto;
   background-color: $white;
-  @include flex(center, center);
-  flex-direction: column;
   border: $border;
   position: absolute;
   left: 50%;
@@ -15,6 +13,10 @@
   flex-direction: column;
   transform: translateX(-50%);
   gap: 10px;
+  .icon {
+    color: $black;
+    font-size: 3.9rem;
+  }
   .text {
     margin: 0;
     color: $black;

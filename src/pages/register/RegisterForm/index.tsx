@@ -22,12 +22,8 @@ const cx = bindClass(styles);
 const RegisterForm = () => {
   const router = useRouter();
   const [verifiedUser, { data, loading }] = useVerifiedUserMutation();
-  const [loginFacebook, { data: facebookData, loading: facebookLoading }] =
-    useLoginFacebookMutation();
-
-  console.log(facebookData);
+  const [loginFacebook] = useLoginFacebookMutation();
   const dispatch = useStoreDispatch();
-
   const {
     register,
     handleSubmit,
@@ -56,10 +52,9 @@ const RegisterForm = () => {
       variables: { userId: userID, accessToken }
     });
 
-    const success = response.data?.loginFacebook.success
-
-    if(success) {
-      router.push('/')
+    const success = response.data?.loginFacebook.success;
+    if (success) {
+      router.push('/');
     }
   };
   return (

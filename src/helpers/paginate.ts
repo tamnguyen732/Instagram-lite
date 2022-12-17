@@ -7,6 +7,7 @@ type Paginate = (params: {
   page: number;
   userId?: number;
   conversationId?: number;
+  searchQuery?: string;
 }) => Promise<ReturnProps>;
 type ReturnProps = {
   totalCount: number;
@@ -18,7 +19,8 @@ export const paginate: Paginate = async ({
   limitPerPage,
   page,
   userId,
-  conversationId
+  conversationId,
+  searchQuery
 }) => {
   let totalCount;
 
@@ -40,6 +42,10 @@ export const paginate: Paginate = async ({
   let query = Entity.createQueryBuilder('Entity')
     .take(limitPerPage)
     .skip((page! - 1) * limitPerPage);
+
+  if (searchQuery) {
+    query = query.where('Entity.username LIKE :username', { username: `%${searchQuery}%` });
+  }
   if (Entity === Conversation) {
     query = query
       .leftJoinAndSelect('Entity.messages', 'messages')

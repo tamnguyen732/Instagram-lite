@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
 import { withAuth } from '~/auth';
 import Button from '~/components/Button';
 import FormField from '~/components/FormField';
@@ -10,19 +9,16 @@ import { validationSchema, ValidationSchema } from './formValidation';
 import styles from './styles.module.scss';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import { toast } from 'react-toastify';
 import Loading from '~/components/Loading';
+import { TbLock } from 'react-icons/tb';
 const cx = bindClass(styles);
 const forgotPassword = () => {
   const router = useRouter();
-  const [forgotPasswordFetch, { data, loading, error }] = useForgotPasswordMutation();
-  console.log(data);
-
+  const [forgotPasswordFetch, { loading }] = useForgotPasswordMutation();
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors }
   } = useForm<ValidationSchema>({
     resolver: zodResolver(validationSchema)
@@ -40,7 +36,9 @@ const forgotPassword = () => {
   return (
     <SubLayout title='Forgot Password'>
       <div className={cx('container')}>
-        <h2 className={cx('text')}>Forgot Password</h2>
+        <TbLock className={cx('icon')} />
+        <h4 className={cx('text')}>Forgot Password?</h4>
+        <p className={cx('text2')}>We will send ou an email for confirmation to reset password</p>
         <form className='wrapper' onSubmit={handleSubmit(onSubmit)}>
           <div className={cx('inputs')}>
             <FormField
@@ -53,7 +51,6 @@ const forgotPassword = () => {
           </div>
           <Button className={cx('button')} primary size='lg' type='submit'>
             {loading ? <Loading size='sm' className='loading' /> : ' Submit'}
-            Submit
           </Button>
         </form>
         <span className={cx('go-back')} onClick={() => router.back()}>
@@ -66,4 +63,4 @@ const forgotPassword = () => {
 
 export default forgotPassword;
 
-export const getServerSideProps = withAuth({ isProtected: true });
+export const getServerSideProps = withAuth({ isProtected: false });
