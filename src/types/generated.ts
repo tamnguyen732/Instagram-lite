@@ -97,6 +97,12 @@ export type FieldError = {
   message: Scalars['String'];
 };
 
+export type FindUsersInput = {
+  limitPerPage: Scalars['Float'];
+  page: Scalars['Float'];
+  searchQuery: Scalars['String'];
+};
+
 export type FollowUserInput = {
   id: Scalars['Float'];
   type: Scalars['String'];
@@ -351,6 +357,7 @@ export type PostResponse = {
 
 export type Query = {
   __typename?: 'Query';
+  findUsers: PaginatedUsersResponse;
   getAllPosts: PaginatedPostsResponse;
   getConversationById: ConversationResponse;
   getConversations: PaginatedConversationResponse;
@@ -362,6 +369,11 @@ export type Query = {
   getYourPosts: PaginatedPostsResponse;
   hello: Scalars['String'];
   lastMessage: Message;
+};
+
+
+export type QueryFindUsersArgs = {
+  query: FindUsersInput;
 };
 
 
@@ -528,6 +540,13 @@ export type GetSessionQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetSessionQuery = { __typename?: 'Query', getSession: { __typename?: 'GetSessionResponse', code: number, success: boolean, accessToken?: string | null, user?: { __typename?: 'User', id: string, email: string, username: string, avatar?: string | null, conversation?: Array<{ __typename?: 'Conversation', userId?: string | null, receiverId?: string | null }> | null, posts?: Array<{ __typename?: 'Post', photo?: string | null, caption?: string | null }> | null, followers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, following?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null } | null } };
+
+export type FindUsersQueryVariables = Exact<{
+  FindUsersInput: FindUsersInput;
+}>;
+
+
+export type FindUsersQuery = { __typename?: 'Query', findUsers: { __typename?: 'PaginatedUsersResponse', code: number, success: boolean, totalCount?: number | null, page?: number | null, lastPage?: number | null, paginatedUsers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null } };
 
 export const BaseResponseFragmentDoc = gql`
     fragment BaseResponse on BaseResponse {
@@ -863,3 +882,45 @@ export function useGetSessionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type GetSessionQueryHookResult = ReturnType<typeof useGetSessionQuery>;
 export type GetSessionLazyQueryHookResult = ReturnType<typeof useGetSessionLazyQuery>;
 export type GetSessionQueryResult = Apollo.QueryResult<GetSessionQuery, GetSessionQueryVariables>;
+export const FindUsersDocument = gql`
+    query findUsers($FindUsersInput: FindUsersInput!) {
+  findUsers(query: $FindUsersInput) {
+    code
+    success
+    totalCount
+    page
+    lastPage
+    paginatedUsers {
+      ...baseUser
+    }
+  }
+}
+    ${BaseUserFragmentDoc}`;
+
+/**
+ * __useFindUsersQuery__
+ *
+ * To run a query within a React component, call `useFindUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindUsersQuery({
+ *   variables: {
+ *      FindUsersInput: // value for 'FindUsersInput'
+ *   },
+ * });
+ */
+export function useFindUsersQuery(baseOptions: Apollo.QueryHookOptions<FindUsersQuery, FindUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindUsersQuery, FindUsersQueryVariables>(FindUsersDocument, options);
+      }
+export function useFindUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUsersQuery, FindUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindUsersQuery, FindUsersQueryVariables>(FindUsersDocument, options);
+        }
+export type FindUsersQueryHookResult = ReturnType<typeof useFindUsersQuery>;
+export type FindUsersLazyQueryHookResult = ReturnType<typeof useFindUsersLazyQuery>;
+export type FindUsersQueryResult = Apollo.QueryResult<FindUsersQuery, FindUsersQueryVariables>;
