@@ -1,14 +1,12 @@
-query findUsers($FindUsersInput:FindUsersInput!) {
-  findUsers (query:$FindUsersInput) {
-  code
-  success
-  totalCount
-  page
-  lastPage
-  paginatedUsers {
-    id
-    username
-    email
+query findUsers($FindUsersInput: FindUsersInput!) {
+  findUsers(query: $FindUsersInput) {
+    code
+    success
+    totalCount
+    page
+    lastPage
+    paginatedUsers {
+      ...baseUser
+    }
   }
-  
 }
