@@ -1,0 +1,12 @@
+query getUsers($page: Float!, $limitPerPage: Float!) {
+  getUsers(page: $page, limitPerPage: $limitPerPage) {
+    code
+    success
+    hasMore
+    lastPage
+    totalCount
+    paginatedUsers {
+      ...baseUser
+    }
+  }
+}

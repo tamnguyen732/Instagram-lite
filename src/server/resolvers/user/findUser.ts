@@ -19,6 +19,17 @@ const findUsers = (Base: ClassType) => {
         page,
         searchQuery
       });
+      if (!searchQuery) {
+        return {
+          code: status.OK,
+          success: true,
+          totalCount: 0,
+          page,
+          lastPage,
+          paginatedUsers: [],
+          hasMore: false
+        };
+      }
 
       return {
         code: status.OK,

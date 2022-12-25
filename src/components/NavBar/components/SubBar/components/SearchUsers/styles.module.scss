@@ -1,71 +1,92 @@
 @use '~/scss/' as *;
 
 .container {
-  background-color: $white;
-  position: fixed;
-  height: 100%;
-  top: 0;
-  width: 464px;
-  z-index: 10;
-  left: -500px;
-  box-shadow: $box-shadow;
-  border-radius: 20px;
-  transition: all 0.5s ease-in-out;
-  &.active {
-    left: 0;
-  }
-  .search-wrapper {
-    width: 100%;
-    height: auto;
-    color: black;
-    position: absolute;
-    left: 100px;
-    top: 30px;
-    z-index: 100;
-    @include flex(flex-start, center);
-    flex-direction: column;
-    gap: 20px;
-    .input-wrapper {
-      width: 320px;
-      height: 36px;
-      position: relative;
-      .input {
-        width: 100%;
-        position: absolute;
-        z-index: 50;
-        padding: 15px 10px;
-        border-radius: 8px;
-        top: 0;
-        left: 0;
-        border: none;
-        background-color: $light-gray;
-      }
-      .icon {
-        z-index: 100;
-        cursor: pointer;
-        background-color: $light-gray;
-        font-size: 1.1rem;
-        position: absolute;
-        right: 5px;
-        top: 40%;
-      }
-    }
-    .hr {
-      width: 83%;
-      margin-top: 20px;
-      background-color: $gray;
-      height: 0.4px;
-      border: none;
+  width: inherit;
+  height: auto;
+  color: black;
+  position: absolute;
+  left: 80px;
+  top: 30px;
+  z-index: 100;
+  padding: 10px 20px;
+  @include flex(flex-start, center);
+  flex-direction: column;
+  gap: 20px;
+  .input-wrapper {
+    width: 320px;
+    height: 36px;
+    position: relative;
+    .input {
+      width: 100%;
       position: absolute;
-      left: -20px;
+      z-index: 50;
+      padding: 15px 10px;
+      border-radius: 8px;
+      top: 0;
+      left: 0;
+      border: none;
+      background-color: $light-gray;
     }
-    .recently {
-      padding-top: 30px;
+    .icon {
+      z-index: 100;
+      cursor: pointer;
+      background-color: $light-gray;
+      font-size: 1.3rem;
+      position: absolute;
+      right: -10px;
+      top: 40%;
     }
-    p {
-      text-align: center;
-      padding: 10px 0 0 30px;
-      margin-top: 40px;
+    .loading1 {
+      position: absolute;
+      right: -20px;
+      top: 15%;
     }
+  }
+
+  .hr {
+    width: 100%;
+    margin-left: -20px;
+    background-color: $gray;
+    height: 0.4px;
+    border: none;
+  }
+  .loading2 {
+    position: absolute;
+    left: 30%;
+    bottom: 5px;
+    transform: translateY(260%);
+  }
+  .user-list {
+    width: 100%;
+    height: 350px;
+    padding: 5px 0 0 0;
+    margin: 0 0 0 -30px;
+    cursor: pointer;
+    z-index: 100;
+    overflow-y: scroll;
+    @include flex(flex-start, flex-start);
+    flex-direction: column;
+
+    :hover {
+      background-color: $light-gray;
+    }
+
+    .user {
+      padding: 10px 20px;
+      width: 90%;
+      @include flex(flex-start, center);
+      flex-direction: column;
+      :hover {
+        background-color: unset;
+      }
+    }
+  }
+  .recently {
+    padding-top: 30px;
+  }
+  p {
+    text-align: center;
+    padding: 10px 0 0 30px;
+    margin-top: 40px;
   }
 }

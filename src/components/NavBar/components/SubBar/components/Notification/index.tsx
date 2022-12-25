@@ -6,17 +6,10 @@ import Image from '~/components/Image';
 import Button from '~/components/Button';
 import { logo } from '~/assets/images';
 const cx = bindClass(styles);
-interface NavProps<T extends HTMLElement = HTMLDivElement> {
-  subBarActive: boolean;
-  setSubBarActive?: (subBarActive: boolean) => void;
-  title: string;
-  ref: RefObject<T>;
-}
-const SubBar = () => {
-  const [search, setSearch] = useState<string>('');
 
+const Notification = () => {
   return (
-    <div className={cx('noti-wrapper')}>
+    <div className={cx('container')}>
       <h3>Notification</h3>
       <hr className={cx('noti-hr')} />
       <p>Previously</p>
@@ -45,4 +38,4 @@ const SubBar = () => {
   );
 };
 
-export default SubBar;
+export default Notification;

@@ -5,6 +5,7 @@ query findUsers($FindUsersInput: FindUsersInput!) {
     totalCount
     page
     lastPage
+    hasMore
     paginatedUsers {
       ...baseUser
     }

@@ -10,7 +10,7 @@ const getUsers = (Base: ClassType) => {
     @UseMiddleware(verifyAuth)
     @Query(() => PaginatedUsersResponse)
     async getUsers(
-      @Arg('limit', (_type) => Int) limitPerPage: number,
+      @Arg('limitPerPage', (_type) => Number) limitPerPage: number,
       @Arg('page', (_type) => Number) page: number
     ): Promise<PaginatedUsersResponse> {
       const { totalCount, lastPage, entities } = await paginate({

@@ -46,7 +46,11 @@ const MainBar = forwardRef<any, NavProps>(({ setSubBarActive, subBarActive, setT
 
   return (
     <div ref={ref} className={cx('container', subBarActive ? 'active' : '')}>
-      {!subBarActive && <Image src={logo.src} alt='instagram-logo' className={cx('image')} />}
+      {!subBarActive && (
+        <Link href={ROUTES.HOME}>
+          <Image src={logo.src} alt='instagram-logo' className={cx('image')} />
+        </Link>
+      )}
 
       <ul className={cx('list', subBarActive ? 'active-list' : '')}>
         {subBarActive ? (

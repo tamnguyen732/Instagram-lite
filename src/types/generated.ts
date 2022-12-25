@@ -410,7 +410,7 @@ export type QueryGetSingleUserArgs = {
 
 
 export type QueryGetUsersArgs = {
-  limit: Scalars['Int'];
+  limitPerPage: Scalars['Float'];
   page: Scalars['Float'];
 };
 
@@ -546,7 +546,15 @@ export type FindUsersQueryVariables = Exact<{
 }>;
 
 
-export type FindUsersQuery = { __typename?: 'Query', findUsers: { __typename?: 'PaginatedUsersResponse', code: number, success: boolean, totalCount?: number | null, page?: number | null, lastPage?: number | null, paginatedUsers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null } };
+export type FindUsersQuery = { __typename?: 'Query', findUsers: { __typename?: 'PaginatedUsersResponse', code: number, success: boolean, totalCount?: number | null, page?: number | null, lastPage?: number | null, hasMore?: boolean | null, paginatedUsers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null } };
+
+export type GetUsersQueryVariables = Exact<{
+  page: Scalars['Float'];
+  limitPerPage: Scalars['Float'];
+}>;
+
+
+export type GetUsersQuery = { __typename?: 'Query', getUsers: { __typename?: 'PaginatedUsersResponse', code: number, success: boolean, hasMore?: boolean | null, lastPage?: number | null, totalCount?: number | null, paginatedUsers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null } };
 
 export const BaseResponseFragmentDoc = gql`
     fragment BaseResponse on BaseResponse {
@@ -890,6 +898,7 @@ export const FindUsersDocument = gql`
     totalCount
     page
     lastPage
+    hasMore
     paginatedUsers {
       ...baseUser
     }
@@ -924,3 +933,46 @@ export function useFindUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type FindUsersQueryHookResult = ReturnType<typeof useFindUsersQuery>;
 export type FindUsersLazyQueryHookResult = ReturnType<typeof useFindUsersLazyQuery>;
 export type FindUsersQueryResult = Apollo.QueryResult<FindUsersQuery, FindUsersQueryVariables>;
+export const GetUsersDocument = gql`
+    query getUsers($page: Float!, $limitPerPage: Float!) {
+  getUsers(page: $page, limitPerPage: $limitPerPage) {
+    code
+    success
+    hasMore
+    lastPage
+    totalCount
+    paginatedUsers {
+      ...baseUser
+    }
+  }
+}
+    ${BaseUserFragmentDoc}`;
+
+/**
+ * __useGetUsersQuery__
+ *
+ * To run a query within a React component, call `useGetUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUsersQuery({
+ *   variables: {
+ *      page: // value for 'page'
+ *      limitPerPage: // value for 'limitPerPage'
+ *   },
+ * });
+ */
+export function useGetUsersQuery(baseOptions: Apollo.QueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, options);
+      }
+export function useGetUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, options);
+        }
+export type GetUsersQueryHookResult = ReturnType<typeof useGetUsersQuery>;
+export type GetUsersLazyQueryHookResult = ReturnType<typeof useGetUsersLazyQuery>;
+export type GetUsersQueryResult = Apollo.QueryResult<GetUsersQuery, GetUsersQueryVariables>;

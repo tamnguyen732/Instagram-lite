@@ -27,7 +27,7 @@
   }
   .footer {
     width: 100%;
-
+    position: relative;
     .suggest {
       @include flex(center, space-between);
       :first-child {
@@ -38,19 +38,33 @@
         color: $dark-gray;
       }
     }
+    .loading {
+      position: absolute;
+      left: 50%;
+
+      transform: translateY(150%);
+    }
     .friends {
       margin-top: 10px;
-      @include flex(center, space-between);
+      width: 100%;
+      @include flex(flex-start, space-between);
+      gap: 10px;
+      flex-direction: column;
       .friend-wrapper {
-        @include flex(center, flex-start);
-        gap: 5px;
-        .friend-image {
-          width: 34px;
-          height: 34px;
-        }
-        span {
-          color: $black;
-          font-size: 0.9rem;
+        width: inherit;
+        @include flex(center, space-between);
+
+        .profile-wrapper {
+          gap: 10px;
+          @include flex(center, space-between);
+          .friend-image {
+            width: 34px;
+            height: 34px;
+          }
+          span {
+            color: $black;
+            font-size: 0.9rem;
+          }
         }
       }
       span {
