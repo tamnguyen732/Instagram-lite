@@ -1,9 +1,10 @@
 import { AnyAction, combineReducers } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 import authReducer from './slices/authSlice';
-
+import userReducer from './slices/userSlice';
 export const combinedReducers = combineReducers({
-  auth: authReducer
+  auth: authReducer,
+  users: userReducer
 });
 
 const rootReducer = (state: ReturnType<typeof combinedReducers>, action: AnyAction) => {

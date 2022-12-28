@@ -1,10 +1,6 @@
 import { bindClass } from '~/lib/classNames';
 import styles from './styles.module.scss';
-import { RefObject, useState, forwardRef } from 'react';
-import { AiOutlineCloseCircle } from 'react-icons/ai';
-import Image from '~/components/Image';
-import { logo } from '~/assets/images';
-import Button from '~/components/Button';
+import { RefObject, forwardRef } from 'react';
 import SearchUser from './components/SearchUsers';
 import Notification from './components/Notification';
 const cx = bindClass(styles);

@@ -1,0 +1,7 @@
+mutation followUser($FollowUserInput: FollowUserInput!) {
+  followUser(followUserArg: $FollowUserInput) {
+    code
+    success
+    message
+  }
+}

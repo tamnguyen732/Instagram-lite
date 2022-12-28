@@ -7,7 +7,7 @@ query findUsers($FindUsersInput: FindUsersInput!) {
     lastPage
     hasMore
     paginatedUsers {
-      ...baseUser
+      ...user
     }
   }
 }

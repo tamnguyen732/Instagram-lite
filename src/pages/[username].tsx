@@ -1,6 +1,7 @@
 import React from 'react';
+import { withAuth } from '~/auth';
 import { MainLayout } from '~/layouts/MainLayout';
-import UserPage from './UserPage';
+import UserPage from './userPage';
 
 const username = () => {
   return (
@@ -11,3 +12,5 @@ const username = () => {
 };
 
 export default username;
+
+export const getServerSideProps = withAuth({ isProtected: true });

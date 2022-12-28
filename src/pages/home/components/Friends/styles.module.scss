@@ -35,7 +35,11 @@
       }
       :nth-child(2) {
         cursor: pointer;
-        color: $dark-gray;
+        color: $black;
+        font-size: 0.9rem;
+        &:hover {
+          color: $dark-gray;
+        }
       }
     }
     .loading {
@@ -61,13 +65,14 @@
             width: 34px;
             height: 34px;
           }
-          span {
+          > span {
             color: $black;
             font-size: 0.9rem;
           }
         }
       }
       span {
+        font-size: 0.9rem;
         color: $primary-blue;
         cursor: pointer;
       }

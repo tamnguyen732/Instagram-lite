@@ -4,3 +4,17 @@ fragment baseUser on User {
   username
   avatar
 }
+
+fragment user on User {
+  ...baseUser
+  followers {
+    ...baseUser
+  }
+
+  following {
+    ...baseUser
+  }
+  posts {
+    ...post
+  }
+}

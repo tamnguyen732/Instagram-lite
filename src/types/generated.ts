@@ -405,7 +405,7 @@ export type QueryGetSinglePostArgs = {
 
 
 export type QueryGetSingleUserArgs = {
-  userId: Scalars['Float'];
+  username: Scalars['String'];
 };
 
 
@@ -473,7 +473,7 @@ export type UserResponse = {
   code: Scalars['Float'];
   message?: Maybe<Scalars['String']>;
   success: Scalars['Boolean'];
-  user?: Maybe<Array<User>>;
+  user?: Maybe<User>;
 };
 
 export type ChangePasswordInput = {
@@ -484,7 +484,11 @@ export type ChangePasswordInput = {
 
 export type BaseResponseFragment = { __typename?: 'BaseResponse', code: number, message?: string | null, success: boolean };
 
+export type PostFragment = { __typename?: 'Post', id: string, photo?: string | null, caption?: string | null };
+
 export type BaseUserFragment = { __typename?: 'User', id: string, email: string, username: string, avatar?: string | null };
+
+export type UserFragment = { __typename?: 'User', id: string, email: string, username: string, avatar?: string | null, followers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, following?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, posts?: Array<{ __typename?: 'Post', id: string, photo?: string | null, caption?: string | null }> | null };
 
 export type UserMutationResponseFragment = { __typename?: 'UserMutationResponse', code: number, message?: string | null, success: boolean, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null };
 
@@ -536,17 +540,31 @@ export type VerifiedUserMutationVariables = Exact<{
 
 export type VerifiedUserMutation = { __typename?: 'Mutation', verifiedUser: { __typename?: 'BaseResponse', code: number, message?: string | null, success: boolean } };
 
+export type FollowUserMutationVariables = Exact<{
+  FollowUserInput: FollowUserInput;
+}>;
+
+
+export type FollowUserMutation = { __typename?: 'Mutation', followUser: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null } };
+
 export type GetSessionQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetSessionQuery = { __typename?: 'Query', getSession: { __typename?: 'GetSessionResponse', code: number, success: boolean, accessToken?: string | null, user?: { __typename?: 'User', id: string, email: string, username: string, avatar?: string | null, conversation?: Array<{ __typename?: 'Conversation', userId?: string | null, receiverId?: string | null }> | null, posts?: Array<{ __typename?: 'Post', photo?: string | null, caption?: string | null }> | null, followers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, following?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null } | null } };
+export type GetSessionQuery = { __typename?: 'Query', getSession: { __typename?: 'GetSessionResponse', code: number, success: boolean, accessToken?: string | null, user?: { __typename?: 'User', id: string, email: string, username: string, avatar?: string | null, conversation?: Array<{ __typename?: 'Conversation', userId?: string | null, receiverId?: string | null }> | null, posts?: Array<{ __typename?: 'Post', photo?: string | null, caption?: string | null }> | null, followers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null, followers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, following?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, posts?: Array<{ __typename?: 'Post', id: string, photo?: string | null, caption?: string | null }> | null }> | null, following?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null, followers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, following?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, posts?: Array<{ __typename?: 'Post', id: string, photo?: string | null, caption?: string | null }> | null }> | null } | null } };
 
 export type FindUsersQueryVariables = Exact<{
   FindUsersInput: FindUsersInput;
 }>;
 
 
-export type FindUsersQuery = { __typename?: 'Query', findUsers: { __typename?: 'PaginatedUsersResponse', code: number, success: boolean, totalCount?: number | null, page?: number | null, lastPage?: number | null, hasMore?: boolean | null, paginatedUsers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null } };
+export type FindUsersQuery = { __typename?: 'Query', findUsers: { __typename?: 'PaginatedUsersResponse', code: number, success: boolean, totalCount?: number | null, page?: number | null, lastPage?: number | null, hasMore?: boolean | null, paginatedUsers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null, followers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, following?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, posts?: Array<{ __typename?: 'Post', id: string, photo?: string | null, caption?: string | null }> | null }> | null } };
+
+export type GetSingleUserQueryVariables = Exact<{
+  username: Scalars['String'];
+}>;
+
+
+export type GetSingleUserQuery = { __typename?: 'Query', getSingleUser: { __typename?: 'UserResponse', code: number, success: boolean, user?: { __typename?: 'User', id: string, email: string, username: string, avatar?: string | null, followers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, following?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, posts?: Array<{ __typename?: 'Post', id: string, photo?: string | null, caption?: string | null }> | null } | null } };
 
 export type GetUsersQueryVariables = Exact<{
   page: Scalars['Float'];
@@ -554,7 +572,7 @@ export type GetUsersQueryVariables = Exact<{
 }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', getUsers: { __typename?: 'PaginatedUsersResponse', code: number, success: boolean, hasMore?: boolean | null, lastPage?: number | null, totalCount?: number | null, paginatedUsers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null } };
+export type GetUsersQuery = { __typename?: 'Query', getUsers: { __typename?: 'PaginatedUsersResponse', code: number, success: boolean, hasMore?: boolean | null, lastPage?: number | null, totalCount?: number | null, paginatedUsers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null, followers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, following?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, posts?: Array<{ __typename?: 'Post', id: string, photo?: string | null, caption?: string | null }> | null }> | null } };
 
 export const BaseResponseFragmentDoc = gql`
     fragment BaseResponse on BaseResponse {
@@ -571,6 +589,28 @@ export const BaseUserFragmentDoc = gql`
   avatar
 }
     `;
+export const PostFragmentDoc = gql`
+    fragment post on Post {
+  id
+  photo
+  caption
+}
+    `;
+export const UserFragmentDoc = gql`
+    fragment user on User {
+  ...baseUser
+  followers {
+    ...baseUser
+  }
+  following {
+    ...baseUser
+  }
+  posts {
+    ...post
+  }
+}
+    ${BaseUserFragmentDoc}
+${PostFragmentDoc}`;
 export const UserMutationResponseFragmentDoc = gql`
     fragment userMutationResponse on UserMutationResponse {
   code
@@ -837,6 +877,41 @@ export function useVerifiedUserMutation(baseOptions?: Apollo.MutationHookOptions
 export type VerifiedUserMutationHookResult = ReturnType<typeof useVerifiedUserMutation>;
 export type VerifiedUserMutationResult = Apollo.MutationResult<VerifiedUserMutation>;
 export type VerifiedUserMutationOptions = Apollo.BaseMutationOptions<VerifiedUserMutation, VerifiedUserMutationVariables>;
+export const FollowUserDocument = gql`
+    mutation followUser($FollowUserInput: FollowUserInput!) {
+  followUser(followUserArg: $FollowUserInput) {
+    code
+    success
+    message
+  }
+}
+    `;
+export type FollowUserMutationFn = Apollo.MutationFunction<FollowUserMutation, FollowUserMutationVariables>;
+
+/**
+ * __useFollowUserMutation__
+ *
+ * To run a mutation, you first call `useFollowUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFollowUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [followUserMutation, { data, loading, error }] = useFollowUserMutation({
+ *   variables: {
+ *      FollowUserInput: // value for 'FollowUserInput'
+ *   },
+ * });
+ */
+export function useFollowUserMutation(baseOptions?: Apollo.MutationHookOptions<FollowUserMutation, FollowUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<FollowUserMutation, FollowUserMutationVariables>(FollowUserDocument, options);
+      }
+export type FollowUserMutationHookResult = ReturnType<typeof useFollowUserMutation>;
+export type FollowUserMutationResult = Apollo.MutationResult<FollowUserMutation>;
+export type FollowUserMutationOptions = Apollo.BaseMutationOptions<FollowUserMutation, FollowUserMutationVariables>;
 export const GetSessionDocument = gql`
     query GetSession {
   getSession {
@@ -853,16 +928,17 @@ export const GetSessionDocument = gql`
         caption
       }
       followers {
-        ...baseUser
+        ...user
       }
       following {
-        ...baseUser
+        ...user
       }
     }
     accessToken
   }
 }
-    ${BaseUserFragmentDoc}`;
+    ${BaseUserFragmentDoc}
+${UserFragmentDoc}`;
 
 /**
  * __useGetSessionQuery__
@@ -900,11 +976,11 @@ export const FindUsersDocument = gql`
     lastPage
     hasMore
     paginatedUsers {
-      ...baseUser
+      ...user
     }
   }
 }
-    ${BaseUserFragmentDoc}`;
+    ${UserFragmentDoc}`;
 
 /**
  * __useFindUsersQuery__
@@ -933,6 +1009,45 @@ export function useFindUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type FindUsersQueryHookResult = ReturnType<typeof useFindUsersQuery>;
 export type FindUsersLazyQueryHookResult = ReturnType<typeof useFindUsersLazyQuery>;
 export type FindUsersQueryResult = Apollo.QueryResult<FindUsersQuery, FindUsersQueryVariables>;
+export const GetSingleUserDocument = gql`
+    query getSingleUser($username: String!) {
+  getSingleUser(username: $username) {
+    code
+    success
+    user {
+      ...user
+    }
+  }
+}
+    ${UserFragmentDoc}`;
+
+/**
+ * __useGetSingleUserQuery__
+ *
+ * To run a query within a React component, call `useGetSingleUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSingleUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSingleUserQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useGetSingleUserQuery(baseOptions: Apollo.QueryHookOptions<GetSingleUserQuery, GetSingleUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSingleUserQuery, GetSingleUserQueryVariables>(GetSingleUserDocument, options);
+      }
+export function useGetSingleUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSingleUserQuery, GetSingleUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSingleUserQuery, GetSingleUserQueryVariables>(GetSingleUserDocument, options);
+        }
+export type GetSingleUserQueryHookResult = ReturnType<typeof useGetSingleUserQuery>;
+export type GetSingleUserLazyQueryHookResult = ReturnType<typeof useGetSingleUserLazyQuery>;
+export type GetSingleUserQueryResult = Apollo.QueryResult<GetSingleUserQuery, GetSingleUserQueryVariables>;
 export const GetUsersDocument = gql`
     query getUsers($page: Float!, $limitPerPage: Float!) {
   getUsers(page: $page, limitPerPage: $limitPerPage) {
@@ -942,11 +1057,11 @@ export const GetUsersDocument = gql`
     lastPage
     totalCount
     paginatedUsers {
-      ...baseUser
+      ...user
     }
   }
 }
-    ${BaseUserFragmentDoc}`;
+    ${UserFragmentDoc}`;
 
 /**
  * __useGetUsersQuery__

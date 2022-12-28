@@ -3,6 +3,7 @@ import RootModal from '~/components/modals';
 import LikeListModal from '~/components/modals/LikeListModal';
 import LogoutModal from '~/components/modals/LogoutModal';
 import MessageModal from '~/components/modals/MessageModal';
+import NewFriendsModal from '~/components/modals/NewFriendsModal';
 import PostActionModal from '~/components/modals/PostActionModal';
 import PostModal from '~/components/modals/PostModal';
 import SharePostModal from '~/components/modals/SharePostModal';
@@ -14,6 +15,7 @@ export const MODAL_TYPES = {
   POST_ACTION: 'POST_ACTION',
   SHARE_POST: 'SHARE_POST',
   NEW_MESSAGE: 'NEW_MESSAGE',
+  RECOMMENDED_FRIENDS: 'RECOMMENDED_FRIENDS',
   WARNING_USER: 'WARNING_USER',
   LIKE_LIST: 'LIKE_LIST',
   UNFOLLOW: 'UNFOLLOW',
@@ -35,7 +37,8 @@ const MODALS = {
   [MODAL_TYPES.WARNING_USER]: <WarningModal key={MODAL_TYPES.WARNING_USER} />,
   [MODAL_TYPES.LIKE_LIST]: <LikeListModal key={MODAL_TYPES.LIKE_LIST} />,
   [MODAL_TYPES.UNFOLLOW]: <UnfollowModal key={MODAL_TYPES.UNFOLLOW} />,
-  [MODAL_TYPES.LOGOUT]: <LogoutModal key={MODAL_TYPES.LOGOUT} />
+  [MODAL_TYPES.LOGOUT]: <LogoutModal key={MODAL_TYPES.LOGOUT} />,
+  [MODAL_TYPES.RECOMMENDED_FRIENDS]: <NewFriendsModal key={MODAL_TYPES.RECOMMENDED_FRIENDS} />
 } as const;
 
 interface ModalContextTypes {

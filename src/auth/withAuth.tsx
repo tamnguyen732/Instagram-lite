@@ -12,7 +12,7 @@ import { AddParameters } from '~/types/utils';
 import { ROUTES } from '~/constants/routes';
 import { StoreDispatch } from '~/redux/types/store';
 import { ParsedUrlQuery } from 'querystring';
-import { BaseUserFragment, GetSessionDocument, GetSessionQuery } from '~/types/generated';
+import { GetSessionDocument, GetSessionQuery, UserFragment } from '~/types/generated';
 import { authAction } from '~/redux/slices/authSlice';
 import { COOKIE_NAMES } from '~/constants';
 import { generateToken } from '~/helpers/token';
@@ -72,8 +72,11 @@ export const withAuth: WithAuthProps = ({ isProtected }, callback) =>
             ]);
           }
         }
-        dispatch(authAction.setCurrentUser(user as BaseUserFragment));
-        dispatch(authAction.setIsLoggedIn(true));
+        if (user) {
+          console.log(user);
+          dispatch(authAction.setCurrentUser(user as UserFragment));
+          dispatch(authAction.setIsLoggedIn(true));
+        }
       } catch (error) {
         console.log('error', error);
       }

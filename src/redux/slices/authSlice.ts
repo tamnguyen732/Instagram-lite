@@ -26,9 +26,6 @@ const authSlice = createSlice({
   },
   extraReducers: {
     [HYDRATE]: (state, { payload }) => {
-      if (!payload.auth.toVerifyUser.username) {
-        return state;
-      }
       return {
         ...state,
         ...payload.auth

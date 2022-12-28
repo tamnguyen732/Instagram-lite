@@ -1,0 +1,9 @@
+query getSingleUser($username: String!) {
+  getSingleUser(username: $username) {
+    code
+    success
+    user {
+      ...user
+    }
+  }
+}

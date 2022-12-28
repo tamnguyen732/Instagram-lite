@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
+import { userAction } from '~/redux/slices/userSlice';
+import { useStoreDispatch } from '~/redux/store';
 import { useGetUsersLazyQuery, User } from '~/types/generated';
 
 const PAGE = 1;
 const PAGE_LIMIT = 5;
 
 type fetchUsersReturn = () => {
-  users: User[];
+  randomUsers: User[];
   loading: boolean;
 };
 const fetchUsersFriends: fetchUsersReturn = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const dispatch = useStoreDispatch();
+  const [randomUsers, setRandomUsers] = useState<User[]>([]);
   const [getUsers, { loading, error }] = useGetUsersLazyQuery();
 
   const chooseRandom = (arr: User[], num = 1) => {
@@ -30,10 +33,10 @@ const fetchUsersFriends: fetchUsersReturn = () => {
       try {
         const response = await getUsers({ variables: { page: PAGE, limitPerPage: PAGE_LIMIT } });
         const users = response.data?.getUsers.paginatedUsers;
-
+        dispatch(userAction.setUsers(users as User[]));
         if (users?.length) {
           const randomUsers = chooseRandom(users, 5);
-          setUsers(randomUsers);
+          setRandomUsers(randomUsers);
         }
       } catch (error) {
         console.log(error);
@@ -42,7 +45,7 @@ const fetchUsersFriends: fetchUsersReturn = () => {
     fetchFriends();
   }, []);
 
-  return { users, loading };
+  return { randomUsers, loading };
 };
 
 export default fetchUsersFriends;

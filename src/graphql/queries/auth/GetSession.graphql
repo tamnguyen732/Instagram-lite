@@ -13,10 +13,10 @@ query GetSession {
         caption
       }
       followers {
-        ...baseUser
+        ...user
       }
       following {
-        ...baseUser
+        ...user
       }
     }
 

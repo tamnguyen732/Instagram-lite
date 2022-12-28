@@ -4,6 +4,6 @@ import { BaseResponse } from '../common';
 
 @ObjectType()
 export class UserResponse extends BaseResponse {
-  @Field(() => [User], { nullable: true })
-  user?: User[];
+  @Field({ nullable: true })
+  user?: User;
 }

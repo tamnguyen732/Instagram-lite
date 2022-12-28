@@ -6,7 +6,7 @@ query getUsers($page: Float!, $limitPerPage: Float!) {
     lastPage
     totalCount
     paginatedUsers {
-      ...baseUser
+      ...user
     }
   }
 }

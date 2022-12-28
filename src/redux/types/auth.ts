@@ -1,4 +1,4 @@
-import { BaseUserFragment } from '../../types/generated';
+import { BaseUserFragment, UserFragment } from '../../types/generated';
 
 export interface toRegisterUser {
   email: string;
@@ -8,6 +8,6 @@ export interface toRegisterUser {
 
 export interface AuthInitalState {
   toVerifyUser: toRegisterUser;
-  currentUser: BaseUserFragment | null;
+  currentUser: UserFragment | null;
   isLoggedIn: boolean;
 }
