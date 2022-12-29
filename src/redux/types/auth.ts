@@ -1,4 +1,5 @@
-import { BaseUserFragment, UserFragment } from '../../types/generated';
+import { FollowingTypes } from '~/server/types/responses/common';
+import { FollowTypes, UserFragment } from '../../types/generated';
 
 export interface toRegisterUser {
   email: string;
@@ -6,8 +7,15 @@ export interface toRegisterUser {
   password: string;
 }
 
-export interface AuthInitalState {
+export interface authInitalState {
   toVerifyUser: toRegisterUser;
   currentUser: UserFragment | null;
+  selectedUser: UserFragment | null;
+  suggestedUser: UserFragment[] | [];
   isLoggedIn: boolean;
+}
+
+export interface followUserInput {
+  user: UserFragment;
+  type: FollowTypes;
 }

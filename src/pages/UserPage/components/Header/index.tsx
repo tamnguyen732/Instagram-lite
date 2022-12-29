@@ -4,8 +4,9 @@ import { bindClass } from '~/lib/classNames';
 import { RiMoreLine } from 'react-icons/ri';
 import styles from './styles.module.scss';
 import { UserFragment } from '~/types/generated';
-import { useEffect, useState } from 'react';
-import { useAuthSelector } from '~/redux/selector';
+
+import { useFollowUser } from '~/hooks/useFollowUser';
+import { useEffect } from 'react';
 const cx = bindClass(styles);
 interface Props {
   username: string;
@@ -14,17 +15,8 @@ interface Props {
 }
 
 const Header = ({ user, username }: Props) => {
-  const { currentUser } = useAuthSelector();
-  const [followed, setFollowed] = useState<boolean>(false);
-  useEffect(() => {
-    if (currentUser?.following?.length) {
-      const isFollowed = currentUser?.following?.some((user) => user.username === username);
-      console.log(isFollowed);
-      if (isFollowed) {
-        setFollowed(true);
-      }
-    }
-  }, [username, currentUser]);
+  const { isFollowed, handleFollowActions } = useFollowUser(user!);
+
   return (
     <div className={cx('container')}>
       <Image
@@ -36,7 +28,9 @@ const Header = ({ user, username }: Props) => {
       <div className={cx('info')}>
         <div className={cx('name')}>
           <span>{user?.username}</span>
-          <Button className={cx('btn')}>{followed ? 'Followed' : 'Following'}</Button>
+          <Button onClick={() => handleFollowActions()} className={cx('btn')}>
+            {isFollowed ? 'Followed' : 'Following'}
+          </Button>
           <Button className={cx('btn')}>Message</Button>
           <RiMoreLine className={cx('icon')} />
         </div>

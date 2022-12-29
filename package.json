@@ -65,7 +65,7 @@
     "@types/lodash": "^4.14.191",
     "@types/micro-cors": "^0.1.2",
     "@types/next-redux-wrapper": "^3.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^18.11.18",
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
     "@types/react-facebook-login": "^4.1.5",

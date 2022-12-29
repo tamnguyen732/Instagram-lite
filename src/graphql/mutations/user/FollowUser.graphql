@@ -1,5 +1,5 @@
-mutation followUser($FollowUserInput: FollowUserInput!) {
-  followUser(followUserArg: $FollowUserInput) {
+mutation followUser($id: Float!, $type: FollowTypes!) {
+  followUser(id: $id, type: $type) {
     code
     success
     message

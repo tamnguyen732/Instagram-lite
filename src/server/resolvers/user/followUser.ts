@@ -1,12 +1,27 @@
-import { Arg, ClassType, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
+import {
+  Arg,
+  ClassType,
+  Ctx,
+  Mutation,
+  Query,
+  registerEnumType,
+  Resolver,
+  UseMiddleware
+} from 'type-graphql';
 import { User } from '~/server/entities';
 import { verifyAuth } from '~/server/middlewares';
 import * as types from '~/server/types';
 import { handler } from '~/server/utils';
 import status from 'http-status';
-import { FollowUserInput } from '~/server/types/inputs';
 import { UserMutationResponse } from '~/server/types/responses/user';
-import { FollowingTypes } from '~/server/types/responses/common';
+
+enum FollowTypes {
+  FOLLOW = 'FOLLOW',
+  UNFOLLOW = 'UNFOLLOW'
+}
+registerEnumType(FollowTypes, {
+  name: 'FollowTypes'
+});
 const followUser = (Base: ClassType) => {
   @Resolver()
   class followUser extends Base {
@@ -17,7 +32,8 @@ const followUser = (Base: ClassType) => {
     @UseMiddleware(verifyAuth)
     @Mutation(() => UserMutationResponse)
     followUser(
-      @Arg('followUserArg') { id, type }: FollowUserInput,
+      @Arg('id') id: number,
+      @Arg('type') type: FollowTypes,
       @Ctx() { req }: types.MyContext
     ): Promise<UserMutationResponse> {
       return handler(async () => {
@@ -40,7 +56,7 @@ const followUser = (Base: ClassType) => {
         const currentUser = await User.findOne({ where: { id: req.userId } });
         const existingFollowing = currentUser?.following.some((e) => e.id === id);
         const existingFollower = otherUser?.followers.some((e) => e.id === id);
-        if (FollowingTypes.FOLLOW === type) {
+        if (FollowTypes.FOLLOW === type) {
           if (existingFollowing) {
             return {
               code: status.BAD_REQUEST,

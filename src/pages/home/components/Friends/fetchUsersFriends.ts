@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { userAction } from '~/redux/slices/userSlice';
+import { authAction } from '~/redux/slices/authSlice';
 import { useStoreDispatch } from '~/redux/store';
 import { useGetUsersLazyQuery, User } from '~/types/generated';
 
@@ -33,9 +33,9 @@ const fetchUsersFriends: fetchUsersReturn = () => {
       try {
         const response = await getUsers({ variables: { page: PAGE, limitPerPage: PAGE_LIMIT } });
         const users = response.data?.getUsers.paginatedUsers;
-        dispatch(userAction.setUsers(users as User[]));
+        dispatch(authAction.setSuggesstedUsers(users as User[]));
         if (users?.length) {
-          const randomUsers = chooseRandom(users, 5);
+          const randomUsers = chooseRandom(users as User[], 5);
           setRandomUsers(randomUsers);
         }
       } catch (error) {

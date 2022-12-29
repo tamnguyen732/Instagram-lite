@@ -10,11 +10,7 @@ const initialState: userInitalState = {
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    setUsers(state, action: PayloadAction<User[]>) {
-      state.users = action.payload;
-    }
-  },
+  reducers: {},
   extraReducers: {
     [HYDRATE]: (state, { payload }) => {
       return {

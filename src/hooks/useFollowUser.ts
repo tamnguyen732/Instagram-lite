@@ -1,18 +1,19 @@
 // types
 
 import { MODAL_TYPES, useModalContext } from '~/contexts/ModalContext';
-import { useFollowUserMutation, UserFragment } from '~/types/generated';
+import { FollowTypes, useFollowUserMutation, UserFragment } from '~/types/generated';
 import { useAuthSelector } from '~/redux/selector';
 import { useStoreDispatch } from '~/redux/store';
 import { authAction } from '~/redux/slices/authSlice';
 import { Callback, FollowAction } from '~/types/utils';
+import { useEffect, useState } from 'react';
 
 type FollowUser = (action: FollowAction, actionDone?: Callback) => Promise<void>;
 
 interface UseFollowUserReturn {
-  isFollowed: boolean;
+  isFollowed: boolean | undefined;
   followUserLoading: boolean;
-  currentUser: UserFragment;
+  currentUser: UserFragment | null;
   followUser: FollowUser;
   showUnfollowModal: () => void;
   handleFollowActions: (actionDone?: Callback) => void;
@@ -20,45 +21,46 @@ interface UseFollowUserReturn {
 
 export const useFollowUser = (selectedUser: UserFragment): UseFollowUserReturn => {
   const { showModal } = useModalContext();
-  const currentUser = useAuthSelector().currentUser!;
-
+  const { currentUser } = useAuthSelector();
   const [followUserMutate, { loading: followUserLoading }] = useFollowUserMutation();
   const dispatch = useStoreDispatch();
 
-  const isFollowed = selectedUser.followers.some((follower) => follower._id === currentUser._id);
+  const isFollowed = currentUser?.following?.some((user) => user?.id === selectedUser?.id);
 
-  const followUser: FollowUser = async (action, actionDone) => {
+  const followUser: FollowUser = async (action, callBack) => {
     if (followUserLoading) return;
 
-    const isFollow = action === 'follow';
-    const followType = isFollow ? 'FOLLOW' : 'UNFOLLOW';
+    const isFollow = action === 'FOLLOW';
+    const followType = isFollow ? FollowTypes.Follow : FollowTypes.Unfollow;
+    try {
+      const response = await followUserMutate({
+        variables: { id: +selectedUser.id, type: followType }
+      });
 
-    const response = await followUserMutate({
-      variables: { FollowUserInput: { type: followType, id: +selectedUser.id } }
-    });
+      if (!response.data?.followUser.success) return;
 
-    if (!response.data?.followUser.success) return;
+      if (callBack) callBack();
 
-    if (actionDone != null) actionDone();
-
-    dispatch(
-      authAction.followUser({
-        user: selectedUser,
-        followType
-      })
-    );
+      dispatch(
+        authAction.followUser({
+          user: selectedUser,
+          type: followType
+        })
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const showUnfollowModal = () => {
     if (!isFollowed) return;
 
     showModal(MODAL_TYPES.UNFOLLOW);
-    dispatch(authAction.setSelectedUser(selectedUser));
   };
 
-  const handleFollowActions = (actionDone?: Callback) => {
+  const handleFollowActions = (callBack?: Callback) => {
     if (isFollowed) showUnfollowModal();
-    else followUser('follow', actionDone);
+    else followUser('FOLLOW', callBack);
   };
 
   return {

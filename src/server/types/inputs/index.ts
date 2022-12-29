@@ -8,6 +8,5 @@ export * from './ChangePasswordInput';
 export * from './CreateCommentInput';
 export * from './DeleteCommentInput';
 export * from './UpdateCommentInput';
-export * from './FollowUserInput';
 export * from './GetMessagesInput';
 export * from './FindUsersInput';

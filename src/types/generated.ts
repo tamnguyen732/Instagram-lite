@@ -103,10 +103,10 @@ export type FindUsersInput = {
   searchQuery: Scalars['String'];
 };
 
-export type FollowUserInput = {
-  id: Scalars['Float'];
-  type: Scalars['String'];
-};
+export enum FollowTypes {
+  Follow = 'FOLLOW',
+  Unfollow = 'UNFOLLOW'
+}
 
 export type GetMessagesInput = {
   conversationId: Scalars['Float'];
@@ -217,7 +217,8 @@ export type MutationDeletePostArgs = {
 
 
 export type MutationFollowUserArgs = {
-  followUserArg: FollowUserInput;
+  id: Scalars['Float'];
+  type: FollowTypes;
 };
 
 
@@ -541,7 +542,8 @@ export type VerifiedUserMutationVariables = Exact<{
 export type VerifiedUserMutation = { __typename?: 'Mutation', verifiedUser: { __typename?: 'BaseResponse', code: number, message?: string | null, success: boolean } };
 
 export type FollowUserMutationVariables = Exact<{
-  FollowUserInput: FollowUserInput;
+  id: Scalars['Float'];
+  type: FollowTypes;
 }>;
 
 
@@ -878,8 +880,8 @@ export type VerifiedUserMutationHookResult = ReturnType<typeof useVerifiedUserMu
 export type VerifiedUserMutationResult = Apollo.MutationResult<VerifiedUserMutation>;
 export type VerifiedUserMutationOptions = Apollo.BaseMutationOptions<VerifiedUserMutation, VerifiedUserMutationVariables>;
 export const FollowUserDocument = gql`
-    mutation followUser($FollowUserInput: FollowUserInput!) {
-  followUser(followUserArg: $FollowUserInput) {
+    mutation followUser($id: Float!, $type: FollowTypes!) {
+  followUser(id: $id, type: $type) {
     code
     success
     message
@@ -901,7 +903,8 @@ export type FollowUserMutationFn = Apollo.MutationFunction<FollowUserMutation, F
  * @example
  * const [followUserMutation, { data, loading, error }] = useFollowUserMutation({
  *   variables: {
- *      FollowUserInput: // value for 'FollowUserInput'
+ *      id: // value for 'id'
+ *      type: // value for 'type'
  *   },
  * });
  */

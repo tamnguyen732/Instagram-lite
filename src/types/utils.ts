@@ -7,7 +7,7 @@ export interface IconProps extends DOMAttributes<SVGSVGElement> {
 }
 
 export type Callback = () => void;
-export type FollowAction = 'follow' | 'unfollow';
+export type FollowAction = 'FOLLOW' | 'UNFOLLOW';
 
 export type AddParameters<
   TFunction extends (...args: any) => any,
