@@ -24,9 +24,10 @@
         font-weight: 600;
       }
       .btn {
+        width: 140px;
         background-color: $white;
         border: 1px $gray solid;
-        padding: 5px 20px;
+        padding: 5px 10px;
         font-size: 1.1rem;
       }
       .caret {
@@ -47,8 +48,10 @@
       .text {
         color: $black;
         .text-number {
+          cursor: pointer;
           color: $black;
           font-weight: 600;
+          padding-right: 3px;
         }
       }
     }

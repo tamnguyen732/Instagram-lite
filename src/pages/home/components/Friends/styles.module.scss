@@ -13,6 +13,7 @@
     display: none;
   }
   .header {
+    cursor: pointer;
     @include flex(center, center);
     margin-top: 10px;
     gap: 5px;

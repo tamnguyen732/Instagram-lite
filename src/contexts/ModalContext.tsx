@@ -1,5 +1,7 @@
 import { useState, createContext, ReactNode, useContext, useEffect } from 'react';
 import RootModal from '~/components/modals';
+import FollowerUserModal from '~/components/modals/FollowerUserModal';
+import FollowingUserModal from '~/components/modals/FollowingUserModal';
 import LikeListModal from '~/components/modals/LikeListModal';
 import LogoutModal from '~/components/modals/LogoutModal';
 import MessageModal from '~/components/modals/MessageModal';
@@ -17,6 +19,8 @@ export const MODAL_TYPES = {
   NEW_MESSAGE: 'NEW_MESSAGE',
   RECOMMENDED_FRIENDS: 'RECOMMENDED_FRIENDS',
   WARNING_USER: 'WARNING_USER',
+  FOLLOWER_USER: 'FOLLOWER_USER',
+  FOLLOWING_USER: 'FOLLOWING_USER',
   LIKE_LIST: 'LIKE_LIST',
   UNFOLLOW: 'UNFOLLOW',
   LOGOUT: 'LOGOUT'
@@ -38,7 +42,9 @@ const MODALS = {
   [MODAL_TYPES.LIKE_LIST]: <LikeListModal key={MODAL_TYPES.LIKE_LIST} />,
   [MODAL_TYPES.UNFOLLOW]: <UnfollowModal key={MODAL_TYPES.UNFOLLOW} />,
   [MODAL_TYPES.LOGOUT]: <LogoutModal key={MODAL_TYPES.LOGOUT} />,
-  [MODAL_TYPES.RECOMMENDED_FRIENDS]: <NewFriendsModal key={MODAL_TYPES.RECOMMENDED_FRIENDS} />
+  [MODAL_TYPES.RECOMMENDED_FRIENDS]: <NewFriendsModal key={MODAL_TYPES.RECOMMENDED_FRIENDS} />,
+  [MODAL_TYPES.FOLLOWER_USER]: <FollowerUserModal key={MODAL_TYPES.FOLLOWER_USER} />,
+  [MODAL_TYPES.FOLLOWING_USER]: <FollowingUserModal key={MODAL_TYPES.FOLLOWING_USER} />
 } as const;
 
 interface ModalContextTypes {

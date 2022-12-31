@@ -6,8 +6,6 @@ import { useAuthSelector } from '~/redux/selector';
 import { useStoreDispatch } from '~/redux/store';
 import { authAction } from '~/redux/slices/authSlice';
 import { Callback, FollowAction } from '~/types/utils';
-import { useEffect, useState } from 'react';
-
 type FollowUser = (action: FollowAction, actionDone?: Callback) => Promise<void>;
 
 interface UseFollowUserReturn {
@@ -16,6 +14,7 @@ interface UseFollowUserReturn {
   currentUser: UserFragment | null;
   followUser: FollowUser;
   showUnfollowModal: () => void;
+  getMatchingElement: <T>(id: keyof T) => (currentUser: T[], selectedUser: T[]) => T[];
   handleFollowActions: (actionDone?: Callback) => void;
 }
 
@@ -26,6 +25,19 @@ export const useFollowUser = (selectedUser: UserFragment): UseFollowUserReturn =
   const dispatch = useStoreDispatch();
 
   const isFollowed = currentUser?.following?.some((user) => user?.id === selectedUser?.id);
+  const getMatchingElement = <T>(id: keyof T) => {
+    const matchingUsers: T[] = [];
+    return (currentUser: T[], selectedUser: T[]) => {
+      currentUser?.forEach((user1) => {
+        selectedUser?.forEach((user2) => {
+          if (user1[id] === user2[id]) {
+            matchingUsers.push(user1);
+          }
+        });
+      });
+      return matchingUsers;
+    };
+  };
 
   const followUser: FollowUser = async (action, callBack) => {
     if (followUserLoading) return;
@@ -36,17 +48,15 @@ export const useFollowUser = (selectedUser: UserFragment): UseFollowUserReturn =
       const response = await followUserMutate({
         variables: { id: +selectedUser.id, type: followType }
       });
-
       if (!response.data?.followUser.success) return;
-
-      if (callBack) callBack();
-
       dispatch(
         authAction.followUser({
           user: selectedUser,
           type: followType
         })
       );
+
+      if (callBack) callBack();
     } catch (error) {
       console.log(error);
     }
@@ -65,6 +75,7 @@ export const useFollowUser = (selectedUser: UserFragment): UseFollowUserReturn =
 
   return {
     isFollowed,
+    getMatchingElement,
     followUserLoading,
     currentUser,
     followUser,

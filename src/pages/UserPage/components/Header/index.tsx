@@ -4,9 +4,9 @@ import { bindClass } from '~/lib/classNames';
 import { RiMoreLine } from 'react-icons/ri';
 import styles from './styles.module.scss';
 import { UserFragment } from '~/types/generated';
-
 import { useFollowUser } from '~/hooks/useFollowUser';
-import { useEffect } from 'react';
+import Loading from '~/components/Loading';
+import { MODAL_TYPES, useModalContext } from '~/contexts/ModalContext';
 const cx = bindClass(styles);
 interface Props {
   username: string;
@@ -14,8 +14,9 @@ interface Props {
   loading?: boolean;
 }
 
-const Header = ({ user, username }: Props) => {
-  const { isFollowed, handleFollowActions } = useFollowUser(user!);
+const Header = ({ user }: Props) => {
+  const { showModal } = useModalContext();
+  const { isFollowed, handleFollowActions, followUserLoading } = useFollowUser(user!);
 
   return (
     <div className={cx('container')}>
@@ -28,8 +29,9 @@ const Header = ({ user, username }: Props) => {
       <div className={cx('info')}>
         <div className={cx('name')}>
           <span>{user?.username}</span>
+
           <Button onClick={() => handleFollowActions()} className={cx('btn')}>
-            {isFollowed ? 'Followed' : 'Following'}
+            {followUserLoading ? <Loading size='sm' /> : isFollowed ? 'Followed' : 'Following'}
           </Button>
           <Button className={cx('btn')}>Message</Button>
           <RiMoreLine className={cx('icon')} />
@@ -39,10 +41,22 @@ const Header = ({ user, username }: Props) => {
             <span className={cx('text-number')}>{user?.posts?.length}</span> Posts
           </span>
           <span className={cx('text')}>
-            <span className={cx('text-number')}>{user?.followers?.length}</span> Followers
+            <span
+              onClick={() => showModal(MODAL_TYPES.FOLLOWER_USER)}
+              className={cx('text-number')}
+            >
+              {user?.followers?.length}
+            </span>
+            Followers
           </span>
           <span className={cx('text')}>
-            <span className={cx('text-number')}>{user?.following?.length}</span> Following
+            <span
+              onClick={() => showModal(MODAL_TYPES.FOLLOWING_USER)}
+              className={cx('text-number')}
+            >
+              {user?.following?.length}
+            </span>
+            Following
           </span>
         </div>
         <p> Bienvenidos a Welcome to the official Leo Messi Instagram account</p>

@@ -8,10 +8,12 @@ import Link from 'next/link';
 import { useStoreDispatch } from '~/redux/store';
 import { authAction } from '~/redux/slices/authSlice';
 import { UserFragment } from '~/types/generated';
+import { useAuthSelector } from '~/redux/selector';
 
 const cx = bindClass(styles);
 
 const Friends = () => {
+  const { currentUser } = useAuthSelector();
   const { randomUsers, loading } = fetchUsersFriends();
   const dispatch = useStoreDispatch();
   const { showModal } = useModalContext();
@@ -22,7 +24,7 @@ const Friends = () => {
 
   return (
     <div className={cx('container')}>
-      <div className={cx('header')}>
+      <Link href={`${currentUser?.username}`} className={cx('header')}>
         <Image
           className={cx('profile-image')}
           src='https://zipmex.com/static/d1af016df3c4adadee8d863e54e82331/Twitter-NFT-profile.jpg'
@@ -31,7 +33,7 @@ const Friends = () => {
           rounded
         />
         <span>Tam Nguyen</span>
-      </div>
+      </Link>
       <div className={cx('footer')}>
         <div className={cx('suggest')}>
           <span>Suggest for you</span>
