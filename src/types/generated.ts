@@ -170,6 +170,7 @@ export type Mutation = {
   updateComment: PostResponse;
   updatePost: PostResponse;
   uploadAvatar: BaseResponse;
+  uploadPostImage: UploadImageResponse;
   verifiedUser: BaseResponse;
 };
 
@@ -272,6 +273,11 @@ export type MutationUpdatePostArgs = {
 
 export type MutationUploadAvatarArgs = {
   image: Scalars['Int'];
+};
+
+
+export type MutationUploadPostImageArgs = {
+  imageBase64: Scalars['String'];
 };
 
 
@@ -446,6 +452,14 @@ export type UpdatePostInput = {
   userId: Scalars['Float'];
 };
 
+export type UploadImageResponse = {
+  __typename?: 'UploadImageResponse';
+  code: Scalars['Float'];
+  imageUrl?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  success: Scalars['Boolean'];
+};
+
 export type User = {
   __typename?: 'User';
   account?: Maybe<Scalars['String']>;
@@ -540,6 +554,13 @@ export type VerifiedUserMutationVariables = Exact<{
 
 
 export type VerifiedUserMutation = { __typename?: 'Mutation', verifiedUser: { __typename?: 'BaseResponse', code: number, message?: string | null, success: boolean } };
+
+export type UploadPostImageMutationVariables = Exact<{
+  imageBase64: Scalars['String'];
+}>;
+
+
+export type UploadPostImageMutation = { __typename?: 'Mutation', uploadPostImage: { __typename?: 'UploadImageResponse', code: number, success: boolean, message?: string | null, imageUrl?: string | null } };
 
 export type FollowUserMutationVariables = Exact<{
   id: Scalars['Float'];
@@ -879,6 +900,42 @@ export function useVerifiedUserMutation(baseOptions?: Apollo.MutationHookOptions
 export type VerifiedUserMutationHookResult = ReturnType<typeof useVerifiedUserMutation>;
 export type VerifiedUserMutationResult = Apollo.MutationResult<VerifiedUserMutation>;
 export type VerifiedUserMutationOptions = Apollo.BaseMutationOptions<VerifiedUserMutation, VerifiedUserMutationVariables>;
+export const UploadPostImageDocument = gql`
+    mutation uploadPostImage($imageBase64: String!) {
+  uploadPostImage(imageBase64: $imageBase64) {
+    code
+    success
+    message
+    imageUrl
+  }
+}
+    `;
+export type UploadPostImageMutationFn = Apollo.MutationFunction<UploadPostImageMutation, UploadPostImageMutationVariables>;
+
+/**
+ * __useUploadPostImageMutation__
+ *
+ * To run a mutation, you first call `useUploadPostImageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUploadPostImageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [uploadPostImageMutation, { data, loading, error }] = useUploadPostImageMutation({
+ *   variables: {
+ *      imageBase64: // value for 'imageBase64'
+ *   },
+ * });
+ */
+export function useUploadPostImageMutation(baseOptions?: Apollo.MutationHookOptions<UploadPostImageMutation, UploadPostImageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UploadPostImageMutation, UploadPostImageMutationVariables>(UploadPostImageDocument, options);
+      }
+export type UploadPostImageMutationHookResult = ReturnType<typeof useUploadPostImageMutation>;
+export type UploadPostImageMutationResult = Apollo.MutationResult<UploadPostImageMutation>;
+export type UploadPostImageMutationOptions = Apollo.BaseMutationOptions<UploadPostImageMutation, UploadPostImageMutationVariables>;
 export const FollowUserDocument = gql`
     mutation followUser($id: Float!, $type: FollowTypes!) {
   followUser(id: $id, type: $type) {

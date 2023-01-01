@@ -1,0 +1,8 @@
+mutation uploadPostImage($imageBase64: String!) {
+  uploadPostImage(imageBase64: $imageBase64) {
+    code
+    success
+    message
+    imageUrl
+  }
+}

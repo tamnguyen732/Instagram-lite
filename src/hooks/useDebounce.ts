@@ -1,17 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 export const useDebounce = (value: string, milliSeconds: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
+  const timeoutId = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
-    const handler = setTimeout(() => {
+    if (timeoutId.current) {
+      clearTimeout(timeoutId.current);
+    }
+
+    timeoutId.current = setTimeout(() => {
       setDebouncedValue(value);
     }, milliSeconds);
 
     return () => {
-      clearTimeout(handler);
+      clearTimeout(timeoutId.current);
     };
   }, [value, milliSeconds]);
 
-  return debouncedValue;
+  return useMemo(() => debouncedValue, [debouncedValue]);
 };

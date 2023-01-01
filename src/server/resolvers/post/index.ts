@@ -6,6 +6,7 @@ import getPosts from './getPosts';
 import getSinglePost from './getSinglePost';
 import reactToPost from './reactToPost';
 import updatedPost from './updatePost';
+import uploadPostImage from './uploadPostImage';
 
 @Resolver()
 export default class PostResolver extends combineResolvers(
@@ -14,5 +15,6 @@ export default class PostResolver extends combineResolvers(
   getSinglePost,
   updatedPost,
   deletePost,
-  reactToPost
+  reactToPost,
+  uploadPostImage
 ) {}

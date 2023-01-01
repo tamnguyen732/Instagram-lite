@@ -52,7 +52,6 @@ const changePassword = (Base: ClassType) => {
         }
 
         const comparedPassword = await bcrypt.compare(password, existingUser.password);
-        console.log(comparedPassword);
         if (comparedPassword) {
           return {
             code: status.BAD_REQUEST,

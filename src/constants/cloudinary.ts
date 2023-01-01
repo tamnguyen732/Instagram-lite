@@ -1,9 +1,9 @@
 const CLOUDINARY_BASE_FOLDER = 'instagram-lite';
 
 export const CLOUDINARY = {
-  NAME: process.env.CLOUDINARY_CLOUD_NAME,
-  API_KEY: process.env.CLOUDINARY_API_KEY,
-  SECRET: process.env.CLOUDINARY_SECRET
+  NAME: process.env.CLOUD_NAME,
+  API_KEY: process.env.CLOUD_API_KEY,
+  SECRET: process.env.CLOUD_API_SECRET
 };
 
 export const CLOUDINARY_FOLDERS = {
