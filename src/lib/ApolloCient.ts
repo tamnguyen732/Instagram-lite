@@ -44,8 +44,12 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null): ApolloC
   const httpLink = new HttpLink({
     uri: DOMAIN + '/api/graphql',
     fetchOptions: {
-      mode: 'cors'
+      mode: 'cors',
+      headers: {
+        'transfer-encoding': 'chunked'
+      }
     },
+
     credentials: 'include',
     fetch: enhancedFetch
   });
@@ -55,6 +59,7 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null): ApolloC
     ssrMode: typeof window === 'undefined',
     link: from([errorLink, httpLink]),
     cache: new InMemoryCache(),
+
     defaultOptions: {
       watchQuery: {
         fetchPolicy: 'no-cache',

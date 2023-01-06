@@ -37,8 +37,8 @@ const getPosts = (Base: ClassType) => {
     @UseMiddleware(verifyAuth)
     @Query(() => PaginatedPostsResponse)
     async getAllPosts(
-      @Arg('limit', (_type) => Int) limitPerPage: number,
-      @Arg('page', (_type) => Number) page: number
+      @Arg('limitPerPage') limitPerPage: number,
+      @Arg('page') page: number
     ): Promise<PaginatedPostsResponse> {
       const { totalCount, lastPage, entities } = await paginate({
         entity: Post,

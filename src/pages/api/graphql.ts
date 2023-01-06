@@ -12,7 +12,6 @@ import CommentResolver from '~/server/resolvers/comment';
 import UserResolver from '~/server/resolvers/user';
 import ConversationResolver from '~/server/resolvers/conversation';
 import MessageResolver from '~/server/resolvers/message';
-
 import { MyContext } from '~/server/types';
 const cors = Cors({
   origin: 'http://localhost:3000',
@@ -35,13 +34,11 @@ const server = new ApolloServer({
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground]
 });
 const startServer = server.start();
-
 export default cors(async (req, res) => {
   if (req.method === 'OPTIONS') {
     res.end();
     return false;
   }
-
   await startServer;
 
   await server.createHandler({ path: '/api/graphql' })(req, res);

@@ -6,7 +6,10 @@ import { RiMoreLine } from 'react-icons/ri';
 import HoverProfile from '../HoverProfile';
 import { MODAL_TYPES, useModalContext } from '~/contexts/ModalContext';
 const cx = bindClass(styles);
-const Header = () => {
+interface Props {
+  photo: string;
+}
+const Header = ({ photo }: Props) => {
   const { showModal } = useModalContext();
   return (
     <div className={cx('container')}>
@@ -31,12 +34,7 @@ const Header = () => {
           <RiMoreLine onClick={() => showModal(MODAL_TYPES.POST_ACTION)} className={cx('more')} />
         </div>
 
-        <Image
-          className={cx('post-image')}
-          src='https://zipmex.com/static/d1af016df3c4adadee8d863e54e82331/Twitter-NFT-profile.jpg'
-          alt='post-pic'
-          objectFit='cover'
-        />
+        <Image className={cx('post-image')} src={photo && photo} alt='post-pic' objectFit='cover' />
       </div>
     </div>
   );

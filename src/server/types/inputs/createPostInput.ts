@@ -5,7 +5,9 @@ export class CreatePostInput {
   @Field()
   caption!: string;
   @Field()
-  photo!: string;
+  imageBase64!: string;
+  @Field()
+  location?: string;
   @Field()
   userId!: number;
 }

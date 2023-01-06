@@ -1,19 +1,19 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { useFindUsersLazyQuery, User } from '~/types/generated';
+import { useFindUsersLazyQuery, UserFragment } from '~/types/generated';
 
 const PAGE = 1;
 const LIMIT_SEARCH = 4;
 
 type SearchUserReturn = (debounceValue: string) => {
   loading: boolean;
-  users: User[];
+  users: UserFragment[];
   setPage: Dispatch<SetStateAction<number>>;
   hasMore: boolean | null | undefined;
 };
 
 const fetchSearchUser: SearchUserReturn = (debounceValue: string) => {
   const [page, setPage] = useState<number>(PAGE);
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<UserFragment[]>([]);
   const [searchUser, { data, loading }] = useFindUsersLazyQuery();
   const hasMore = data?.findUsers.hasMore;
   useEffect(() => {

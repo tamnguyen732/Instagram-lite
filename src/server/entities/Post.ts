@@ -31,6 +31,10 @@ export class Post extends BaseEntity {
   @Column({ nullable: true })
   photo!: string;
 
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  location!: string;
+
   @Field(() => User, { nullable: true })
   @ManyToOne(() => User, (user) => user.posts)
   user?: User;

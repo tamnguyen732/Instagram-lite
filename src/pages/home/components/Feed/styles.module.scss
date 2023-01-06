@@ -10,11 +10,22 @@
   border-radius: 10px;
   border: $border;
   overflow: hidden;
+  position: relative;
   @include flex(center, center);
   flex-direction: column;
+
   @include mobile {
     width: 345px;
     margin-left: 5px;
   }
   flex-shrink: 0;
+  .loading1 {
+    position: absolute;
+    left: 50%;
+  }
+}
+.loading2 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-180%);
 }

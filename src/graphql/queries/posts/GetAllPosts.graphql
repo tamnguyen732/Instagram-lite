@@ -1,0 +1,15 @@
+query getAllPosts($page: Float!, $limitPerPage: Float!) {
+  getAllPosts(page: $page, limitPerPage: $limitPerPage) {
+    code
+    success
+    hasMore
+    lastPage
+    totalCount
+    paginatedPosts {
+      id
+      photo
+      caption
+      location
+    }
+  }
+}

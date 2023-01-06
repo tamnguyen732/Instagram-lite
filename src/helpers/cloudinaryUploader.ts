@@ -2,7 +2,7 @@ import { CLOUDINARY_FOLDERS } from '~/constants';
 import cloudinary from '~/config/cloudinary';
 
 type Cloudinary = {
-  uploadImage: (newPhoto: string) => Promise<string>;
+  uploadImage: (newPhoto: any) => Promise<string>;
   updateImage: (newPhoto: string, oldPhotoUrl: string) => Promise<string>;
   deleteImage: (oldPhotoUrl: string) => Promise<void>;
 };
@@ -16,7 +16,7 @@ const cloudinaryUploader = (folder: string): Cloudinary => {
     return photoUrl.match(regex)?.[0];
   };
 
-  const uploadImage = async (newPhoto: string) => {
+  const uploadImage = async (newPhoto: any) => {
     const { secure_url: photo } = await cloudinary.uploader.upload(newPhoto, {
       folder: selectedFolder
     });
@@ -38,7 +38,7 @@ const cloudinaryUploader = (folder: string): Cloudinary => {
   const deleteImage = async (oldPhotoUrl: string) => {
     const photoId = findImagePath(oldPhotoUrl);
 
-    if (photoId == null) return;
+    if (!photoId) return;
 
     await cloudinary.uploader.destroy(photoId);
   };

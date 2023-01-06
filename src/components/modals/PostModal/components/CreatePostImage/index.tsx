@@ -1,21 +1,18 @@
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { bindClass } from '~/lib/classNames';
 import styles from './styles.module.scss';
 import { CiImageOn, CiYoutube } from 'react-icons/ci';
 import Button from '~/components/Button';
 import { INPUT_TYPES, useModalContext } from '~/contexts/ModalContext';
-import { useUploadPostImageMutation } from '~/types/generated';
 const cx = bindClass(styles);
 
 interface Props {
   isExpand: boolean;
+  imageBase64?: string;
+  setImageBase64: Dispatch<SetStateAction<string>>;
 }
 
-const CreatePostImage = ({ isExpand }: Props) => {
-  const [uploadPostImage, { data, loading }] = useUploadPostImageMutation();
-  console.log(loading);
-
-  const [imageBase64, setImageBase64] = useState<string>('');
+const CreatePostImage = ({ isExpand, imageBase64, setImageBase64 }: Props) => {
   const { checkEmtyInput } = useModalContext();
   const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files![0];
@@ -23,25 +20,13 @@ const CreatePostImage = ({ isExpand }: Props) => {
 
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onloadend = () => setImageBase64(reader.result as string);
+    reader.onloadend = async () => {
+      const fileBase64 = reader.result as string;
+      setImageBase64(fileBase64);
+    };
   };
 
-  const uploadImage = useCallback(async () => {
-    try {
-      const response = await uploadPostImage({ variables: { imageBase64 } });
-
-      if (response.data?.uploadPostImage.success) {
-        setImageBase64(response.data!.uploadPostImage.imageUrl!);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [imageBase64]);
-  useEffect(() => {
-    uploadImage();
-  }, [uploadImage]);
-
-  checkEmtyInput(imageBase64, INPUT_TYPES.UPLOAD);
+  checkEmtyInput(imageBase64 as string, INPUT_TYPES.UPLOAD);
   return (
     <div className={cx('wrapper', isExpand ? 'active' : '')}>
       {imageBase64 ? (

@@ -1,7 +1,7 @@
 import { bindClass } from '~/lib/classNames';
 import styles from './styles.module.scss';
 import Image from '~/components/Image';
-import { useEffect, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import EmojiIcon from '~/components/Icon/EmojiIcon';
 import { BsEmojiSmile } from 'react-icons/bs';
 import { GoLocation } from 'react-icons/go';
@@ -10,18 +10,22 @@ import fecthLocation from '~/helpers/fetchLocation';
 import Loading from '~/components/Loading';
 import { INPUT_TYPES, useModalContext } from '~/contexts/ModalContext';
 
+interface Props {
+  caption: string;
+  setCaption: Dispatch<SetStateAction<string>>;
+  locationValue: string;
+  setLocationValue: Dispatch<SetStateAction<string>>;
+}
 const cx = bindClass(styles);
-const CreatePostContent = () => {
+const CreatePostContent = ({ caption, setCaption, locationValue, setLocationValue }: Props) => {
   const inputRef = useRef<any | null>(null);
-  const [value, setValue] = useState<string>('');
-  const [locationValue, setLocationValue] = useState<string>('');
   const [countCharater, setCharacter] = useState(0);
   const [hasValue, setHasValue] = useState<boolean>(false);
   const [activeIconList, setActiveIconList] = useState<boolean>(false);
   const { checkEmtyInput } = useModalContext();
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
     const value = e.target.value;
-    setValue(value);
+    setCaption(value);
     setCharacter(value.split('').length);
   };
 
@@ -33,7 +37,7 @@ const CreatePostContent = () => {
     setLocationValue(`${name}, ${country}`);
     setHasValue(true);
   };
-  checkEmtyInput(value, INPUT_TYPES.STATUS);
+  checkEmtyInput(caption, INPUT_TYPES.STATUS);
 
   checkEmtyInput(locationValue, INPUT_TYPES.LOCATION);
   useEffect(() => {
@@ -61,15 +65,15 @@ const CreatePostContent = () => {
           onChange={(e) => handleInput(e)}
           placeholder='Write status...'
           ref={inputRef}
-          value={value}
+          value={caption}
           className={cx('text-area')}
         ></textarea>
       </div>
       <div className={cx('footer')}>
         {activeIconList ? (
           <EmojiIcon
-            value={value}
-            setValue={setValue}
+            value={caption}
+            setValue={setCaption}
             inputRef={inputRef}
             setActiveIconList={setActiveIconList}
           />

@@ -77,7 +77,8 @@ export type CreateCommentInput = {
 
 export type CreatePostInput = {
   caption: Scalars['String'];
-  photo: Scalars['String'];
+  imageBase64: Scalars['String'];
+  location: Scalars['String'];
   userId: Scalars['Float'];
 };
 
@@ -339,6 +340,7 @@ export type Post = {
   comments?: Maybe<Array<Comment>>;
   createdAt: Scalars['DateTime'];
   id: Scalars['ID'];
+  location?: Maybe<Scalars['String']>;
   photo?: Maybe<Scalars['String']>;
   reactions?: Maybe<Array<Scalars['Float']>>;
   updatedAt: Scalars['DateTime'];
@@ -385,7 +387,7 @@ export type QueryFindUsersArgs = {
 
 
 export type QueryGetAllPostsArgs = {
-  limit: Scalars['Int'];
+  limitPerPage: Scalars['Float'];
   page: Scalars['Float'];
 };
 
@@ -555,6 +557,13 @@ export type VerifiedUserMutationVariables = Exact<{
 
 export type VerifiedUserMutation = { __typename?: 'Mutation', verifiedUser: { __typename?: 'BaseResponse', code: number, message?: string | null, success: boolean } };
 
+export type CreatePostMutationVariables = Exact<{
+  CreatePostInput: CreatePostInput;
+}>;
+
+
+export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'PostMutationResponse', code: number, success: boolean, message?: string | null } };
+
 export type UploadPostImageMutationVariables = Exact<{
   imageBase64: Scalars['String'];
 }>;
@@ -574,6 +583,14 @@ export type GetSessionQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetSessionQuery = { __typename?: 'Query', getSession: { __typename?: 'GetSessionResponse', code: number, success: boolean, accessToken?: string | null, user?: { __typename?: 'User', id: string, email: string, username: string, avatar?: string | null, conversation?: Array<{ __typename?: 'Conversation', userId?: string | null, receiverId?: string | null }> | null, posts?: Array<{ __typename?: 'Post', photo?: string | null, caption?: string | null }> | null, followers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null, followers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, following?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, posts?: Array<{ __typename?: 'Post', id: string, photo?: string | null, caption?: string | null }> | null }> | null, following?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null, followers?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, following?: Array<{ __typename?: 'User', id: string, email: string, username: string, avatar?: string | null }> | null, posts?: Array<{ __typename?: 'Post', id: string, photo?: string | null, caption?: string | null }> | null }> | null } | null } };
+
+export type GetAllPostsQueryVariables = Exact<{
+  page: Scalars['Float'];
+  limitPerPage: Scalars['Float'];
+}>;
+
+
+export type GetAllPostsQuery = { __typename?: 'Query', getAllPosts: { __typename?: 'PaginatedPostsResponse', code: number, success: boolean, hasMore?: boolean | null, lastPage?: number | null, totalCount?: number | null, paginatedPosts?: Array<{ __typename?: 'Post', id: string, photo?: string | null, caption?: string | null, location?: string | null }> | null } };
 
 export type FindUsersQueryVariables = Exact<{
   FindUsersInput: FindUsersInput;
@@ -900,6 +917,41 @@ export function useVerifiedUserMutation(baseOptions?: Apollo.MutationHookOptions
 export type VerifiedUserMutationHookResult = ReturnType<typeof useVerifiedUserMutation>;
 export type VerifiedUserMutationResult = Apollo.MutationResult<VerifiedUserMutation>;
 export type VerifiedUserMutationOptions = Apollo.BaseMutationOptions<VerifiedUserMutation, VerifiedUserMutationVariables>;
+export const CreatePostDocument = gql`
+    mutation createPost($CreatePostInput: CreatePostInput!) {
+  createPost(createPostArg: $CreatePostInput) {
+    code
+    success
+    message
+  }
+}
+    `;
+export type CreatePostMutationFn = Apollo.MutationFunction<CreatePostMutation, CreatePostMutationVariables>;
+
+/**
+ * __useCreatePostMutation__
+ *
+ * To run a mutation, you first call `useCreatePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPostMutation, { data, loading, error }] = useCreatePostMutation({
+ *   variables: {
+ *      CreatePostInput: // value for 'CreatePostInput'
+ *   },
+ * });
+ */
+export function useCreatePostMutation(baseOptions?: Apollo.MutationHookOptions<CreatePostMutation, CreatePostMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePostMutation, CreatePostMutationVariables>(CreatePostDocument, options);
+      }
+export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutation>;
+export type CreatePostMutationResult = Apollo.MutationResult<CreatePostMutation>;
+export type CreatePostMutationOptions = Apollo.BaseMutationOptions<CreatePostMutation, CreatePostMutationVariables>;
 export const UploadPostImageDocument = gql`
     mutation uploadPostImage($imageBase64: String!) {
   uploadPostImage(imageBase64: $imageBase64) {
@@ -1026,6 +1078,52 @@ export function useGetSessionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type GetSessionQueryHookResult = ReturnType<typeof useGetSessionQuery>;
 export type GetSessionLazyQueryHookResult = ReturnType<typeof useGetSessionLazyQuery>;
 export type GetSessionQueryResult = Apollo.QueryResult<GetSessionQuery, GetSessionQueryVariables>;
+export const GetAllPostsDocument = gql`
+    query getAllPosts($page: Float!, $limitPerPage: Float!) {
+  getAllPosts(page: $page, limitPerPage: $limitPerPage) {
+    code
+    success
+    hasMore
+    lastPage
+    totalCount
+    paginatedPosts {
+      id
+      photo
+      caption
+      location
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAllPostsQuery__
+ *
+ * To run a query within a React component, call `useGetAllPostsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllPostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllPostsQuery({
+ *   variables: {
+ *      page: // value for 'page'
+ *      limitPerPage: // value for 'limitPerPage'
+ *   },
+ * });
+ */
+export function useGetAllPostsQuery(baseOptions: Apollo.QueryHookOptions<GetAllPostsQuery, GetAllPostsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllPostsQuery, GetAllPostsQueryVariables>(GetAllPostsDocument, options);
+      }
+export function useGetAllPostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllPostsQuery, GetAllPostsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllPostsQuery, GetAllPostsQueryVariables>(GetAllPostsDocument, options);
+        }
+export type GetAllPostsQueryHookResult = ReturnType<typeof useGetAllPostsQuery>;
+export type GetAllPostsLazyQueryHookResult = ReturnType<typeof useGetAllPostsLazyQuery>;
+export type GetAllPostsQueryResult = Apollo.QueryResult<GetAllPostsQuery, GetAllPostsQueryVariables>;
 export const FindUsersDocument = gql`
     query findUsers($FindUsersInput: FindUsersInput!) {
   findUsers(query: $FindUsersInput) {

@@ -6,6 +6,7 @@ import { CreatePostInput } from '~/server/types/inputs/';
 import { PostMutationResponse } from '~/server/types/responses/post/';
 import { handler } from '~/server/utils';
 import status from 'http-status';
+import cloudinaryUploader from '~/helpers/cloudinaryUploader';
 const createPost = (Base: ClassType) => {
   @Resolver()
   class createPost extends Base {
@@ -16,13 +17,25 @@ const createPost = (Base: ClassType) => {
     @UseMiddleware(verifyAuth)
     @Mutation(() => PostMutationResponse)
     createPost(
-      @Arg('createPostArg') { caption, photo }: CreatePostInput,
+      @Arg('createPostArg')
+      { caption, imageBase64, location }: CreatePostInput,
       @Ctx() { req }: types.MyContext
     ): Promise<PostMutationResponse> {
       return handler(async () => {
+        const { uploadImage } = cloudinaryUploader('posts');
+
+        const photo = await uploadImage(imageBase64);
+        if (!photo) {
+          return {
+            code: status.BAD_REQUEST,
+            success: false,
+            message: 'User not found'
+          };
+        }
         const newPost = Post.create({
           caption,
           photo,
+          location,
           userId: req.userId
         });
 

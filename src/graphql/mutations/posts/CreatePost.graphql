@@ -1,0 +1,7 @@
+mutation createPost($CreatePostInput: CreatePostInput!) {
+  createPost(createPostArg: $CreatePostInput) {
+    code
+    success
+    message
+  }
+}
